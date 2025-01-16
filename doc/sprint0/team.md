@@ -1,5 +1,5 @@
-| Full Name | UtorId | StudentID | Email | Best way to connect | Slack User Name
-|-----------|--------|-----------|-------|---------------------|------------------||
+| Full Name | UtorId | StudentID | Email | Best way to connect | Slack User Name|
+|-----------|--------|-----------|-------|---------------------|------------------|
 | Ivy Nguyen | nguy3180 | 1008717612 | caomp.nguyen@mail.utoronto.ca | Phone: 647 383 9256 | Ivy Nguyen |
 | William Choi | choiwil7 | 1007087457 | williamky.choi@mail.utoronto.ca | Phone: 647 906 4536 | William Choi |
 | Michael Wang | wangm375 | 1010635083 | michaelgr.wang@mail.utoronto.ca | Text: 647-572-8603 | Michael Wang|
