@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import config from '../../config/config.js'
+import './LogIn.css'
 
 function LogIn() {
     const [email, setEmail] = useState("");
@@ -30,7 +31,7 @@ function LogIn() {
     return (
       <div className="log-in-container" onSubmit={LogUserIn}>
           <form className="log-in-form">
-              <h1>Log In</h1>
+              <h1 className="font-bold text-2xl mt-4 mb-4">Log In</h1>
               <div>
                  <label htmlFor="email">Email: </label>
                   <input 
@@ -56,10 +57,11 @@ function LogIn() {
               </div>
               
               <button type="submit">Log In</button>
-              <Link to="/"><button>Sign Up</button></Link>
+              <p>Don't have an account?</p>
+              <Link to="/"><div className='underline text-purple-900'>Create an account</div></Link>
           </form>
 
-          {error ? <div>{error}</div> : <></>}
+          {error ? <div className="pr-1 pl-1 m-2 bg-red-400 rounded">{error}</div> : <></>}
       </div>
     )
 }

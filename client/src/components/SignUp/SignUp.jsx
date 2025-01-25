@@ -8,6 +8,7 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const SignUserUp = (e) => {
@@ -18,7 +19,11 @@ function SignUp() {
     })
     .then((response) => {
         console.log(response.data)
-        navigate("/login");
+        if(response.data.success){
+            navigate("/login");
+        } else {
+            setError(response.data.message);
+        }
     })
     .catch((error) => console.log(`Sign up error: ${error}`))
   }
@@ -26,7 +31,7 @@ function SignUp() {
   return (
     <div className="sign-up-container" onSubmit={SignUserUp}>
         <form className="sign-up-form">
-            <h1>Sign Up</h1>
+            <h1 className="font-bold text-2xl mt-4 mb-4">Sign Up</h1>
             <div>
                <label htmlFor="username">Username: </label>
                 <input 
@@ -64,8 +69,11 @@ function SignUp() {
             </div>
             
             <button type="submit">Sign Up</button>
-            <Link to="/login"><button>Log In</button></Link>
+            <p>Already have an account?</p>
+            <Link to="/login"><div className='underline text-purple-900'>Log In</div></Link>
         </form>
+
+        {error ? <div className="pr-1 pl-1 m-2 bg-red-400 rounded">{error}</div> : <></>}
     </div>
   )
 }

@@ -1,25 +1,25 @@
-.sign-up-container{
+.log-in-container{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 }
 
-.sign-up-form{
+.log-in-form{
     border: 1px solid black;
     padding: 20px;
     width: fit-content;
     border-radius: 8px;
 }
 
-.sign-up-form input{
+.log-in-form input{
     border: 1px solid black;
     border-radius: 8px;
     margin: 5px 0px 15px 0px;
     padding: 0px 5px 0px 5px;
 }
 
-.sign-up-form button{
+.log-in-form button{
     margin: 20px 5px 20px 0px;
     border: none;
     padding: 3px 5px 3px 5px;
@@ -29,6 +29,6 @@
     cursor: pointer;
 }
 
-.sign-up-form button:hover{
+.log-in-form button:hover{
     background-color: rgb(100, 7, 186);
 }

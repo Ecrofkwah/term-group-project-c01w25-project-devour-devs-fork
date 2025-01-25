@@ -7,12 +7,12 @@ const signUserUp = async (req, res) => {
     
     const emailExisted = await User.findOne({email})
     if(emailExisted){
-        return res.json({message: "Sign up failed - Email already existed"})
+        return res.json({success: false, message: "Sign up failed - Email already existed"})
     }
     
     const usernameExisted = await User.findOne({username})
     if(usernameExisted){
-        return res.json({message: "Sign up failed - Email already existed"})
+        return res.json({success: false, message: "Sign up failed - username already existed"})
     }
 
     // hash password
@@ -23,7 +23,7 @@ const signUserUp = async (req, res) => {
     })
 
     await newUser.save()
-    return res.json({message: "Successfully signed up"})
+    return res.json({success: true, message: "Successfully signed up"})
 
 }
 
