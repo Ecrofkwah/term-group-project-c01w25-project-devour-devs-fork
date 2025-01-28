@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt'
 import { User } from '../models/User.js'
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const signUserUp = async (req, res) => {
     const {username, email, password} = req.body;
@@ -44,7 +47,7 @@ const logUserIn = async (req, res) => {
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
     
     // Send token as cookie
-    res.cookie('token', token, {httpOnly: true, maxAge: 3600000})
+    res.cookie('token', token, {httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 3600000})
 
     return res.json({success: true, message: "Successfully logged in"})
 
