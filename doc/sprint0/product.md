@@ -1,4 +1,4 @@
-# YOUR PRODUCT/TEAM NAME
+# YOUR PRODUCT/TEAM NAME    
 Team name: Devour Devs
 Product name: RecipeConnect
 
@@ -28,7 +28,7 @@ Another might be a student (again, with limited cooking experience) looking to e
 
 A student may also be very busy juggling school and a part-time job simultaneously, not having time to cook nutritious meals. This student would likely be eating microwaved frozen foot or takeout. Due to lack of time to experiment, they would be intimidated to start cooking; they don't have the time to be messing up recipes and making food horrors. This student would appreciate quick, easy, and especially cheap, meals while saving saving money on ingredients.
 
-[](Personas.pdf)
+[](personas.pdf)
 
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 Potential users currently have a few options. By simply searching "lasagna recipe," the first result that came up was this: https://www.simplyrecipes.com/recipes/lasagna/. Looking through the site, it's a blog site so there's a lot of unnecessary text and clutter that users may not be interested in, such as an introductory text and explaining the thought process behind the recipe. There's also an excess of images that take up space on the screen. In comparison, there's already a precedent for user-generated recipe sharing platforms to be straight and to the point; no fluff nor filler. As an example for this, I searched for a random recipe sharing platform and found this: http://www.sharerecipes.com/recipes/agua-de-jamaica/. The recipe is direct without any clutter. Thus, there are many users that would choose to use an accessible recipe sharing platform over just searching for recipes on the internet.
