@@ -30,7 +30,7 @@ Our project RecipeConnect is a recipe sharing platform designed specifically for
 - Open MongoDB Compass.
 - To create a new connection, click the + button next to CONNECTIONS.
 - Enter the following URI: mongodb://localhost:27017 and click Save & Connect.
-- Create a new database named recipeconnect with a collection called users.
+- Create a new database named `recipeconnect` with a collection called `users`.
 - If you don't see the database, refresh by clicking the three dots next to localhost:27017 and selecting Refresh Databases.
 
 <b>3. Set Up `.env` File:</b>
