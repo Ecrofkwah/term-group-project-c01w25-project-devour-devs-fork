@@ -76,14 +76,12 @@ Make sure both client and server are running at the same time for the app to fun
 
 ### <u><b>Sample log-in/sign-up:</b></u>
 
-To test the sign-up and log-in functionality, run both server and client. Then, visit the url on your client terminal (http://localhost:5173/). Sign up with a username, email (no need to be a real email, must contain '@'), password. A new user object will be created in the database. To visualize this, open MongoDB Compass, connect to `localhost:27017`, then check the `recipe > users` collection. You may need to refresh the database if the user is not shown. After sign up, you will be redirected to login page. If login is successful, you will be redirected  to a welcome page. If not, an error message will diplay to indicate the issue (e.g. "incorrect password", "email not found")
+To test the sign-up and log-in functionality, run both server and client. Then, visit the url on your client terminal (http://localhost:5173/). Sign up with a username, email (no need to be a real email, must contain '@'), password. A new user object will be created in the database. To visualize this, open MongoDB Compass, connect to `localhost:27017`, then check the `recipeconnect > users` collection. You may need to refresh the database if the user is not shown. After sign up, you will be redirected to login page. If login is successful, you will be redirected  to a welcome page. If not, an error message will diplay to indicate the issue (e.g. "incorrect password", "email not found")
 
 ## File setup explanation:
 
-Frontend (`client` folder)
-
-Within the `/src` folder:
-
+Frontend (`client` folder): 
+  Within the `/src` folder:
 - `/components`: contains reusable elements like login, signup, dashboard
 - `/pages`: contains main pages for the app
 - `App.jsx`: handles routing and rendering other components
