@@ -37,10 +37,10 @@ Our project RecipeConnect is a recipe sharing platform designed specifically for
 - Create a `.env` file in the `server` folder.
 - Add the following to the file:
 ```bash
-    PORT="3000"
-    MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
-    JWT_SECRET="ds9u2f383hf839"
-    NODE_ENV = "development"
+PORT="3000"
+MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
+JWT_SECRET="ds9u2f383hf839"
+NODE_ENV = "development"
 ```
 
 <b>4. Install Packages:</b>
