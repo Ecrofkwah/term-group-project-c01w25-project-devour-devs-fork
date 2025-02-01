@@ -1,7 +1,4 @@
-# YOUR PRODUCT/TEAM NAME    
-Team name: Devour Devs
-Product name: RecipeConnect
-
+# RecipeConnect By DevourDevs    
 #### Q1: What are you planning to build?
 RecipeConnect is a recipe sharing website that prioritizes maximum convenience for users. Our goal is to create a one-size-fits-all platform for finding recipes that addresses as many problems as possible for users who hate the hassle of finding a fitting recipe. However, we have also included some additional features catered towards university students, focused on saving money and learning how to cook.
 
