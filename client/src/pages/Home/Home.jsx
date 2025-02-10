@@ -1,10 +1,9 @@
 import React from 'react'
-import SignUp from '../../components/SignUp/SignUp'
 
 function Home() {
   return (
     <div>
-      <SignUp/>
+      This is home/landing page.
     </div>
   )
 }
