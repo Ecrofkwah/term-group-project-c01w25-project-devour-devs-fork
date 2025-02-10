@@ -1,4 +1,4 @@
-.register-page{
+.log-in-page{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +6,7 @@
     margin: 0;
 }
 
-.register-container{
+.log-in-container{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,11 +14,11 @@
     margin: 60px 0px 60px 0px;
 }
 
-.register-container h1{
+.log-in-container h1{
     font-size: 60px;
 }
 
-.register-form{
+.log-in-form{
     display: flex;
     flex-direction: column;
 }
