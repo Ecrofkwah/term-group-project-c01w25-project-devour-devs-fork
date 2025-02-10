@@ -18,6 +18,15 @@ app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
 
+// uncaught errors
+app.use((err, req, res, next) => {
+    console.log(`Uncaught error: ${err}`);
+    res.status(500).json({
+        success: false,
+        message: "Something went wrong, please try again later."
+    })
+})
+
 // map the routes
 app.use('/api/auth', userRouter)
 
