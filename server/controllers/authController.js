@@ -5,13 +5,21 @@ const register = async (req, res) => {
     try{
         const {username, email, password} = req.body;
 
-        // Check for existing email or username
-        const existingUser = await User.findOne({$or: [{email}, {username}]});
-        if (existingUser){
-            const field = existingUser.email === email ? "Email" : "Username"
+        // Check for existing email
+        const existingEmail = await User.findUserByEmail(email);
+        if (existingEmail){
             return res.status(400).json({
                 success: false,
-                message: `${field} already existed`
+                message: "Email already existed"
+            })
+        }
+
+        // Check for existing username
+        const existingUsername = await User.findUserByUsername(username);
+        if(existingUsername){
+            return res.status(400).json({
+                success: false,
+                message: "Username already existed"
             })
         }
 
@@ -37,7 +45,7 @@ const login = async (req, res) => {
         const {email, password} = req.body;
 
         // Find user
-        const user = await User.findOne({email});
+        const user = await User.findUserByEmail(email);
         if(!user || !(await user.comparePassword(password))){
             return res.status(401).json({
                 success: false,
