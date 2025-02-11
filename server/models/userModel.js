@@ -14,6 +14,16 @@ UserSchema.pre("save", async function(next){
     next();
 })
 
+// Find user by email, return null if email not existed
+UserSchema.statics.findUserByEmail = async function(email){
+    return await this.findOne({email});
+}
+
+// Find user by username, return null if username not existed
+UserSchema.statics.findUserByUsername = async function (username) {
+    return await this.findOne({username});
+}
+
 // Validate password
 UserSchema.methods.comparePassword = function (input) {
     return bcrypt.compare(input, this.password)
