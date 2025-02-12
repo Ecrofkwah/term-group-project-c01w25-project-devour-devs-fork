@@ -15,7 +15,7 @@ function LogIn() {
   
     axios.post(`${config.BASE_URL}/api/auth/login`, {
         email, password
-    })
+    }, {withCredentials: true})
     .then((response) => {
         if(response.data.success){
           navigate("/");

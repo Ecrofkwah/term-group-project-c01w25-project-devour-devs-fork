@@ -66,6 +66,7 @@ const login = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             maxAge: 3 * 60 * 60 * 1000, // 3 hours
+            sameSite: 'None',
         })
 
         res.status(201).json({
