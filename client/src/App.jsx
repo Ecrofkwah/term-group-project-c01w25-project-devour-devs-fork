@@ -12,8 +12,13 @@ function App() {
   const [loginUser, setLoginUser] = useState(null)
 
   useEffect(() => {
+    const token = localStorage.getItem("jwt")
+
     // Check if user is logged in
-    axios.get(`${config.BASE_URL}/api/auth/me`, {withCredentials: true})
+    if(token){
+      axios.get(`${config.BASE_URL}/api/auth/me`, {
+        headers: {Authorization: `Bearer ${token}`}
+      }, {withCredentials: true})
       .then(response => {
         setLoginUser(response.data);
         console.log("logged in")
@@ -22,29 +27,13 @@ function App() {
         setLoginUser(null);
         console.log("none")
       })
+    }
+    
   }, [])
-
-  const handleLogout = () => {
-    axios.post(`${config.BASE_URL}/api/auth/logout`)
-    .then((response) => {
-      if(response.data.success){
-        navigate("/");
-      } else {
-        setError(response.data.message)
-      }
-    })
-    .catch((error) => {
-     if(error.response.status === 401){
-      setError(error.response.data.message)
-     } else {
-      setError("Something went wrong. Please try again")
-     }
-    })
-  }
 
   return (
     <BrowserRouter>
-      <AppNavbar loginUser={loginUser}/>
+      <AppNavbar loginUser={loginUser} setLoginUser={setLoginUser}/>
       <div className='pages'>
         <Routes>
           <Route path="/" element={<Home/>} />

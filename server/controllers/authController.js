@@ -61,36 +61,19 @@ const login = async (req, res) => {
             expiresIn: "3h",
         })
 
-        // Store token in cookie
-        res.cookie("jwt", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            maxAge: 3 * 60 * 60 * 1000, // 3 hours
-            sameSite: 'None',
-        })
-
+        // Send token to frontend
         res.status(201).json({
+            token,
             success: true,
             message: "Logged in successfully",
-            userId: user._id
         })
+
     } catch (error) {
         res.status(500).json({
             success: false,
             message: "Server error"
         })
     }
-}
-
-const logout = (req, res) => {
-    res.cookie("jwt", "", {
-        httpOnly: true,
-        expires: new Date(0)
-    })
-    res.json({
-        success: true,
-        message: "Logged out successfully"
-    })
 }
 
 const me = (req, res) => {
@@ -109,7 +92,6 @@ const me = (req, res) => {
 const authController = {
     register,
     login,
-    logout,
     me
 }
 

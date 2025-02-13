@@ -17,8 +17,10 @@ function LogIn() {
         email, password
     }, {withCredentials: true})
     .then((response) => {
-        if(response.data.success){
+        if(response.data.success && response.data.token){
+          localStorage.setItem("jwt", response.data.token);
           navigate("/");
+          window.location.reload()
         } else {
           setError(response.data.message)
         }

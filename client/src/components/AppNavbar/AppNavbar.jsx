@@ -5,7 +5,7 @@ import { Link, NavLink } from 'react-router-dom'
 import './AppNavbar.css';
 
 
-function AppNavbar({loginUser}) {
+function AppNavbar({loginUser, setLoginUser}) {
   const [expanded, setExpanded] = useState(false);
   const handleToggle = () => setExpanded((prev) => !prev)
   
@@ -13,6 +13,11 @@ function AppNavbar({loginUser}) {
     if (window.innerWidth < 992){
       setExpanded(false)
     }
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('jwt');
+    setLoginUser(null);
   }
   
   return (
