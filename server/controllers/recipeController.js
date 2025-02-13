@@ -19,7 +19,7 @@ const createRecipe = async (req, res) => {
             userId: req.user.userId
         })
 
-        newRecipe.save() 
+        await newRecipe.save() 
         
         return res.status(201).json({
             sucess: true,
@@ -41,33 +41,109 @@ const createRecipe = async (req, res) => {
 // no authentication required
 const getAllRecipes = async (req, res) => {
     // const result = await Recipe.find()
-    const result = await Recipe.getAllRecipes() //needs await to get data, dont know why -> explore
-    return res.status(201).json({ Response: result})
-}
+    try {
+        const result = await Recipe.find();
+        return res.status(200).json({ success: true, recipes: result });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
 
 // Get details of a single recipes
 const getSigRecipe = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const recipe = await Recipe.findById(id);
 
-}
+        if (!recipe) {
+            return res.status(404).json({ success: false, message: "Recipe not found" });
+        }
+
+        return res.status(200).json({ success: true, recipe });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
 
 // Edit a recipe
 const editRecipe = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, ingredients, instructions, category } = req.body;
 
-}
+        const updatedRecipe = await Recipe.findByIdAndUpdate(
+            id,
+            { name, ingredients, instructions, category },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedRecipe) {
+            return res.status(404).json({ success: false, message: "Recipe not found" });
+        }
+
+        return res.status(200).json({ success: true, message: "Recipe updated successfully", updatedRecipe });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
 
 // Delete a recipe
 const deleteRecipe = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-}
+        const deletedRecipe = await Recipe.findByIdAndDelete(id);
+
+        if (!deletedRecipe) {
+            return res.status(404).json({ success: false, message: "Recipe not found" });
+        }
+
+        return res.status(200).json({ success: true, message: "Recipe deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
 
 // Get all recipes of a specific user 
 const getUserRecipe = async (req, res) => {
+    try {
+        const { userId } = req.user;
 
-}
+        const userRecipes = await Recipe.find({ userId });
+
+        return res.status(200).json({ success: true, recipes: userRecipes });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
 
 const rerecipeController = {
     createRecipe,
-    getAllRecipes
+    getAllRecipes,
+    getSigRecipe,
+    editRecipe,
+    deleteRecipe,
+    getUserRecipe
 }
 
 export default rerecipeController;
