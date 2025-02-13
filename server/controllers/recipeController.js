@@ -41,17 +41,9 @@ const createRecipe = async (req, res) => {
 // no authentication required
 const getAllRecipes = async (req, res) => {
     // const result = await Recipe.find()
-    try {
-        const result = await Recipe.find();
-        return res.status(200).json({ success: true, recipes: result });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            success: false,
-            message: "Server error"
-        });
-    }
-};
+    const result = await Recipe.getAllRecipes() //needs await to get data, dont know why -> explore
+    return res.status(201).json({ Response: result})
+}
 
 // Get details of a single recipes
 const getSigRecipe = async (req, res) => {
