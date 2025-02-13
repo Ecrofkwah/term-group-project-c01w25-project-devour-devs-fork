@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
+import { recipeRouter } from './routes/recipeRoutes.js'
 
 // load env variables
 dotenv.config()
@@ -29,6 +30,8 @@ app.use((err, req, res, next) => {
 
 // map the routes
 app.use('/api/auth', userRouter)
+
+app.use('/api/auth', recipeRouter)
 
 app.listen(process.env.PORT, () => {
     console.log("server listening ...")
