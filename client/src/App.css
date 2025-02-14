@@ -13,3 +13,7 @@
   --primary-red: red;
   --background-color: rgba(250, 250, 242, 0.904);
 }
+
+.pages{
+  padding-top: 60px;
+}
