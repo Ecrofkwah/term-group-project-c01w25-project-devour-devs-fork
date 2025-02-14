@@ -12,9 +12,23 @@ const RecipeSchema = new mongoose.Schema({
 
 
 RecipeSchema.statics.getAllRecipes = async function () {
-    return await this.find({}) //returns all reciepes, however with large datasets, this can cause
-                        // memory issues. TODO: use mongoose streaming to process documents one at a time
-}
+    return new Promise((resolve, reject) => {
+        const recipes = [];
+        const stream = this.find({}).cursor(); // Create a cursor to stream documents
+
+        stream.on('data', (doc) => {
+            recipes.push(doc); // Process each document
+        });
+
+        stream.on('end', () => {
+            resolve(recipes); // Resolve with the collected recipes when the stream ends
+        });
+
+        stream.on('error', (err) => {
+            reject(err); // Reject the promise if an error occurs
+        });
+    });
+};
 
 RecipeSchema.statics.getUserRecipes = async function (authorId) {
     return await this.find({authorId: authorId})

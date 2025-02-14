@@ -18,7 +18,7 @@ const createRecipe = async (req, res) => {
             authorId: req.user.userId
         })
 
-        newRecipe.save() 
+        await newRecipe.save() 
         
         return res.status(201).json({
             sucess: true,
