@@ -7,7 +7,7 @@
 ## Iteration XX
 
  * Start date: February 5, 2025
- * End date: February 14, 2025
+ * End date: February 12, 2025
 
 ## Process
 
@@ -16,6 +16,15 @@ _This entire section is optional. Note that you will have to fill it out and mor
 #### Roles & responsibilities
 
 Describe the different roles on the team and the responsibilities associated with each role.
+
+Scrum Master: Kushal\
+As the Scrum Master, Kushal helps the product owner manage the backlog and helps them plan the work with the team. Additionally, Kushal helps the developers focus on outcomes, and manage blockers. In addition, Kushal also works on developing new features, testing, and participating in code reviews.
+
+Product Owner: William\
+As the Product Owner, William understands the product needs and vision allowing him to create and manage the product backlog. Additionally, William manages the release of new features. In addition, William also works on developing new features, testing, and participating in code reviews.
+
+Development Team: Ivy, Michael, Daniyal\
+The development team focuses on implementing new features, testing, and participating in code reviews.
 
 #### Events
 
@@ -97,10 +106,11 @@ Priority: This is the second most critical feature, as this is the main focus of
 - Task 6: Database Model (back-end):
   - Recipes collections (Simplified Ver.)
   - {
-  - author: userid
-  - Title: string
+  - authorID: string
+  - name: string
   - ingredients: []
   - Instructions: []
+  - category: []
   - }
 - Task 7: Middleware & Validation (back-end)
   - Ensure only authenticated users can create/edit/delete recipes.
