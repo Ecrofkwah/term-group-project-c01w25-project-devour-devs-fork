@@ -14,7 +14,9 @@ export const Recipe = ({ recipe }) => {
                                                            fontSize:'30px',
                                                            whiteSpace: 'nowrap',
                                                            overflow: 'hidden',
-                                                           textOverflow:'ellipsis'}}>
+                                                           textOverflow:'ellipsis',
+                                                           paddingLeft: '10px',
+                                                           paddingRight: '10px'}}>
                 {recipe.name} 
             </Card.Header>
             <Card.Body style={{textAlign:'centre'}}>
