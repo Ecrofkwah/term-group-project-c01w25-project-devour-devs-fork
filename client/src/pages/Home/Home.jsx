@@ -9,7 +9,7 @@ function Home() {
     let ignore = false;
     async function fetchRecipes(){
       try{
-        const response = await fetch(`${config.BASE_URL}/api/auth/recipes`, {
+        const response = await fetch(`${config.BASE_URL}/api/recipes`, {
           method: 'GET',
           headers:{
             'Content-Type': 'application/json'
