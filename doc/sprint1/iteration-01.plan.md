@@ -4,7 +4,7 @@
  > It does not really make sense for you to edit this document much (if at all) while working on the project - Instead, at the end of the planning phase, you can refer back to this document and decide which parts of your plan you are happy with and which parts you would like to change.
 
 
-## Iteration XX
+## Iteration 01
 
  * Start date: February 5, 2025
  * End date: February 12, 2025
