@@ -1,0 +1,47 @@
+textarea{
+    padding: 5px;
+}
+
+input{
+    padding: 5px;
+    width: 250px;
+}
+
+.upload-image-box{
+    width: fit-content;
+    height: fit-content;
+    background-color: grey;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-image-box img{
+    background-color: inherit;
+    width: 100px;
+
+}
+.upload-image{
+    background-color: inherit;
+    font-weight: bold;
+}
+
+.recipe-creation-page .description{
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-creation-page .description textarea{
+    max-width: 600px;
+}
+
+.recipe-creation-page .ingredients{
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-creation-page .ingredients button{
+    max-width: 200px;
+}
