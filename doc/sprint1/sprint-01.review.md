@@ -18,11 +18,11 @@ In this review meeting, we reflected on the challenges encountered during the it
 
  - <b>Prioritize completing authentication features first </b> (including authController and authMiddleware) as this directly impacts other parts of the app. Features like recipe creation/deletion/editing requires users to be logged in, therefore having authentication completed early ensures that these protected features could be built smoothly.
 
- - <b>Clear division of tasks:</b> this ensured that everyone knew which tasks and features to focus on. It helped minimize conflicts and allowed us to work efficiently. Additionally, we designated one person to be responsible for finalizing each required document (system design, planning documents etc.). While every team member contributed and provided feedback, having one person in charge of finalizing the documents prevented delays and conflicts, and ensured everything was finished on time.
+- <b>Setting up agreements before implementation:</b> Before implementation, we had a shared google docs to align on API endpoints, request and response bodies, database schema, and frontend components. This ensured clarity across the team and prevented misunderstandings.
 
 #### Decisions that did not turn out as well as we hoped
 
-- <b>Storing JWT token in Cookies:</b> Initially, we decided to store the JWT in cookies for session management. While the backend was successfully tested with Postman, we encountered an issue when integrating with the frontend. The browser unexpectedly cleared cookies after a page refresh, causing users to lose their login status. To resolve it, we had to switch to storing the JWT in browser local storage, ensuring better session persistence.
+- <b>Unclear division of tasks:</b> While we divided the work clearly among the team, the tasks were not specific enough, leading to overlapping work. We did not specify who was responsible for the frontend or backend tasks, which led to confusion and delays.
 
 - <b>Starting the planning meeting late:</b> We had to start the planning meeting later than anticipated due to schedule conflicts (e.g. midterms), which resulted in less time for features implementation and testing. In the future, we should start planning and divide tasks early.
 
@@ -39,6 +39,11 @@ We should start the planning meeting and task division early so that everyone ca
 - <b>Recipe Management features (Basic backend setup):</b>
 The backend files for recipe management was set up, including creating the necessary models, routes, and controllers for recipes.
 Artifacts: Backend code for recipe CRUD operations, API routes, database schema setup
+
+- <b>Recipe Display on Homepage (Frontend):</b>
+Displaying the list of all recipes from the home page, regardless of user's login status, was implemented.
+Artifacts: Frontend code for home page and recipe card
+
 
 #### Goals and/or tasks that were planned but not met/completed:
 
