@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../config/config';
-import { Recipe } from '../../components/recipe.jsx'
+import { RecipeCard } from '../../components/RecipeCard/RecipeCard.jsx'
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
@@ -60,7 +60,7 @@ function Home() {
         <p>No recipes found</p>  // Debugging line
         ) : 
           recipes.map((recipe, index) => {
-              return <Recipe
+              return <RecipeCard
                         recipe={recipe}
               />
           })

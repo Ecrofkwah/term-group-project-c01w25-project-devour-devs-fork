@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import { FaStar } from 'react-icons/fa';
 
-export const Recipe = ({ recipe }) => {
+export const RecipeCard = ({ recipe }) => {
     return (
         <Card style = {{ width: '16rem',
                          borderWidth: 2,
