@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
 // map the routes
 app.use('/api/auth', userRouter)
 
-app.use('/api/auth', recipeRouter)
+app.use('/api', recipeRouter)
 
 app.listen(process.env.PORT, () => {
     console.log("server listening ...")
