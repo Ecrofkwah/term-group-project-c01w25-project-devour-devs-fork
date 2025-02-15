@@ -42,7 +42,7 @@ function App() {
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<LogIn/>}/>
           <Route path="/register" element={<Register/>}/>
-          <Route path='/managerecipe/' element={<ManageRecipes/>}/>
+          <Route path='/managerecipe/myrecipe' element={<ManageRecipes/>}/>
           <Route path='/managerecipe/addrecipe' element={<AddRecipe/>}/>
           <Route path='/managerecipe/recipe/:id' element={<RecipeDetails/>}/>
           <Route path='/managerecipe/editrecipe/:id' element={<></>}/>
