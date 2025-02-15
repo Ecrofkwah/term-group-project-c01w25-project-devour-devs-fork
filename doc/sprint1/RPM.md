@@ -7,16 +7,14 @@ Release Name: Sprint 1 Demo
 ## Release Objectives
 ### Specific Goals:
 - <b>User Authentication:</b>
-Implement a secure user registration, login and logout functionality.
-JWT will be used for session management, tokens will be stored in browser’s local storage
-Only logged in users can access protected routes such as creating, edition and deleting recipes
+  - Implement a secure user registration, login and logout functionality.
+  - JWT will be used for session management, tokens will be stored in browser’s local storage
+  - Only logged in users can access protected routes such as creating, edition and deleting recipes
 - <b>Recipe Browsing:</b>
-Provide a homepage where all users (logged in or not)  can view all recipes
-Logged in users will have the ability to view the page that enables create, edit and delete their own recipes
-
-
+  - Provide a homepage where all users (logged in or not)  can view all recipes
+  - Logged in users will have the ability to view the page that enables create, edit and delete their own recipes
 - <b>Recipe Management (for Logged in users)</b>
-Enable logged-in users to create, edit and delete recipes, that includes name, ingredients and instructions.
+  - Enable logged-in users to create, edit and delete recipes, that includes name, ingredients and instructions.
 
 
 ### Metrics for Measurement:
@@ -34,23 +32,23 @@ Enable logged-in users to create, edit and delete recipes, that includes name, i
 
 
 - <b>User Registration:</b>
-Users can create account by providing a unique username, name and password
-Registered users can log in using their credentials and receive a JWT token to keep track of their login status
-Users can logout, which will invalidate their JWT token and clear their session.
+  - Users can create account by providing a unique username, name and password
+  - Registered users can log in using their credentials and receive a JWT token to keep track of their login status
+  - Users can logout, which will invalidate their JWT token and clear their session.
 
 
 - <b>Recipe Browsing:</b>
-All users, whether logged in or not can browse recipe displayed on home page
-Recipe details are accessible to everyone
-Logged-in users will see more options on the navigation bar
+  - All users, whether logged in or not can browse recipe displayed on home page
+  - Recipe details are accessible to everyone
+  - Logged-in users will see more options on the navigation bar
 
 
 - <b>Recipe Management:</b>
-Logged in users can:
-Create new recipes
-Edit their own recipes
-Delete their own recipes
-Recipe management features will be accessible to logged in users only, and they are verified by JWT tokens
+  - Logged in users can:
+    - Create new recipes
+    - Edit their own recipes
+    - Delete their own recipes
+  - Recipe management features will be accessible to logged in users only, and they are verified by JWT tokens
 
 
 ### Excluded Features:
