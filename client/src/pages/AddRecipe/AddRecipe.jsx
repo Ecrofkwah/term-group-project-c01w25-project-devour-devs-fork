@@ -92,7 +92,7 @@ function AddRecipe() {
       setIngredients([])
       setInstructions([])
       setSelectedCategories([])
-      navigate('/managerecipe')
+      navigate('/managerecipe/myrecipe')
     })
     .catch((error) => {
       setError(error.response.data.message || "Failed to create recipe")
