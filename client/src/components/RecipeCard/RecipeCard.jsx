@@ -21,7 +21,8 @@ export const RecipeCard = ({ recipe }) => {
                          borderStyle: 'solid',
                          borderRadius: '10px',
                          backgroundColor: 'white',
-                         overflow: 'hidden'}}>
+                         overflow: 'hidden',
+                         cursor: 'pointer'}}>
             <Card.Header className = 'recipe-name' style={{textAlign:'center',
                                                            fontSize:'30px',
                                                            whiteSpace: 'nowrap',

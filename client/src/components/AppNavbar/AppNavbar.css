@@ -9,6 +9,7 @@
     top: 0px;
     left: 0px;
     background-color: inherit;
+    z-index: 2;
 }
 
 .container-fluid{
