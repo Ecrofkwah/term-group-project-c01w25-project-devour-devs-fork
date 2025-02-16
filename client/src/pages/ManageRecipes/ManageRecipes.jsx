@@ -16,7 +16,7 @@ function ManageRecipes({ loginUser, setLoginUser }) {
         .then(response => {
           setLoginUser(response.data);
           console.log("logged in")
-          console.log("Returned: " + JSON.stringify(response.data));
+          // console.log("Returned: " + JSON.stringify(response.data));
         })
         .catch(error => {
           setLoginUser(null);
@@ -35,7 +35,7 @@ function ManageRecipes({ loginUser, setLoginUser }) {
         }
       });
       const data = await response.json();
-      console.log("loginUser.id: " + loginUser.id);
+      // console.log("loginUser.id: " + loginUser.userId);
       setRecipes(data.Response.filter(recipe => recipe.authorId === loginUser.userId));
       console.log("Fetched recipes");
     }
@@ -45,7 +45,7 @@ function ManageRecipes({ loginUser, setLoginUser }) {
   }
 
   useEffect(() => {
-    console.log("Here?");
+    // console.log("Here?");
     if (loginUser == null) return;
     fetchRecipes();
   }, [loginUser]);
