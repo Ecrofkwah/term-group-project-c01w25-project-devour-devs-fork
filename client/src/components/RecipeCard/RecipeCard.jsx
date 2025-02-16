@@ -1,9 +1,21 @@
 import Card from 'react-bootstrap/Card';
 import { FaStar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import config from '../../config/config';
+
 
 export const RecipeCard = ({ recipe }) => {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/managerecipe/recipe/${recipe._id}`); // Adds route to current URL
+    };
+
     return (
-        <Card style = {{ width: '16rem',
+        <Card
+            onClick={handleClick}
+            style = {{ width: '16rem',
                          borderWidth: 2,
                          borderColor: 'gray',
                          borderStyle: 'solid',
