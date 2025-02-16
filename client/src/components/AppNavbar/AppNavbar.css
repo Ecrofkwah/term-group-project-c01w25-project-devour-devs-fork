@@ -1,0 +1,45 @@
+.navbar-container{
+    background-color: black;
+}
+
+.navbar{
+    width: 100%;
+    padding: 10px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: inherit;
+    z-index: 2;
+}
+
+.container-fluid{
+    background-color: inherit;
+}
+
+.navbar-brand{
+    background-color: inherit;
+}
+
+.navbar-collapse{
+    background-color: inherit;
+}
+
+.navbar-nav{
+    background-color: inherit;
+}
+
+.nav-link{
+    background-color: inherit;
+}
+
+.nav-link.active{
+    font-weight: bold;
+}
+
+.nav-item.dropdown{
+    background-color: inherit;
+}
+
+.navbar-toggler-icon{
+    background-color: inherit;
+}
