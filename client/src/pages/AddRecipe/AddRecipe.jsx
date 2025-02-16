@@ -103,16 +103,18 @@ function AddRecipe() {
   }
 
   return (
-    <div className='recipe-creation-page'>
-      <h2>Add New Recipe</h2>
-      <div className='upload-image-box'>
-        <img src={cameraImage} alt="" />
-        <div className='upload-image'>
-          Upload Image: Choose File
-        </div>
+  <div className='recipe-creation-page'>
+    <h2>Add New Recipe</h2>
+    <div className='upload-image-box'>
+      <img src={cameraImage} alt="" />
+      <div className='upload-image'>
+        Upload Image: Choose File
       </div>
-      <div>
-        <label>Title: </label>
+    </div>
+
+    <div className='recipe-info-container'>
+      <div className='title'>
+        <label><b>Title:</b></label>
         <input 
           type="text" 
           value={name} 
@@ -120,7 +122,7 @@ function AddRecipe() {
           placeholder='Enter your recipe title'/>
       </div>
       <div className='description'>
-        <label>Descriptions:</label>
+        <label><b>Descriptions:</b></label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -130,7 +132,7 @@ function AddRecipe() {
       </div>
 
       <div className='ingredients'>
-        <label>Ingredients:</label>
+        <label><b>Ingredients:</b></label>
         {ingredients.map((ingredient, index) => (
           <div key={index}>
             <input
@@ -139,31 +141,33 @@ function AddRecipe() {
               onChange={(e) => updateIngredient(index, e.target.value)}
               placeholder="Enter an ingredient"
             />
-            <button onClick={() => removeIngredient(index)}>Remove</button>
+            <button className='remove-btn' onClick={() => removeIngredient(index)}>Remove</button>
           </div>
         ))}
-        <button onClick={addIngredient}>Add Ingredient</button>
+        <button className='add-btn' onClick={addIngredient}>Add Ingredient</button>
       </div>
 
       <div className='instructions'>
-        <label>Instructions:</label>
+        <label><b>Instructions:</b></label>
         {instructions.map((instruction, index) => (
           <div key={index}>
             <div>Step {index + 1}:</div>
-            <textarea
-              rows='3'
-              value={instruction}
-              onChange={(e) => updateInstruction(index, e.target.value)}
-              placeholder="Enter an instruction for this step"
-            />
-            <button onClick={() => removeInstruction(index)}>Remove</button>
+            <div className='step-container'>
+              <textarea
+                rows='3'
+                value={instruction}
+                onChange={(e) => updateInstruction(index, e.target.value)}
+                placeholder="Enter an instruction for this step"
+              />
+              <button className='remove-btn' onClick={() => removeInstruction(index)}>Remove</button>
+            </div>
           </div>
         ))}
-        <button onClick={addInstruction}>Add New Step</button>
+        <button className='add-btn' onClick={addInstruction}>Add New Step</button>
       </div>
 
       <div>
-        <label>Choose categories:</label>
+        <label><b>Choose categories:</b></label>
         <div style={{margin: '10px 0'}}>
           {categories.map((category, index) => (
             <div key={index} style={{}}>
@@ -180,10 +184,12 @@ function AddRecipe() {
         </div>
       </div>
 
-      <button onClick={addRecipe}>Create Recipe</button>
+      <button className='create-btn' onClick={addRecipe}>Create Recipe</button>
 
       {error && <div>{error}</div>}
+
     </div>
+  </div>
   )
 }
 

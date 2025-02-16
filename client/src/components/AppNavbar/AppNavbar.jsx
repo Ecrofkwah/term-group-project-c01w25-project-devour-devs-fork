@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, NavLink } from 'react-router-dom'
@@ -7,6 +8,8 @@ import './AppNavbar.css';
 
 function AppNavbar({loginUser, setLoginUser}) {
   const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
+
   const handleToggle = () => setExpanded((prev) => !prev)
   
   const handleNavSelect = () => {
@@ -29,7 +32,12 @@ function AppNavbar({loginUser, setLoginUser}) {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {loginUser ? (<>
-                <NavLink to='#' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleLogout}>Logout</NavLink>
+                <NavLink to='/' className={ ({isActive}) => isActive ? 'nav-link' : 'nav-link'} onClick={handleLogout}>Logout</NavLink>
+                <NavDropdown title="Recipes" id="collapsible-nav-dropdown">
+                  <NavDropdown.Item as={NavLink} to='/managerecipe/myrecipe' className={({isActive}) => isActive ? "active" : ""}>My Recipes</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to='/managerecipe/addrecipe' className={({isActive}) => isActive ? "active" : ""}>Create a New Recipe</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to='/2' className={({isActive}) => isActive ? "active" : ""}>My Favourites</NavDropdown.Item>
+                </NavDropdown>
               </>) : (<>
                 <NavLink to='/login' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Login</NavLink>
                 <NavLink to='/register' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Register</NavLink>
