@@ -49,7 +49,6 @@ Frontend: Navigate to the `client` folder and install dependencies:
 ```
 cd client
 npm install
-npm install tailwindcss @tailwindcss/vite
 ```
 
 Backend: Navigate to the `server` folder and install dependencies:
@@ -91,7 +90,7 @@ Backend (server folder):
 
 - `/models`: contains files that define database schema. Ex: User.js defines the database schema for users
 - `/routes`: handle routing and map the endpoints to controllers. Ex: /sign up, /login
-- `/controllers`: contain logic for each route (e.g userController.js contains logic for user sign up / log in)
+- `/controllers`: contain logic for each route (e.g authController.js contains logic for user sign up / log in)
 - `index.js`: entry point for server, set up express app, connect to database, handle requests.
 
 MVC Structure:

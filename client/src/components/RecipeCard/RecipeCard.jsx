@@ -15,7 +15,7 @@ export const RecipeCard = ({ recipe }) => {
     return (
         <Card
             onClick={handleClick}
-            style = {{ width: '16rem',
+            style = {{ width: '18rem',
                          borderWidth: 2,
                          borderColor: 'gray',
                          borderStyle: 'solid',
