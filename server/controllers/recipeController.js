@@ -5,13 +5,14 @@ import authController from '../controllers/authController.js'
 // Create a new recipe
 const createRecipe = async (req, res) => {
     try {
-        const {name, ingredients, instructions, category} = req.body;
+        const {name, description, ingredients, instructions, category} = req.body;
         if (!name || !ingredients || !instructions || !category) {
             return res.status(400).json("Not all fields filled");
         }
 
         const newRecipe = new Recipe({
             name: name, 
+            description: description,
             ingredients: ingredients,
             instructions: instructions,
             category: category, 

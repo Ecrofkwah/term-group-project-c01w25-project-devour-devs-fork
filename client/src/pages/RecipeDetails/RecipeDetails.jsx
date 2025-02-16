@@ -33,6 +33,11 @@ function RecipeDetails() {
   return (
     <div style={{ width: '90%', margin: '0 auto', overflowX: 'auto', bottom: '20px' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>{recipe.name}</h1>
+
+      <div style={{ marginBottom: '30px'}}>
+        <p><b>Description:</b></p>
+        <p style={{ paddingLeft: '30px' }}>{recipe.description}</p>
+      </div>
       
       <div style={{ marginBottom: '30px' }}>
         <p><b>Ingredients:</b></p>
@@ -54,7 +59,11 @@ function RecipeDetails() {
 
       <div>
         <p><b>Category:</b></p>
-        <p style={{ paddingLeft: '30px' }}>{recipe.category}</p>
+        <ul style={{ listStyleType: 'disc', paddingLeft: '40px' }}>
+          {recipe.category?.map((instruction, index) => (
+            <li key={index}>{instruction.trim()}</li>
+          ))}
+        </ul>
       </div>
     </div>
   )
