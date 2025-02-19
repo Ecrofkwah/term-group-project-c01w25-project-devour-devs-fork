@@ -34,8 +34,8 @@ function AppNavbar({loginUser, setLoginUser}) {
               {loginUser ? (<>
                 <NavLink to='/' className={ ({isActive}) => isActive ? 'nav-link' : 'nav-link'} onClick={handleLogout}>Logout</NavLink>
                 <NavDropdown title="Recipes" id="collapsible-nav-dropdown">
-                  <NavDropdown.Item as={NavLink} to='/managerecipe/myrecipe' className={({isActive}) => isActive ? "active" : ""}>My Recipes</NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to='/managerecipe/addrecipe' className={({isActive}) => isActive ? "active" : ""}>Create a New Recipe</NavDropdown.Item>
+                  {/* <NavDropdown.Item as={NavLink} to='/managerecipe/myrecipe' className={({isActive}) => isActive ? "active" : ""}>My Recipes</NavDropdown.Item> */}
+                  {/* <NavDropdown.Item as={NavLink} to='/managerecipe/addrecipe' className={({isActive}) => isActive ? "active" : ""}>Create a New Recipe</NavDropdown.Item> */}
                   <NavDropdown.Item as={NavLink} to='/2' className={({isActive}) => isActive ? "active" : ""}>My Favourites</NavDropdown.Item>
                 </NavDropdown>
               </>) : (<>
@@ -44,11 +44,11 @@ function AppNavbar({loginUser, setLoginUser}) {
               </>
               )}
               
-              <NavDropdown title="More" id="collapsible-nav-dropdown">
+              {/* <NavDropdown title="More" id="collapsible-nav-dropdown">
                 <NavDropdown.Item as={NavLink} to='/1' className={({isActive}) => isActive ? "active" : ""}>Something 1</NavDropdown.Item>
                 <NavDropdown.Item as={NavLink} to='/2' className={({isActive}) => isActive ? "active" : ""}>Something 2</NavDropdown.Item>
                 <NavDropdown.Item as={NavLink} to='/3' className={({isActive}) => isActive ? "active" : ""}>Something 3</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
           </Navbar.Collapse>
         </Container>

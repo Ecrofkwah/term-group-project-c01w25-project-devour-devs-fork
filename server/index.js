@@ -5,6 +5,7 @@ import cors from 'cors'
 import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
 import { recipeRouter } from './routes/recipeRoutes.js'
+import { mealRouter } from './routes/mealRoutes.js'
 
 // load env variables
 dotenv.config()
@@ -38,6 +39,8 @@ app.use((err, req, res, next) => {
 app.use('/api/auth', userRouter)
 
 app.use('/api/recipes', recipeRouter)
+
+app.use('/api/meals', mealRouter)
 
 app.listen(process.env.PORT, () => {
     console.log("server listening ...")
