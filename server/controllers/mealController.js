@@ -1,14 +1,20 @@
 import axios from 'axios'
+import dotenv from 'dotenv'
 
-const getMealByFirstLetter = async(req, res) => {
-    const { letter } = req.query;
+dotenv.config()
+
+const SP_API_KEY = process.env.SPOONACULAR_API_KEY;
+
+const getMeals = async (req, res) => {
     try{
-        const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`)
+        const response = await axios.get(`https://api.spoonacular.com/recipes/random`, {
+            params: {number: 20, apiKey: SP_API_KEY}
+        })
 
-        if(response.data.meals) {
-            res.status(201).json({meals: response.data.meals})
+        if(response.data.recipes){
+            res.status(201).json({meals: response.data.recipes})
         } else {
-            res.status(201).json({message: `No meals found starting with letter ${letter}`})
+            res.status(201).json({message: "No meals to fetch"})
         }
     } catch (error){
         res.status(500).json({message: "Internal Server Error"})
@@ -23,9 +29,11 @@ const getMealDetails = async(req, res) => {
     }
 
     try{
-        const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
-        if(response.data.meals && response.data.meals[0]) {
-            res.status(201).json({meal: response.data.meals[0]})
+        const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {
+            params: {apiKey: SP_API_KEY}
+        })
+        if(response.data) {
+            res.status(201).json({meal: response.data})
         } else {
             res.status(201).json({message: `No meal details available for meal with id ${id}`})
         }
@@ -35,7 +43,7 @@ const getMealDetails = async(req, res) => {
 }
 
 const mealController = {
-    getMealByFirstLetter,
+    getMeals,
     getMealDetails
 }
 

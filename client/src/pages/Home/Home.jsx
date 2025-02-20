@@ -5,20 +5,16 @@ import MealCard from '../../components/MealCard/MealCard';
 import './Home.css'
 
 function Home() {
-  const [letter, setLetter] = useState('A');
   const [meals, setMeals] = useState([]);
   const [error, setError] = useState('');
-  const lettersList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-                       'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-                       'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-                      ]
 
   useEffect(() => {
-    const fetchMealByFirstLetter = async () => {
+    const fetchMeals = async () => {
       setError('');
       try{
-        const response = await axios.get(`${config.BASE_URL}/api/meals/search/firstletter?letter=${letter}`)
+        const response = await axios.get(`${config.BASE_URL}/api/meals/all`)
         if(response.data.meals){
+          localStorage.setItem("meals", JSON.stringify(response.data.meals))
           setMeals(response.data.meals)
         } else {
           setMeals([])
@@ -28,30 +24,23 @@ function Home() {
       }
     }
 
-    fetchMealByFirstLetter();
-  }, [letter])
+    const cachedMeals = localStorage.getItem("meals")
+    if(cachedMeals){
+      setMeals(JSON.parse(cachedMeals));
+    } else {
+      fetchMeals();
+    }
+  }, [])
 
   return (
     <div className='home-page'>
       <h1>Discover New Recipes Here</h1>
-      <div className='dropdown-container'>
-        <label htmlFor="letter-dropdown">Find Recipes by First Letter: </label>
-        <select 
-          onChange={(e) => setLetter(e.target.value)}
-          value={letter}
-        >
-          {lettersList.map((letter) => (
-            <option key={letter} value={letter}>{letter}</option>
-          ))}
-        </select>
-      </div>
       
-
       {error && <div>{error}</div>}
-      {meals.length === 0 && <div>{`No meals found starting with letter ${letter}`}</div>}
+      {meals.length === 0 && <div>{`No meals found`}</div>}
       <div className='meal-card-container'>
         {meals.map((meal) => (
-          <MealCard key={meal.idMeal} meal={meal}/>
+          <MealCard key={meal.id} meal={meal}/>
         ))}
       </div>
     </div>

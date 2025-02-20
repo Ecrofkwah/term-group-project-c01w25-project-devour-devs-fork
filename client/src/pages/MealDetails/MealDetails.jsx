@@ -12,9 +12,17 @@ function MealDetails() {
   useEffect(() => {
     const fetchMealDetails = async () => {
       setError('');
+
+      const cachedMeal = localStorage.getItem(`meal-${id}`);
+      if(cachedMeal){
+        setMeal(JSON.parse(cachedMeal))
+        return
+      }
+
       try{
         const response = await axios.get(`${config.BASE_URL}/api/meals/details?id=${id}`)
         if(response.data.meal){
+          localStorage.setItem(`meal-${id}`, JSON.stringify(response.data.meal))
           setMeal(response.data.meal)
         } else {
           setError("Meal details not available")
@@ -28,19 +36,6 @@ function MealDetails() {
     fetchMealDetails();
   }, [id])
 
-  const getIngredients = (meal) => {
-    const ingredients = [];
-    for(let i=1; i<20; i++){
-      const ingredient = meal[`strIngredient${i}`]
-      const measure = meal[`strMeasure${i}`]
-
-      if(ingredient) {
-        ingredients.push({ingredient, measure})
-      }
-    }
-    return ingredients
-  }
-
   if(error){
     return <div>{error}</div>
   }
@@ -49,25 +44,33 @@ function MealDetails() {
     return <div>No meal details available</div>
   }
 
-  const ingredients = getIngredients(meal);
-
   return (
     <div className='meal-details-container'>
       <div className='meal-details'>
-        <div className='title'>{meal.strMeal}</div>
+        <div className='title'>{meal.title}</div>
+
         <div className='image'>
-          <img src={meal.strMealThumb}/>
+          <img src={meal.image}/>
         </div>
 
-        <div className='meal-info'><b>Category:</b> {meal.strCategory}</div>
-        <div className='meal-info'><b>Area:</b> {meal.strArea}</div>
+        <div className='meal-info'>
+          <div><b>Summary:</b></div>
+          <div dangerouslySetInnerHTML={{__html: meal.summary}}></div>
+        </div>
+
+        <div className='meal-info'><b>Cooking Time:</b> {meal.readyInMinutes}</div>
+        <div className='meal-info'><b>Servings:</b> {meal.servings}</div>
+        {meal.cuisines && meal.cuisines.length > 0 && <div className='meal-info'><b>Cuisine: </b> {meal.cuisines.join(", ")}</div>}
+        {meal.dishTypes && meal.dishTypes.length > 0 && <div className='meal-info'><b>Dish Types: </b> {meal.dishTypes.join(", ")}</div>}
+        {meal.diets && meal.diets.length > 0 && <div className='meal-info'><b>Dietary Info: </b> {meal.diets.join(", ")}</div>}
         <div className='meal-info'>
           <div><b>Ingredients:</b></div>
           <div>
             <ul>
-              {ingredients.map((item, index) => (
-                <li key={index}>
-                  {item.ingredient}: {item.measure}
+              {meal.extendedIngredients.map((ingredient) => (
+                <li key={ingredient.id}>
+                  {ingredient.original} {ingredient.measures.metric.amount && ingredient.measures.metric.unitShort &&
+                  `(${ingredient.measures.metric.amount} ${ingredient.measures.metric.unitShort})`}
                 </li>
               ))}
             </ul>
@@ -76,15 +79,8 @@ function MealDetails() {
         
         <div className='meal-info'>
           <div><b>Instructions:</b></div>
-          <div>{meal.strInstructions}</div>
+          <div dangerouslySetInnerHTML={{__html: meal.instructions}}></div>
         </div>
-        
-        {meal.strYoutube && (<div className='meal-info'>
-          <div><b>Youtube video:</b></div>
-          <a href={meal.strYoutube}>
-            Click to watch video
-          </a>
-        </div>)}
       </div>
     </div>
   )

@@ -6,15 +6,15 @@ function MealCard({meal}) {
   const navigate = useNavigate()
 
   const handleCardClick = () => {
-    navigate(`/meals/meal/${meal.idMeal}`);
+    navigate(`/meals/meal/${meal.id}`);
   }
   return (
     <div className='meal-card' onClick={handleCardClick}>
-      <img src={meal.strMealThumb}/>
+      <img src={meal.image}/>
       <div className='meal-card-content'>
-        <div className='title'>{meal.strMeal}</div>
-        <div>Category: {meal.strCategory}</div>
-        <div>Area: {meal.strArea}</div>
+        <div className='title'>{meal.title}</div>
+        <div>Cooking Time: {meal.readyInMinutes} min</div>
+        <div>Servings: {meal.servings}</div>
       </div>
     </div>
   )
