@@ -13,16 +13,24 @@ function MealDetails() {
     const fetchMealDetails = async () => {
       setError('');
 
-      const cachedMeal = localStorage.getItem(`meal-${id}`);
-      if(cachedMeal){
-        setMeal(JSON.parse(cachedMeal))
-        return
-      }
+      // let storedMeals = JSON.parse(localStorage.getItem('meals')) || []
+      // if(storedMeals.length >= 150){
+      //   localStorage.removeItem('meals')
+      //   storedMeals = []
+      // }
+
+      // const cachedMeal = storedMeals.find((meal) => Number(meal.id) === Number(id));
+      // if(cachedMeal){
+      //   setMeal(cachedMeal)
+      //   return
+      // }
 
       try{
         const response = await axios.get(`${config.BASE_URL}/api/meals/details?id=${id}`)
         if(response.data.meal){
-          localStorage.setItem(`meal-${id}`, JSON.stringify(response.data.meal))
+          // storedMeals = [... storedMeals, response.data.meal]
+          // localStorage.setItem('meals', JSON.stringify(storedMeals))
+
           setMeal(response.data.meal)
         } else {
           setError("Meal details not available")
@@ -55,7 +63,8 @@ function MealDetails() {
 
         <div className='meal-info'>
           <div><b>Summary:</b></div>
-          <div dangerouslySetInnerHTML={{__html: meal.summary}}></div>
+          {/* <div dangerouslySetInnerHTML={{__html: meal.summary}}></div> */}
+          <div>{meal.summary.replace(/<[^>]*>/g, '')}</div>
         </div>
 
         <div className='meal-info'><b>Cooking Time:</b> {meal.readyInMinutes}</div>
@@ -67,8 +76,8 @@ function MealDetails() {
           <div><b>Ingredients:</b></div>
           <div>
             <ul>
-              {meal.extendedIngredients.map((ingredient) => (
-                <li key={ingredient.id}>
+              {meal.extendedIngredients.map((ingredient, index) => (
+                <li key={index}>
                   {ingredient.original} {ingredient.measures.metric.amount && ingredient.measures.metric.unitShort &&
                   `(${ingredient.measures.metric.amount} ${ingredient.measures.metric.unitShort})`}
                 </li>
@@ -79,7 +88,7 @@ function MealDetails() {
         
         <div className='meal-info'>
           <div><b>Instructions:</b></div>
-          <div dangerouslySetInnerHTML={{__html: meal.instructions}}></div>
+          {meal.instructions ? <div dangerouslySetInnerHTML={{__html: meal.instructions}}></div> : <div>No instructions available</div>}
         </div>
       </div>
     </div>

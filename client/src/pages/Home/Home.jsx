@@ -14,7 +14,9 @@ function Home() {
       try{
         const response = await axios.get(`${config.BASE_URL}/api/meals/all`)
         if(response.data.meals){
-          localStorage.setItem("meals", JSON.stringify(response.data.meals))
+          // // cache the meals response
+          // localStorage.setItem("meals", JSON.stringify(response.data.meals))
+
           setMeals(response.data.meals)
         } else {
           setMeals([])
@@ -24,12 +26,12 @@ function Home() {
       }
     }
 
-    const cachedMeals = localStorage.getItem("meals")
-    if(cachedMeals){
-      setMeals(JSON.parse(cachedMeals));
-    } else {
-      fetchMeals();
-    }
+    // const cachedMeals = localStorage.getItem("meals")
+    // if(cachedMeals && JSON.parse(cachedMeals).length >= 50){
+    //   setMeals(JSON.parse(cachedMeals));
+    // } else {
+    fetchMeals();
+    // }
   }, [])
 
   return (
