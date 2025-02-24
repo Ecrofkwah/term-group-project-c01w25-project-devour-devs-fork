@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import './MealDetails.css'
 import config from '../../config/config';
+import MealRate from '../../components/MealRate/MealRate';
 
 function MealDetails({loginUser}) {
   const {id} = useParams();
@@ -93,6 +94,8 @@ function MealDetails({loginUser}) {
           {meal.instructions ? <div dangerouslySetInnerHTML={{__html: meal.instructions}}></div> : <div>No instructions available</div>}
         </div>
       </div>
+
+      {loginUser && <MealRate mealId={id} userId={loginUser.userId}/>}
     </div>
   )
 }
