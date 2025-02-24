@@ -5,11 +5,15 @@ import Home from './pages/Home/Home'
 import LogIn from './pages/LogIn/LogIn'
 import Register from './pages/Register/Register'
 import AppNavbar from './components/AppNavbar/AppNavbar'
-import ManageRecipes from './pages/ManageRecipes/ManageRecipes'
-import AddRecipe from './pages/AddRecipe/AddRecipe'
-import RecipeDetails from './pages/RecipeDetails/RecipeDetails'
+import MealDetails from './pages/MealDetails/MealDetails'
+// import ManageRecipes from './pages/ManageRecipes/ManageRecipes'
+// import AddRecipe from './pages/AddRecipe/AddRecipe'
+// import RecipeDetails from './pages/RecipeDetails/RecipeDetails'
 import axios from 'axios'
 import config from './config/config'
+import MyFavourites from './pages/MyFavourites/MyFavourites'
+import FridgeToPlate from './pages/FridgeToPlate/FridgeToPlate'
+import MealPlanner from './pages/MealPlanner/MealPlanner'
 
 function App() {
   const [loginUser, setLoginUser] = useState(null)
@@ -42,10 +46,15 @@ function App() {
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<LogIn/>}/>
           <Route path="/register" element={<Register/>}/>
-          <Route path='/managerecipe/myrecipe' element={<ManageRecipes loginUser={loginUser} setLoginUser={setLoginUser}/>}/>
+          <Route path='/meals/meal/:id' element={<MealDetails loginUser={loginUser}/>}/>
+          <Route path='/recipe/favourite' element={<MyFavourites/>}/>
+          <Route path='/mealplanner' element={<MealPlanner/>}/>
+          <Route path='/recommend' element={<FridgeToPlate/>}/>
+
+          {/* <Route path='/managerecipe/myrecipe' element={<ManageRecipes loginUser={loginUser} setLoginUser={setLoginUser}/>}/>
           <Route path='/managerecipe/addrecipe' element={<AddRecipe/>}/>
           <Route path='/managerecipe/recipe/:id' element={<RecipeDetails/>}/>
-          <Route path='/managerecipe/editrecipe/:id' element={<></>}/>
+          <Route path='/managerecipe/editrecipe/:id' element={<></>}/> */}
         </Routes>
       </div>
     </BrowserRouter>

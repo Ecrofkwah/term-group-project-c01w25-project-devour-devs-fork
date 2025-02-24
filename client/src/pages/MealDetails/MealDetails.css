@@ -1,0 +1,37 @@
+.meal-details{
+    padding: 0px 40px 40px 40px;
+}
+
+.meal-details .title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.meal-details .image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meal-details .image img{
+    width: 100%;
+    max-width: 500px;
+}
+
+.meal-details .meal-info{
+    margin: 10px 0px 10px 0px;
+}
+
+.add-to-fav-btn{
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(62, 62, 255);
+    color: white;
+    width: fit-content;
+    padding: 10px;
+    cursor: pointer;
+}
