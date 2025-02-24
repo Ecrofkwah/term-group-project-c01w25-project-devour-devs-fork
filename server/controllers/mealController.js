@@ -65,9 +65,51 @@ const getMealDetails = async(req, res) => {
     }
 }
 
+const addMealToFavourites = async (req, res) => {
+    // extract userId and mealId from request query
+    const {userId, mealId} = req.query;
+    if (!userId || !mealId){
+        return res.status(400).json({message: "Missing user or meal ID"})
+    }
+
+    // TODO: add the meal with mealID to favourites list of user with userID
+}
+
+const getFavouritedMeals = async (req, res) => {
+    // extract userId and mealId from request query
+    const {userId} = req.query;
+
+    if(!userId){
+        return res.status(400).json({message: "Missing user ID"})
+    }
+    // TODO: return a list of meals favourited by user with userId.
+}
+
+const rateMeal = async (req, res) => {
+    const {userId, mealId, point} = req.query;
+    if (!userId || !mealId || !point){
+        return res.status(400).json({message: "Missing user or meal ID or rating point"})
+    }
+
+    // TODO: update the rating of meal with 'mealID', using 'point' rated by user with 'userId'
+}
+
+const getMealRate = async (req, res) => {
+    const {mealId} = req.query;
+    if (!mealId){
+        return res.status(400).json({message: "Missing meal ID"})
+    }
+
+    // TODO: return the rating of 'mealID'
+}
+
 const mealController = {
     getMeals,
-    getMealDetails
+    getMealDetails,
+    addMealToFavourites,
+    getFavouritedMeals,
+    rateMeal,
+    getMealRate
 }
 
 export default mealController;
