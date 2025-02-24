@@ -7,9 +7,9 @@ dotenv.config()
 const SP_API_KEY = process.env.SPOONACULAR_API_KEY;
 
 const getMeals = async (req, res) => {
-    const cachedMeals = await Meal.find();
-    if(cachedMeals.length >= 50){
-        return res.status(201).json({meals: cachedMeals.map((result) => result.data).slice(0,49)});
+    const existingMeals = await Meal.find();
+    if(existingMeals.length >= 50){
+        return res.status(201).json({meals: existingMeals.map((result) => result.data).slice(0,49)});
     }
 
     try{
@@ -39,9 +39,9 @@ const getMealDetails = async(req, res) => {
         return res.status(400).json({message: "Missing meal ID"})
     }
 
-    const cachedMeal = await Meal.findOne({id})
-    if(cachedMeal){
-        return res.status(201).json({meal: cachedMeal.data})
+    const existingMeal = await Meal.findOne({id})
+    if(existingMeal){
+        return res.status(201).json({meal: existingMeal.data})
     }
 
     try{
