@@ -66,8 +66,8 @@ const getMealDetails = async(req, res) => {
 }
 
 const addMealToFavourites = async (req, res) => {
-    // extract userId and mealId from request query
-    const {userId, mealId} = req.query;
+    // extract userId and mealId from request body
+    const {userId, mealId} = req.body;
     if (!userId || !mealId){
         return res.status(400).json({message: "Missing user or meal ID"})
     }
@@ -76,8 +76,8 @@ const addMealToFavourites = async (req, res) => {
 }
 
 const getFavouritedMeals = async (req, res) => {
-    // extract userId and mealId from request query
-    const {userId} = req.query;
+    // extract userId and mealId from request body
+    const {userId} = req.body;
 
     if(!userId){
         return res.status(400).json({message: "Missing user ID"})
@@ -86,7 +86,7 @@ const getFavouritedMeals = async (req, res) => {
 }
 
 const rateMeal = async (req, res) => {
-    const {userId, mealId, point} = req.query;
+    const {userId, mealId, point} = req.body;
     if (!userId || !mealId || !point){
         return res.status(400).json({message: "Missing user or meal ID or rating point"})
     }
@@ -95,7 +95,7 @@ const rateMeal = async (req, res) => {
 }
 
 const getMealRate = async (req, res) => {
-    const {mealId} = req.query;
+    const {mealId} = req.body;
     if (!mealId){
         return res.status(400).json({message: "Missing meal ID"})
     }
