@@ -4,7 +4,7 @@ import axios from 'axios';
 import './MealDetails.css'
 import config from '../../config/config';
 
-function MealDetails() {
+function MealDetails({loginUser}) {
   const {id} = useParams();
   const [meal, setMeal] = useState(null);
   const [error, setError] = useState('');
@@ -60,6 +60,8 @@ function MealDetails() {
         <div className='image'>
           <img src={meal.image}/>
         </div>
+
+        {loginUser && <div className='add-to-fav-btn'>Add to Favourites</div>}
 
         <div className='meal-info'>
           <div><b>Summary:</b></div>

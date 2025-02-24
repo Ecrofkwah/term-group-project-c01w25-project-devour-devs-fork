@@ -36,8 +36,11 @@ function AppNavbar({loginUser, setLoginUser}) {
                 <NavDropdown title="Recipes" id="collapsible-nav-dropdown">
                   {/* <NavDropdown.Item as={NavLink} to='/managerecipe/myrecipe' className={({isActive}) => isActive ? "active" : ""}>My Recipes</NavDropdown.Item> */}
                   {/* <NavDropdown.Item as={NavLink} to='/managerecipe/addrecipe' className={({isActive}) => isActive ? "active" : ""}>Create a New Recipe</NavDropdown.Item> */}
-                  <NavDropdown.Item as={NavLink} to='/2' className={({isActive}) => isActive ? "active" : ""}>My Favourites</NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to='/recipe/favourite' className={({isActive}) => isActive ? "active" : ""}>My Favourites</NavDropdown.Item>
                 </NavDropdown>
+                <NavLink to='/mealplanner' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Meal Planner</NavLink>
+                <NavLink to='/recommend' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Fridge to Plate</NavLink>
+    
               </>) : (<>
                 <NavLink to='/login' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Login</NavLink>
                 <NavLink to='/register' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Register</NavLink>

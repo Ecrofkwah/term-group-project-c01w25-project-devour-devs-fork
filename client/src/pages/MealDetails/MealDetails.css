@@ -25,3 +25,13 @@
 .meal-details .meal-info{
     margin: 10px 0px 10px 0px;
 }
+
+.add-to-fav-btn{
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(62, 62, 255);
+    color: white;
+    width: fit-content;
+    padding: 10px;
+    cursor: pointer;
+}
