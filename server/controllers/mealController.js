@@ -1,6 +1,7 @@
 import axios from 'axios'
 import dotenv from 'dotenv'
 import Meal from '../models/mealModel.js'
+import Favourite from '../models/favouriteModel.js';
 
 dotenv.config()
 
@@ -73,7 +74,19 @@ const addMealToFavourites = async (req, res) => {
     }
 
     // TODO: add the meal with mealID to favourites list of user with userID
-}
+    try {
+        // Check if the meal is already favourited by this user
+        const existingFavourite = await Favourite.findOne({ userId, mealId });
+        if(existingFavourite){
+          return res.status(200).json({ message: "Meal is already in favourites" });
+        }
+        const favourite = new Favourite({ userId, mealId });
+        await favourite.save();
+        res.status(201).json({ message: "Meal added to favourites" });
+      } catch (error) {
+        res.status(500).json({ message: "Internal Server Error" });
+      }
+};
 
 const getFavouritedMeals = async (req, res) => {
     // extract userId and mealId from request body
@@ -83,7 +96,19 @@ const getFavouritedMeals = async (req, res) => {
         return res.status(400).json({message: "Missing user ID"})
     }
     // TODO: return a list of meals favourited by user with userId.
-}
+    try {
+        // Find all favourite records for the given user
+        const favourites = await Favourite.find({ userId });
+        // Extract the mealIds
+        const mealIds = favourites.map(fav => fav.mealId);
+        // Query the Meal model to retrieve full meal details
+        const meals = await Meal.find({ id: { $in: mealIds } });
+        const mealsData = meals.map(meal => meal.data);
+        res.status(200).json({ meals: mealsData });
+      } catch(error) {
+        res.status(500).json({ message: "Internal Server Error" });
+      }
+};
 
 const rateMeal = async (req, res) => {
     const {userId, mealId, point} = req.body;
