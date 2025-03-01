@@ -1,68 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import config from '../../config/config';
-import MealCard from '../../components/MealCard/MealCard';
 import './MyFavourites.css';
+import config from '../../config/config';
 
 function MyFavourites() {
   const [favourites, setFavourites] = useState([]);
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Retrieve the token from localStorage
-  const token = localStorage.getItem('jwt');
-
-  // Decode token to get userId
-  let userId;
-  if (token) {
-    try {
-      const decodedToken = jwtDecode(token);
-      userId = decodedToken.userId;
-    } catch (error) {
-      console.error('Token decoding error:', error);
-    }
-  }
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    const fetchFavourites = async () => {
-      setError('');
-      try {
-        // Pass userId as query parameter
-        const response = await axios.get(
-          `${config.BASE_URL}/api/meals/favourites?userId=${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.data.meals) {
-          setFavourites(response.data.meals);
-        } else {
-          setFavourites([]);
-        }
-      } catch (error) {
-        console.error('Error fetching favourites:', error);
-        setError('Error fetching favourites');
-      }
-    };
-
-    if (userId) {
-      fetchFavourites();
-    } else {
-      setError('User not authenticated');
+    if (!userId) {
+      setError("User not logged in");
+      setLoading(false);
+      return;
     }
-  }, [userId, token]);
+
+    axios.get(`${config.BASE_URL}/api/meals/favourites`, { 
+      params: { userId } 
+    })
+      .then(response => {
+        setFavourites(response.data.meals);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError("Error fetching favourite meals");
+        setLoading(false);
+      });
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading favourites...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
-    <div className="my-favourites">
-      <h1>My Favourite Meals</h1>
-      {error && <div className="error">{error}</div>}
-      {favourites.length === 0 && <div className="empty-message">No favourites found</div>}
-      <div className="meal-card-container">
-        {favourites.map((meal) => (
-          <MealCard key={meal.id} meal={meal} />
-        ))}
+    <div className="favourites-container">
+      <h2>My Favourite Meals</h2>
+      <div className="favourites-list">
+        {favourites.length > 0 ? (
+          favourites.map((meal, index) => (
+            <div key={index} className="meal-card">
+              <h3>{meal.title}</h3>
+              {meal.image && <img src={meal.image} alt={meal.title} />}
+            </div>
+          ))
+        ) : (
+          <p>No favourite meals yet!</p>
+        )}
       </div>
     </div>
   );

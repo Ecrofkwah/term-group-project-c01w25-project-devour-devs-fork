@@ -19,6 +19,7 @@ function LogIn() {
     .then((response) => {
         if(response.data.success && response.data.token){
           localStorage.setItem("jwt", response.data.token);
+          localStorage.setItem("userId", response.data.userId);
           navigate("/");
           window.location.reload()
         } else {

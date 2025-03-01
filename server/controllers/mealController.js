@@ -67,47 +67,46 @@ const getMealDetails = async(req, res) => {
 }
 
 const addMealToFavourites = async (req, res) => {
-    // extract userId and mealId from request body
-    const {userId, mealId} = req.body;
-    if (!userId || !mealId){
-        return res.status(400).json({message: "Missing user or meal ID"})
+    const { userId, mealId } = req.body;
+    if (!userId || !mealId) {
+        return res.status(400).json({ message: "Missing user or meal ID" });
     }
 
-    // TODO: add the meal with mealID to favourites list of user with userID
     try {
-        // Check if the meal is already favourited by this user
+        // Check if the meal is already in the user's favourites
         const existingFavourite = await Favourite.findOne({ userId, mealId });
-        if(existingFavourite){
-          return res.status(200).json({ message: "Meal is already in favourites" });
+        if (existingFavourite) {
+            return res.status(400).json({ message: "Meal already favourited" });
         }
+        
         const favourite = new Favourite({ userId, mealId });
         await favourite.save();
         res.status(201).json({ message: "Meal added to favourites" });
-      } catch (error) {
+    } catch (error) {
+        console.error("Error adding favourite:", error);
         res.status(500).json({ message: "Internal Server Error" });
-      }
+    }
 };
 
 const getFavouritedMeals = async (req, res) => {
-    const { userId } = req.query;
-    if (!userId) {
-        return res.status(400).json({ message: "Missing user ID" });
+    const { userId } = req.query; // changed from req.body to req.query
+    if(!userId){
+        return res.status(400).json({message: "Missing user ID"});
     }
+    
     try {
-        // Find all favourite records for the given user
+        // Retrieve favourite records for the given user
         const favourites = await Favourite.find({ userId });
-        // Extract the mealIds from the favourite records
         const mealIds = favourites.map(fav => fav.mealId);
-        // Query the Meal model to retrieve full meal details for these mealIds
+        
+        // Find the meals in the Meal collection by matching ids
         const meals = await Meal.find({ id: { $in: mealIds } });
-        // Map each meal to its data property
-        const mealsData = meals.map(meal => meal.data);
-        res.status(200).json({ meals: mealsData });
+        res.status(200).json({ meals: meals.map(meal => meal.data) });
     } catch (error) {
-        console.error(error);
+        console.error("Error getting favourited meals:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
-};
+}
 
 const rateMeal = async (req, res) => {
     const {userId, mealId, point} = req.body;

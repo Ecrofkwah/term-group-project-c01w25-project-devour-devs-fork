@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-const favouriteSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
-  mealId: { type: Number, required: true }
+const FavouriteSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  mealId: { type: Number, ref: 'Meal', required: true }
 });
 
-const Favourite = mongoose.model('Favourite', favouriteSchema);
+const Favourite = mongoose.model('Favourite', FavouriteSchema, 'favourites');
 
 export default Favourite;

@@ -9,6 +9,7 @@ function MealDetails({loginUser}) {
   const {id} = useParams();
   const [meal, setMeal] = useState(null);
   const [error, setError] = useState('');
+  const [favMessage, setFavMessage] = useState('');
 
   useEffect(() => {
     const fetchMealDetails = async () => {
@@ -45,6 +46,19 @@ function MealDetails({loginUser}) {
     fetchMealDetails();
   }, [id])
 
+  const handleAddToFavourites = async () => {
+    setFavMessage('');
+    try {
+      const response = await axios.post(`${config.BASE_URL}/api/meals/favourites`, {
+        userId: loginUser.userId,
+        mealId: meal.id
+      });
+      setFavMessage(response.data.message || "Meal added to favourites");
+    } catch (err) {
+      setFavMessage("Error adding to favourites");
+    }
+  };
+
   if(error){
     return <div>{error}</div>
   }
@@ -62,7 +76,12 @@ function MealDetails({loginUser}) {
           <img src={meal.image}/>
         </div>
 
-        {loginUser && <div className='add-to-fav-btn'>Add to Favourites</div>}
+        {loginUser && (
+          <div className='add-to-fav-btn' onClick={handleAddToFavourites}>
+            Add to Favourites
+          </div>
+        )}
+        {favMessage && <div className="fav-message">{favMessage}</div>}
 
         <div className='meal-info'>
           <div><b>Summary:</b></div>
