@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode'; // make sure to install this package: npm install jwt-decode
+import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import config from '../../config/config';
 import MealCard from '../../components/MealCard/MealCard';
@@ -15,8 +15,13 @@ function MyFavourites() {
   // Dynamically decode the user ID from the token
   let userId;
   if (token) {
-    const decodedToken = jwtDecode(token);
-    userId = decodedToken.userId;
+    try {
+      const decodedToken = jwtDecode(token);
+      userId = decodedToken.userId;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      // Optionally, set an error state to show a message to the user.
+    }
   }
 
   useEffect(() => {
