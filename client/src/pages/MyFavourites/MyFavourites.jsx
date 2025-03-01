@@ -10,17 +10,16 @@ function MyFavourites() {
   const [error, setError] = useState('');
 
   // Retrieve the token from localStorage
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('jwt');
 
-  // Dynamically decode the user ID from the token
+  // Decode token to get userId
   let userId;
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
       userId = decodedToken.userId;
     } catch (error) {
-      console.error('Failed to decode token:', error);
-      // Optionally, set an error state to show a message to the user.
+      console.error('Token decoding error:', error);
     }
   }
 
@@ -28,13 +27,22 @@ function MyFavourites() {
     const fetchFavourites = async () => {
       setError('');
       try {
-        const response = await axios.post(`${config.BASE_URL}/api/meals/favourites`, { userId });
+        // Pass userId as query parameter
+        const response = await axios.get(
+          `${config.BASE_URL}/api/meals/favourites?userId=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (response.data.meals) {
           setFavourites(response.data.meals);
         } else {
           setFavourites([]);
         }
       } catch (error) {
+        console.error('Error fetching favourites:', error);
         setError('Error fetching favourites');
       }
     };
@@ -44,7 +52,7 @@ function MyFavourites() {
     } else {
       setError('User not authenticated');
     }
-  }, [userId]);
+  }, [userId, token]);
 
   return (
     <div className="my-favourites">
