@@ -108,6 +108,24 @@ const getFavouritedMeals = async (req, res) => {
     }
 }
 
+const removeMealFromFavourites = async (req, res) => {
+    const { userId, mealId } = req.body;
+    if (!userId || !mealId) {
+        return res.status(400).json({ message: "Missing user or meal ID" });
+    }
+    try {
+        const deletedFav = await Favourite.findOneAndDelete({ userId, mealId });
+        if (deletedFav) {
+            res.status(200).json({ message: "Favourite removed successfully" });
+        } else {
+            res.status(404).json({ message: "Favourite not found" });
+        }
+    } catch (error) {
+        console.error("Error deleting favourite:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
 const rateMeal = async (req, res) => {
     const {userId, mealId, point} = req.body;
     if (!userId || !mealId || !point){
@@ -131,6 +149,7 @@ const mealController = {
     getMealDetails,
     addMealToFavourites,
     getFavouritedMeals,
+    removeMealFromFavourites,
     rateMeal,
     getMealRate
 }
