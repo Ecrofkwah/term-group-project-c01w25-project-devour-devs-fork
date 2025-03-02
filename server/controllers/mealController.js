@@ -76,8 +76,8 @@ const addMealToFavourites = async (req, res) => {
 }
 
 const getFavouritedMeals = async (req, res) => {
-    // extract userId and mealId from request body
-    const {userId} = req.body;
+    // extract userId and mealId from request query
+    const {userId} = req.query;
 
     if(!userId){
         return res.status(400).json({message: "Missing user ID"})
@@ -95,12 +95,33 @@ const rateMeal = async (req, res) => {
 }
 
 const getMealRate = async (req, res) => {
-    const {mealId} = req.body;
+    const {mealId} = req.query;
     if (!mealId){
         return res.status(400).json({message: "Missing meal ID"})
     }
 
     // TODO: return the rating of 'mealID'
+}
+
+const searchMeal = async (req, res) => {
+    try{
+        const { query } = req.query;
+        if(!query) {
+            return res.status(400).json({message: "Search query is missing"})
+        }
+
+        const meals = await Meal.find({
+            $or: [
+                {"data.title": {$regex: query, $options:"i"}},
+                {"data.extendedIngredients.name": {$regex: query, $options:"i"}},
+                {"data.cuisines": {$regex: query, $options:"i"}}
+            ],
+        })
+
+        return res.status(201).json({meals: meals.map(meal => meal.data)})
+    } catch(error){
+        res.status(500).json({message: "Server error"})
+    }
 }
 
 const mealController = {
@@ -109,7 +130,8 @@ const mealController = {
     addMealToFavourites,
     getFavouritedMeals,
     rateMeal,
-    getMealRate
+    getMealRate,
+    searchMeal,
 }
 
 export default mealController;

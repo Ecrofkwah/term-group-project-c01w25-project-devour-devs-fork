@@ -30,3 +30,25 @@
 
 .dropdown-container select{
 }
+
+.home-page .filter-container{
+    margin: 20px 0px 20px 0px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.home-page .filter-container .filter{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-bottom: 10px;
+}
+
+.home-page .search-bar-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -9,5 +9,6 @@ router.post('/favourites', mealController.addMealToFavourites);
 router.get('/favourites', mealController.getFavouritedMeals);
 router.post('/rating', mealController.rateMeal);
 router.get('/rating', mealController.getMealRate);
+router.get('/search', mealController.searchMeal);
 
 export { router as mealRouter }
