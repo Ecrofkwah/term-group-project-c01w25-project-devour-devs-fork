@@ -14,6 +14,7 @@ import config from './config/config'
 import MyFavourites from './pages/MyFavourites/MyFavourites'
 import FridgeToPlate from './pages/FridgeToPlate/FridgeToPlate'
 import MealPlanner from './pages/MealPlanner/MealPlanner'
+import SearchResult from './pages/SearchResult/SearchResult'
 
 function App() {
   const [loginUser, setLoginUser] = useState(null)
@@ -50,6 +51,7 @@ function App() {
           <Route path='/recipe/favourite' element={<MyFavourites/>}/>
           <Route path='/mealplanner' element={<MealPlanner/>}/>
           <Route path='/recommend' element={<FridgeToPlate/>}/>
+          <Route path='/search' element={<SearchResult/>}/>
 
           {/* <Route path='/managerecipe/myrecipe' element={<ManageRecipes loginUser={loginUser} setLoginUser={setLoginUser}/>}/>
           <Route path='/managerecipe/addrecipe' element={<AddRecipe/>}/>

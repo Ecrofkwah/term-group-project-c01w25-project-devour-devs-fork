@@ -3,6 +3,7 @@ import config from '../../config/config';
 import axios from 'axios';
 import MealCard from '../../components/MealCard/MealCard';
 import './Home.css'
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 function Home() {
   const [meals, setMeals] = useState([]);
@@ -66,7 +67,9 @@ function Home() {
   return (
     <div className='home-page'>
       <h1>Discover New Recipes Here</h1>
-      
+      <div className='search-bar-wrapper'>
+        <SearchBar/>
+      </div>
       <div className='filter-container'>
         {/* Dietary Filter */}
         <div className='filter'>
