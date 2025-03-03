@@ -33,7 +33,10 @@ Our project RecipeConnect is a recipe sharing platform designed specifically for
 - Create a new database named `recipeconnect` with a collection called `users`.
 - If you don't see the database, refresh by clicking the three dots next to localhost:27017 and selecting Refresh Databases.
 
-<b>3. Set Up `.env` File:</b>
+<b>3. Sign Up for Spoonacular API key:</b>
+- Go to https://spoonacular.com/food-api and sign up for a free api key
+  
+<b>4. Set Up `.env` File:</b>
 - Create a `.env` file in the `server` folder.
 - Add the following to the file:
 ```bash
@@ -41,9 +44,10 @@ PORT="3000"
 MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
 JWT_SECRET="ds9u2f383hf839"
 NODE_ENV = "development"
+SPOONACULAR_API_KEY={put your spoonacular api key here, using a string format}
 ```
 
-<b>4. Install Packages:</b>
+<b>5. Install Packages:</b>
 
 Frontend: Navigate to the `client` folder and install dependencies:
 ```
@@ -57,7 +61,7 @@ cd server
 npm install
 ```
 
-<b>5. Run the app:</b>
+<b>6. Run the app:</b>
 
 Navigate to `client` folder, start the frontend:
 ```
