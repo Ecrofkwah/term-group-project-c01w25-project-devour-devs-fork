@@ -89,7 +89,7 @@ const addMealToFavourites = async (req, res) => {
 };
 
 const getFavouritedMeals = async (req, res) => {
-    const { userId } = req.query; // changed from req.body to req.query
+    const { userId } = req.query;
     if(!userId){
         return res.status(400).json({message: "Missing user ID"});
     }
