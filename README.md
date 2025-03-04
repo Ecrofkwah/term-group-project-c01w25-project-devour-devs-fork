@@ -44,7 +44,7 @@ PORT="3000"
 MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
 JWT_SECRET="ds9u2f383hf839"
 NODE_ENV = "development"
-SPOONACULAR_API_KEY={put your spoonacular api key here, using a string format}
+SPOONACULAR_API_KEY="put your spoonacular api key here"
 ```
 
 <b>5. Install Packages:</b>
