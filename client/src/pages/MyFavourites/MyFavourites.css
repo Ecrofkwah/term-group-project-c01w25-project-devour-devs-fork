@@ -1,0 +1,24 @@
+.favourites-container {
+    padding: 20px;
+  }
+  
+  .favourites-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .meal-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  .meal-card img {
+    max-width: 100%;
+    border-radius: 4px;
+  }
+  
