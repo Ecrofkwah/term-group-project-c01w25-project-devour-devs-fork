@@ -10,5 +10,6 @@ router.get('/favourites', mealController.getFavouritedMeals);
 router.delete('/favourites', mealController.removeMealFromFavourites);
 router.post('/rating', mealController.rateMeal);
 router.get('/rating', mealController.getMealRate);
+router.get('/search', mealController.searchMeal);
 
 export { router as mealRouter }
