@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../../config/config';
 import './MyFavourites.css';
+import MealCard from '../../components/MealCard/MealCard';
 
 function MyFavourites() {
   const [favourites, setFavourites] = useState([]);
@@ -58,10 +59,9 @@ function MyFavourites() {
       <div className="favourites-list">
         {favourites.length > 0 ? (
           favourites.map((meal, index) => (
-            <div key={index} className="meal-card">
-              <h3>{meal.title}</h3>
-              {meal.image && <img src={meal.image} alt={meal.title} />}
-              <button onClick={() => handleDeleteFavourite(meal.id)}>
+            <div key={index} className="fav-card-container">
+              <MealCard meal={meal}/>
+              <button className='delete-btn' onClick={() => handleDeleteFavourite(meal.id)}>
                 Delete
               </button>
             </div>
