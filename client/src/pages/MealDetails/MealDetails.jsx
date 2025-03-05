@@ -10,22 +10,13 @@ function MealDetails({loginUser}) {
   const [meal, setMeal] = useState(null);
   const [error, setError] = useState('');
   const [favMessage, setFavMessage] = useState('');
+  const [isFav, setIsFav] = useState(false);
+
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchMealDetails = async () => {
       setError('');
-
-      // let storedMeals = JSON.parse(localStorage.getItem('meals')) || []
-      // if(storedMeals.length >= 150){
-      //   localStorage.removeItem('meals')
-      //   storedMeals = []
-      // }
-
-      // const cachedMeal = storedMeals.find((meal) => Number(meal.id) === Number(id));
-      // if(cachedMeal){
-      //   setMeal(cachedMeal)
-      //   return
-      // }
 
       try{
         const response = await axios.get(`${config.BASE_URL}/api/meals/details?id=${id}`)
@@ -41,21 +32,49 @@ function MealDetails({loginUser}) {
       } catch (error) {
         setError('Error fetching meal details')
       }
+
+      // checking if the meal is in favorite or not
+      try {
+        const response = await axios.get(`${config.BASE_URL}/api/meals/favourites`, { 
+            params: { userId } 
+        });
+        if(response.data.meals && response.data.meals.find(meal => Number(meal.id) === Number(id))){
+          setIsFav(true)
+        }
+        else {
+          setIsFav(false)
+        }
+      } catch (err) {
+        setError("Error checking favourite meals");
+      }
     }
 
     fetchMealDetails();
   }, [id])
 
   const handleAddToFavourites = async () => {
-    setFavMessage('');
+    // setFavMessage('');
     try {
       const response = await axios.post(`${config.BASE_URL}/api/meals/favourites`, {
         userId: loginUser.userId,
         mealId: meal.id
       });
-      setFavMessage(response.data.message || "Meal added to favourites");
+      //setFavMessage(response.data.message || "Meal added to favourites");
+      setIsFav(true)
     } catch (err) {
-      setFavMessage("Error adding to favourites");
+      //setFavMessage("Error adding to favourites");
+      console.log("Error adding to fav");
+    }
+  };
+
+  const handleRemoveFromFavourites = async () => {
+    try {
+      const response = await axios.delete(`${config.BASE_URL}/api/meals/favourites`, {
+        data: { userId: loginUser.userId, mealId: meal.id }
+      });
+      setIsFav(false)
+    } catch (err) {
+      console.log("Error remove from fav")
     }
   };
 
@@ -76,12 +95,16 @@ function MealDetails({loginUser}) {
           <img src={meal.image}/>
         </div>
 
-        {loginUser && (
-          <div className='add-to-fav-btn' onClick={handleAddToFavourites}>
-            Add to Favourites
-          </div>
-        )}
-        {favMessage && <div className="fav-message">{favMessage}</div>}
+        {loginUser 
+        ? (!isFav 
+          ? (<div className='add-to-fav-btn' onClick={handleAddToFavourites}>
+              Add to Favourites
+            </div>) 
+          : (<div className='remove-fav-btn' onClick={handleRemoveFromFavourites}>
+              Remove from Favourites
+            </div>)) 
+        : <></>}
+        {/* {favMessage && <div className="fav-message">{favMessage}</div>} */}
 
         <div className='meal-info'>
           <div><b>Summary:</b></div>
