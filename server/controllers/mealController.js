@@ -2,6 +2,7 @@ import axios from 'axios'
 import dotenv from 'dotenv'
 import Meal from '../models/mealModel.js'
 import Favourite from '../models/favouriteModel.js';
+import MealRating from '../models/ratingModel.js';
 
 dotenv.config()
 
@@ -134,7 +135,20 @@ const rateMeal = async (req, res) => {
         return res.status(400).json({message: "Missing user or meal ID or rating point"})
     }
 
-    // TODO: update the rating of meal with 'mealID', using 'point' rated by user with 'userId'
+    //Check if rating object with meal Id exists:
+    const updatedRating = await MealRating.findOneAndUpdate(
+        { mealId: `${mealId}`},
+        { $set: { userId: point } },
+        { upsert: true }
+    );
+
+    try{
+        res.status(200).json({ message: "Rating updated successfully" });
+    }
+    catch (error){
+        console.error("Error updating rating:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 }
 
 const getMealRate = async (req, res) => {
@@ -144,6 +158,23 @@ const getMealRate = async (req, res) => {
     }
 
     // TODO: return the rating of 'mealID'
+    const mealRating = MealRating.findOne({ mealId: mealId});
+    if (!mealRating){
+        return {avgRating: 0, numRatings: 0};
+    }
+    let sumRating = 0;
+    let sumCount = 0;
+    for (let rating of Object.values(recipe.rating)){
+        sumRating += Number(rating);
+        sumCount++;
+    }
+    if (sumCount === 0){
+        return {avgRating: 0, numRatings: 0};
+    }
+    const avgRating = Math.round(sumRating/sumCount);
+    console.log("Sum: " + sumRating);
+    console.log("Count: " + sumCount);
+    return {avgRating: avgRating, numRatings: sumCount};
 }
 
 const searchMeal = async (req, res) => {

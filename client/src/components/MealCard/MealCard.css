@@ -21,10 +21,17 @@
 .meal-card-content{
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 .meal-card-content .title{
     font-weight: bold;
     font-size: 25px;
+}
+
+.ratingContainer {
+    margin-top: auto;
+    margin-bottom: 2%;
+    padding-left: 10px;
 }
