@@ -9,11 +9,6 @@ import { mealRouter } from './routes/mealRoutes.js'
 // load env variables
 dotenv.config()
 
-// connect to mongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {console.log("Connected")})
-    .catch((error) => console.log(`Error connecting to DB: ${error}`))
-
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
@@ -38,7 +33,18 @@ app.use((err, req, res, next) => {
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
 
-app.listen(process.env.PORT, () => {
-    console.log("server listening ...")
-})
+if(process.env.NODE_ENV !== 'test'){
+    // connect to mongoDB
+    mongoose.connect(process.env.MONGODB_URI)
+     .then(() => {console.log("Connected")})
+     .catch((error) => console.log(`Error connecting to DB: ${error}`))
+
+    // listen to port
+    app.listen(process.env.PORT, () => {
+        console.log("server listening ...")
+    })
+}
+
+export default app;
+
 
