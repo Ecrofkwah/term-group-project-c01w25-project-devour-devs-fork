@@ -7,11 +7,11 @@ Release Name: Sprint 2 Demo
 ## Release Objectives
 ### Specific Goals:
 - <b>Filtering System:</b>
-Implement a Filtering System to enable users to refine recipe searches based on categories, dietary preferences, and difficulty levels. 
+  - Implement a Filtering System to enable users to refine recipe searches based on categories, dietary preferences, and difficulty levels. 
 
 
 - <b>Favourite List:</b>
-Develop a Favorites List feature allowing users to save recipes that they like and quickly access for later. 
+  - Develop a Favorites List feature allowing users to save recipes that they like and quickly access for later. 
 
 
 - <b>Ratings and Comment:</b>
