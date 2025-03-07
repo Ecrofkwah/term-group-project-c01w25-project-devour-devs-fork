@@ -67,6 +67,8 @@ Release Name: Sprint 2 Demo
   - Enable users to add recipes to specific days.
   - Implement a backend system for storing and retrieving meal plans.
 - This feature could not be completed fully due to time constraints and the complexity of the tasks. As a result, this feature will not be included in the current release. We plan to continue working on it in the next iteration.
+
+  
 - <b>Transcript-to-Voice and Vice Versa for Future AI Chatbot Implementation</b>
   - Research and select a speech-to-text API.
   - Research and select a text-to-speech API.
