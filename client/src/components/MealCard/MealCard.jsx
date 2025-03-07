@@ -2,7 +2,7 @@ import {React, useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import './MealCard.css'
 import axios from 'axios'
-import { config } from 'dotenv'
+import config from '../../config/config';
 import { Rating } from '../MealRate/rating.jsx'
 function MealCard({meal}) {
   const navigate = useNavigate()
@@ -16,12 +16,15 @@ function MealCard({meal}) {
     const fetchRating = async () => {
       try{
         const result = await axios.get(`${config.BASE_URL}/api/meals/rating?mealId=${meal.id}`);
-        setRating(result);
+        const ratings = result.data;
+        console.log("Read the rating");
+        setRating(ratings);
       }
       catch (error){
         console.log(error);
       }
     }
+    console.log("REACHED HERE");
     fetchRating();
   }, []);
   
@@ -33,7 +36,7 @@ function MealCard({meal}) {
         <div>Cooking Time: {meal.readyInMinutes} min</div>
         <div>Servings: {meal.servings}</div>
       </div>
-      <div className="ratingContainer"> <Rating rating={rating} /> </div>
+      <div className="ratingContainer"> {rating ? <div className="ratings"> <Rating rating={rating.avgRating} /> <div className="ratingCount"> ({rating.numRatings}) </div> </div>: <p>Loading...</p>} </div>
     </div>
   )
 }

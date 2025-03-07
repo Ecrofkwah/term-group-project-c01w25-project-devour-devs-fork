@@ -35,3 +35,13 @@
     margin-bottom: 2%;
     padding-left: 10px;
 }
+
+.ratings {
+    display: flex;
+    flex-direction: row;
+}
+
+.ratingCount {
+    padding-left: 10px;
+    font-size: 35px;
+}

@@ -50,11 +50,12 @@ function MealDetails({loginUser}) {
 
     // Getting rating
     try{
-      const result = await axios.get(`${config.BASE_URL}/api/meals/rating?mealId=${meal.id}`);
-      setRating(result);
+      const result = await axios.get(`${config.BASE_URL}/api/meals/rating/user?mealId=${id}&userId=${userId}`);
+      const rating = result.data;
+      setRating(rating.rating);
     }
     catch (error){
-      Console.log(error);
+      console.log(error);
     }
   }
 

@@ -138,7 +138,7 @@ const rateMeal = async (req, res) => {
     //Check if rating object with meal Id exists:
     const updatedRating = await MealRating.findOneAndUpdate(
         { mealId: `${mealId}`},
-        { $set: { userId: point } },
+        { $set: { [`userRatings.${userId}`]: point } },
         { upsert: true }
     );
 
@@ -158,23 +158,38 @@ const getMealRate = async (req, res) => {
     }
 
     // TODO: return the rating of 'mealID'
-    const mealRating = MealRating.findOne({ mealId: mealId});
-    if (!mealRating){
-        return {avgRating: 0, numRatings: 0};
+    const mealRating = await MealRating.findOne({ mealId: mealId});
+    if (!mealRating || !mealRating.userRatings){
+        console.log("returning 1");
+        return res.status(200).json({avgRating: 0, numRatings: 0});
     }
     let sumRating = 0;
     let sumCount = 0;
-    for (let rating of Object.values(recipe.rating)){
+    for (let rating of Object.values(mealRating.userRatings)){
         sumRating += Number(rating);
         sumCount++;
     }
     if (sumCount === 0){
-        return {avgRating: 0, numRatings: 0};
+        console.log("returning 2");
+        return res.status(200).json({avgRating: 0, numRatings: 0});
     }
     const avgRating = Math.round(sumRating/sumCount);
     console.log("Sum: " + sumRating);
     console.log("Count: " + sumCount);
-    return {avgRating: avgRating, numRatings: sumCount};
+    console.log("returning 3")
+    return res.status(200).json({avgRating: avgRating, numRatings: sumCount});
+}
+
+const getUserRating = async (req, res) => {
+    const {mealId, userId} = req.query;
+    if (!mealId){
+        return res.status(400).json({message: "Missing meal ID"})
+    }
+    const mealRating = await MealRating.findOne({ mealId: mealId});
+    if (!mealRating || !mealRating.userRatings){
+        return res.status(200).json({rating: 0});
+    }
+    return res.status(200).json({rating: mealRating.userRatings[userId]});
 }
 
 const searchMeal = async (req, res) => {
@@ -206,6 +221,7 @@ const mealController = {
     removeMealFromFavourites,
     rateMeal,
     getMealRate,
+    getUserRating,
     searchMeal,
 }
 
