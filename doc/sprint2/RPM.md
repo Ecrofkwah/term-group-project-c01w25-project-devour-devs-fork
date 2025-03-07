@@ -83,7 +83,7 @@ None
 None
  
 ### Dependencies and Limitations:
-- To enable the Spoonacular API, will need to update .env file to:
+- To enable the Spoonacular API, will need to first register for an account on Spoonacular's Website and then update .env file to include all of the above:
     - PORT="3000"
     - MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
     - JWT_SECRET="ds9u2f383hf839"
