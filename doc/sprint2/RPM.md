@@ -84,8 +84,8 @@ None
  
 ### Dependencies and Limitations:
 - To enable the Spoonacular API, will need to update .env file to:
-    PORT="3000"
-    MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
-    JWT_SECRET="ds9u2f383hf839"
-    NODE_ENV = "development"
-    SPOONACULAR_API_KEY= “put your Spoonacular api key here”
+    - PORT="3000"
+    - MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
+    - JWT_SECRET="ds9u2f383hf839"
+    - NODE_ENV = "development"
+    - SPOONACULAR_API_KEY= “put your Spoonacular api key here”
