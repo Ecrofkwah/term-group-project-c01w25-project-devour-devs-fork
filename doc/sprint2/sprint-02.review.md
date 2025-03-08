@@ -1,6 +1,6 @@
 # DEVOUR DEVS/RECIPECONNECT
 
-## Iteration XX - Review & Retrospect
+## Iteration 02 - Review & Retrospect
 
  * When: Wednesday, March 5, 2024
  * Where: Online via Zoom
