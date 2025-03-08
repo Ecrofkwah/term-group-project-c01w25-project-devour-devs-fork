@@ -11,45 +11,56 @@ function MealDetails({loginUser}) {
   const [error, setError] = useState('');
   const [favMessage, setFavMessage] = useState('');
   const [isFav, setIsFav] = useState(false);
+  const [rating, setRating] = useState(0);
 
   const userId = localStorage.getItem("userId");
 
-  useEffect(() => {
-    const fetchMealDetails = async () => {
-      setError('');
+  async function fetchMealDetails (id){
+    setError('');
 
-      try{
-        const response = await axios.get(`${config.BASE_URL}/api/meals/details?id=${id}`)
-        if(response.data.meal){
-          // storedMeals = [... storedMeals, response.data.meal]
-          // localStorage.setItem('meals', JSON.stringify(storedMeals))
+    try{
+      const response = await axios.get(`${config.BASE_URL}/api/meals/details?id=${id}`)
+      if(response.data.meal){
+        // storedMeals = [... storedMeals, response.data.meal]
+        // localStorage.setItem('meals', JSON.stringify(storedMeals))
 
-          setMeal(response.data.meal)
-        } else {
-          setError("Meal details not available")
-          setMeal(null)
-        }
-      } catch (error) {
-        setError('Error fetching meal details')
+        setMeal(response.data.meal)
+      } else {
+        setError("Meal details not available")
+        setMeal(null)
       }
-
-      // checking if the meal is in favorite or not
-      try {
-        const response = await axios.get(`${config.BASE_URL}/api/meals/favourites`, { 
-            params: { userId } 
-        });
-        if(response.data.meals && response.data.meals.find(meal => Number(meal.id) === Number(id))){
-          setIsFav(true)
-        }
-        else {
-          setIsFav(false)
-        }
-      } catch (err) {
-        setError("Error checking favourite meals");
-      }
+    } catch (error) {
+      setError('Error fetching meal details')
     }
 
-    fetchMealDetails();
+    // checking if the meal is in favorite or not
+    try {
+      const response = await axios.get(`${config.BASE_URL}/api/meals/favourites`, { 
+          params: { userId } 
+      });
+      if(response.data.meals && response.data.meals.find(meal => Number(meal.id) === Number(id))){
+        setIsFav(true)
+      }
+      else {
+        setIsFav(false)
+      }
+    } catch (err) {
+      setError("Error checking favourite meals");
+    }
+
+    // Getting rating
+    try{
+      const result = await axios.get(`${config.BASE_URL}/api/meals/rating/user?mealId=${id}&userId=${userId}`);
+      const rating = result.data;
+      setRating(rating.rating);
+    }
+    catch (error){
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchMealDetails(id);
   }, [id])
 
   const handleAddToFavourites = async () => {
@@ -137,7 +148,7 @@ function MealDetails({loginUser}) {
         </div>
       </div>
 
-      {loginUser && <MealRate mealId={id} userId={loginUser.userId}/>}
+      {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}
     </div>
   )
 }

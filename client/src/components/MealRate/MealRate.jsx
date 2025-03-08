@@ -1,10 +1,11 @@
 import React from 'react'
 import './MealRate.css'
+import { SelectRating } from './SelectRating'
 
-function MealRate({mealId, userId}) {
+function MealRate({setRating, mealId, userId, rating}) {
   return (
-    <div>
-      Implement front end meal rate here, Meal ID is {mealId}, user ID is {userId}
+    <div className="MealRate">
+      <SelectRating setRating={setRating} mealId={mealId} userId={userId} rating={rating}/>
     </div>
   )
 }
