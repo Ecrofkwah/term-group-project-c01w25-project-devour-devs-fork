@@ -31,8 +31,7 @@ In this meeting we discussed the strategies that worked, the ones that didn’t,
 - We also lacked a clear understanding of our project flow.
   - For example, in this sprint, we assigned the user story: “As a user, I want to be able to talk to my AI assistant so it can help me without manually typing,” without realizing that it depended on completing the user story: “As a beginner cook, I want step-by-step guidance or an AI assistant to help me learn how to cook.”
 - Shorter meetings:
-  - The meetings we held this week were shorter due to the tight schedules of each team member
-  - As a result, the communication between team members was weaker than in the previous sprint and some clarifications were needed for certain tasks
+  - This week, our meetings were shorter due to the tight schedules of each team member. While we made an effort to communicate through meetings and group chats, our interactions were still limited. As a result, communication between team members was weaker than in the previous sprint, and some tasks required additional clarification.
 
 #### Planned changes
 - In the future, we will meet together and discuss userstory point distribution thoroughly. As a result we can have a better understanding of the work required and other useful information such as team velocity.
