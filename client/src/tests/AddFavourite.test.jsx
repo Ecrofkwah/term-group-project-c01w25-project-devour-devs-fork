@@ -64,4 +64,19 @@ describe('MealDetails add to favourite', () => {
 
     await waitFor(() => expect(screen.getByText(/Remove from Favourites/i)).toBeInTheDocument());
   });
+
+  it('removes meal from favourites', async () => {
+    axios.get.mockResolvedValueOnce({ data: { meal: mockMeal } });
+    axios.get.mockResolvedValueOnce({ data: { meals: [mockMeal] } }); // Initially a favourite
+    axios.delete.mockResolvedValueOnce({ data: { message: 'Removed from favourites' } });
+
+    render(<MealDetails loginUser={{ userId: 'user123' }} />, { wrapper: MemoryRouter });
+
+    await waitFor(() => screen.getByText(/Banana/i, { selector: '.title' }));
+
+    const removeButton = screen.getByText(/Remove from Favourites/i);
+    fireEvent.click(removeButton);
+
+    await waitFor(() => expect(screen.getByText(/Add to Favourites/i)).toBeInTheDocument());
+  });
 });
