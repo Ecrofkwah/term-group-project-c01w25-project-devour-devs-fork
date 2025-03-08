@@ -27,7 +27,8 @@ In this meeting we discussed the strategies that worked, the ones that didn’t,
 
 - We casually assigned story points to each userstory, not focusing on it during our meeting:
   - As we distributed the points a few days into the concurrent sprint, the burndown chart did not function properly.
-  - We also did not put much thought into assigning points, so our idea of how long it would take to complete each feature was not accurate and as a result we didn't complete some of the userstories.
+  - We also did not put much thought into assigning points, so our idea of how long it would take to complete each feature was not accurate and as a result we didn't complete some of the userstories. As an example, the userstory "As a user, I want a “Meal Planner” tab so that I can create, view, and manage my weekly meal plans." was assigned a story point estimate of 2, after working on it we realized a more accurate estimate would be 4. This will be addressed in the next sprint.
+  - We also lacked a clear understanding of our project flow. For example, in this sprint, we assigned the user story: “As a user, I want to be able to talk to my AI assistant so it can help me without manually typing,” without realizing that it depended on completing the user story: “As a beginner cook, I want step-by-step guidance or an AI assistant to help me learn how to cook.”
 - Shorter meetings:
   - The meetings we held this week were shorter due to the tight schedules of each team member
   - As a result, the communication between team members was weaker than in the previous sprint and some clarifications were needed for certain tasks
