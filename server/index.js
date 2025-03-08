@@ -4,15 +4,10 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
-import { recipeRouter } from './routes/recipeRoutes.js'
+import { mealRouter } from './routes/mealRoutes.js'
 
 // load env variables
 dotenv.config()
-
-// connect to mongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {console.log("Connected")})
-    .catch((error) => console.log(`Error connecting to DB: ${error}`))
 
 const app = express()
 app.use(express.json())
@@ -36,10 +31,20 @@ app.use((err, req, res, next) => {
 
 // map the routes
 app.use('/api/auth', userRouter)
+app.use('/api/meals', mealRouter)
 
-app.use('/api/recipes', recipeRouter)
+if(process.env.NODE_ENV !== 'test'){
+    // connect to mongoDB
+    mongoose.connect(process.env.MONGODB_URI)
+     .then(() => {console.log("Connected")})
+     .catch((error) => console.log(`Error connecting to DB: ${error}`))
 
-app.listen(process.env.PORT, () => {
-    console.log("server listening ...")
-})
+    // listen to port
+    app.listen(process.env.PORT, () => {
+        console.log("server listening ...")
+    })
+}
+
+export default app;
+
 

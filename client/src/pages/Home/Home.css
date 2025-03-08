@@ -1,0 +1,54 @@
+.home-page{
+    padding: 20px 40px 60px 40px;
+}
+.home-page h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meal-card-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+    margin: 0 auto;
+    padding: 0px;
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px 0px 10px 0px;
+}
+
+.dropdown-container label{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0px 8px 0px 0px;
+}
+
+.dropdown-container select{
+}
+
+.home-page .filter-container{
+    margin: 20px 0px 20px 0px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.home-page .filter-container .filter{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-bottom: 10px;
+}
+
+.home-page .search-bar-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
