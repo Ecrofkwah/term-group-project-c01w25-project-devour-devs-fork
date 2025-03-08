@@ -74,15 +74,16 @@ Release Name: Sprint 2 Demo
   - Research and select a text-to-speech API.
   - Implement a basic prototype to convert text-based recipes into audio.
   - Test accuracy and usability with different accents and speech patterns
-- This feature could not be completed fully due to time constraints and the complexity of the tasks. As a result, this feature will not be included in the current release. We plan to continue working on it in the next iteration.
+- The voice AI transcription feature depended on the prior completion of the text-based AI assistant. Due to overlooking this dependency, development on voice transcription had to be temporarily paused until the texting functionality was implemented. As a result, this feature will not be included in the current release. We plan to continue working on it in the next iteration. 
 
 
 ### Bug Fixes:
-None
+- Fixed the issue where the stars under the rating UI were going off the screen
 
 
 ### Non-Functional Requirements:
-None
+- Focused on developing user friendly UI
+- Filter is optimized so that user does not have to wait while they enter a filtering option
  
 ### Dependencies and Limitations:
 - To enable the Spoonacular API, will need to first register for an account on Spoonacular's Website and then update .env file to include all of the above:
