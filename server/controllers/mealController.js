@@ -213,6 +213,42 @@ const searchMeal = async (req, res) => {
     }
 }
 
+const recommendMealsByIngredients = async (req, res) =>{
+    try{
+        const {ingredients} = req.body; // user input 
+        if(!ingredients || ingredients.length === 0){
+            return res.status(400).json({message: "Require at least 1 ingredient"});
+        }
+
+        // normalize the ingredients
+        const normalizedIngredients = ingredients.map(ingredient => ingredient.toLowerCase())
+
+        // find matched meals
+        const meals = await Meal.find({
+            "data.extendedIngredients.name": {$in: normalizedIngredients.map(ing => new RegExp(ing, "i"))}
+        })
+
+        // rank meals by number of matches
+        const rankedMeals = meals.map(meal => {
+            const ingredientsList = Array.from(new Set(meal.data.extendedIngredients.map(ing => ing.name.toLowerCase())));
+            const matchedIngredients = normalizedIngredients.filter(userIng => ingredientsList.some(ing => ing.includes(userIng) || userIng.includes(ing)));
+            const missedIngredients = normalizedIngredients.filter(userIng => !ingredientsList.some(ing => ing.includes(userIng) || userIng.includes(ing)));
+            return {
+                matchCount: matchedIngredients.length,
+                missedIngredients,
+                data: meal.data
+            }
+        })
+
+        // sort meals by highest count and return top 10
+        rankedMeals.sort((a, b) => b.matchCount - a.matchCount);
+        const topMeals = rankedMeals.slice(0,10);
+        return res.status(201).json({topMeals})
+    } catch (error) {
+        return res.status(500).json({message: "Server error"})
+    }
+}
+
 const mealController = {
     getMeals,
     getMealDetails,
@@ -223,6 +259,7 @@ const mealController = {
     getMealRate,
     getUserRating,
     searchMeal,
+    recommendMealsByIngredients,
 }
 
 export default mealController;
