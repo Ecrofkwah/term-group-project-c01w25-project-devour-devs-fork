@@ -5,6 +5,9 @@ import cors from 'cors'
 import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
 import { mealRouter } from './routes/mealRoutes.js'
+import { imageRouter } from './routes/imageRoutes.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // load env variables
 dotenv.config()
@@ -32,6 +35,12 @@ app.use((err, req, res, next) => {
 // map the routes
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
+app.use('/api/image', imageRouter)
+
+// set up static files path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 if(process.env.NODE_ENV !== 'test'){
     // connect to mongoDB
