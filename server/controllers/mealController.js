@@ -160,7 +160,6 @@ const getMealRate = async (req, res) => {
     // TODO: return the rating of 'mealID'
     const mealRating = await MealRating.findOne({ mealId: mealId});
     if (!mealRating || !mealRating.userRatings){
-        console.log("returning 1");
         return res.status(200).json({avgRating: 0, numRatings: 0});
     }
     let sumRating = 0;
@@ -170,13 +169,9 @@ const getMealRate = async (req, res) => {
         sumCount++;
     }
     if (sumCount === 0){
-        console.log("returning 2");
         return res.status(200).json({avgRating: 0, numRatings: 0});
     }
     const avgRating = Math.round(sumRating/sumCount);
-    console.log("Sum: " + sumRating);
-    console.log("Count: " + sumCount);
-    console.log("returning 3")
     return res.status(200).json({avgRating: avgRating, numRatings: sumCount});
 }
 
@@ -235,6 +230,7 @@ const recommendMealsByIngredients = async (req, res) =>{
             const missedIngredients = normalizedIngredients.filter(userIng => !ingredientsList.some(ing => ing.includes(userIng) || userIng.includes(ing)));
             return {
                 matchCount: matchedIngredients.length,
+                matchedIngredients,
                 missedIngredients,
                 data: meal.data
             }

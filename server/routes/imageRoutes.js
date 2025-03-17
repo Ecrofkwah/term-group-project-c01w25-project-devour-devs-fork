@@ -7,5 +7,6 @@ const upload = multer({dest: 'uploads/'});
 const router = express.Router()
 
 router.post('/recognize', upload.single('image'), imageController.imageRecognizer);
+router.post('/detect', upload.single('image'), imageController.ingredientsDetector);
 
 export { router as imageRouter }

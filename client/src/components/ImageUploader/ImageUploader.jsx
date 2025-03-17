@@ -30,11 +30,34 @@ function ImageUploader() {
         console.error("Error recognizing ingredients", error)
     } 
   }
+
+  const handleDetections = async () =>{
+    if(!image){
+        alert("Please upload an image.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try{
+        const response = await axios.post(`${config.BASE_URL}/api/image/detect`, formData, {
+            headers: {"Content-Type": "multipart/form-data"},
+        });
+
+        setPredictions(response.data.detections)
+        console.log(response.data.detections)
+    } catch(error){
+        console.error("Error recognizing ingredients", error)
+    } 
+  }
+
   return (
     <div>
       <h2>Upload an image for ingredient recognition</h2>
       <input type="file" onChange={handleImageUpload}/>
       <button onClick={handlePredictions}>Recognize</button>
+      <button onClick={handleDetections}>Detect</button>
 
       {/* display uploaded image */}
       {image && <img src={URL.createObjectURL(image)} width="224"/>}

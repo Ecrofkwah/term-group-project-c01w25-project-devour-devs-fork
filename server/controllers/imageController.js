@@ -2,6 +2,11 @@ import * as tf from '@tensorflow/tfjs-node';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import axios from 'axios';
+
+dotenv.config();
+const ROBOFLOW_API_KEY = process.env.ROBOFLOW_API_KEY;
 
 let model;
 
@@ -23,8 +28,6 @@ const loadMappings = () => {
 
 loadModel();
 const {categories, ingredients} = loadMappings();
-console.log(categories);
-console.log(ingredients);
 
 const imageRecognizer = async (req, res) => {
     try{
@@ -88,7 +91,6 @@ const decodeIngredientsPrediction = (ingredientArray) => {
 
     for(let i = 0; i < top.length; i++){
         if(top[i].value >= 0.6){
-            console.log('index:', top[i].index)
             result.push(ingredients[top[i].index]);
         } else {
             break;
@@ -116,8 +118,36 @@ const deleteImage = (filePath) => {
     })
 }
 
+const ingredientsDetector = async (req, res) => {
+  try{
+    const imagePath = req.file.path;
+    const image = fs.readFileSync(imagePath, {encoding: 'base64'});
+    const response = await axios({
+        method: 'POST',
+        url: `https://detect.roboflow.com/food-bxkvw/3`,
+        params: {
+            api_key: ROBOFLOW_API_KEY,
+        },
+        data: image,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+
+    // delete image after processing
+    await deleteImage(imagePath);
+
+    const detections = response.data.predictions;
+    return res.json({success: true, detections})
+  } catch(error){
+    console.error(error)
+    return res.status(500).json({success: false, error: "ingredients detection failed"})
+  }
+}
+
 const imageController = {
     imageRecognizer,
+    ingredientsDetector,
 }
 
 export default imageController;
