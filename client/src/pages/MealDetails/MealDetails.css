@@ -26,15 +26,24 @@
     margin: 10px 0px 10px 0px;
 }
 
+.recipe-options{
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    margin-top: 15px;
+}
+
 .add-to-fav-btn{
     border: none;
     border-radius: 8px;
     background-color: rgb(62, 62, 255);
     color: white;
     width: fit-content;
+    height: fit-content;
     padding: 10px;
     cursor: pointer;
     margin-top: 10px;
+    justify-self: start;
 }
 
 .remove-fav-btn{
@@ -43,7 +52,120 @@
     background-color: rgb(255, 68, 68);
     color: white;
     width: fit-content;
+    height: fit-content;
     padding: 10px;
     cursor: pointer;
     margin-top: 10px;
+    justify-self: start;
+}
+
+.step-by-step-container{
+    grid-column: 3;
+    justify-self: end;
+}
+.step-by-step-btn-on{
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(69, 157, 234);
+    color: white;
+    width: fit-content;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    height: fit-content;
+    /*margin-left: auto;*/
+}
+
+.step-by-step-btn-off{
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(89, 89, 89);
+    color: white;
+    width: fit-content;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    height: fit-content;
+    /*margin-left: auto;*/
+}
+
+.rating-select{
+    grid-column: 2;
+    justify-self: center;
+}
+
+.comment{
+    font-size: 15px;
+    font-style: italic;
+    color: rgb(0, 162, 255);
+    background-color: transparent;
+}
+
+.step-container{
+    position: relative;
+    width: 800px;
+    min-height: 150px;
+    height: fit-content;
+}
+
+.step{
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    transform: scale(0.95);
+    transition: transform 0.5s, opacity 0.5s;
+    background-color: rgb(49, 86, 1);
+    border-radius: 15px;
+    padding: 10px;
+    color: black;
+    opacity: 0;
+}
+
+.step.active{
+    transform: scale(1);
+    opacity: 1;
+}
+
+.step-by-step-instructions{
+    display: flex;
+    flex-direction: row;;
+}
+
+.step-nav{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+}
+
+.prev-step-btn-available{
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.next-step-btn-available{
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.prev-step-btn-unavailable{
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgb(145, 145, 145);
+    opacity: 0.75;
+}
+
+.next-step-btn-unavailable{
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgb(145, 145, 145);
+    opacity: 0.75;
 }
