@@ -28,7 +28,7 @@ function MealPlanner() {
 
     const [error, setError] = useState(null);
 
-    const [mealDetails, setMealDetails] = useState({}); //  Stores fetched meal objects
+    const [mealDetails, setMealDetails] = useState({}); // Stores fetched meal objects
 
 
 
@@ -36,7 +36,7 @@ function MealPlanner() {
 
 
 
-    //  Fetch meal options from `/api/planner/MPMeals`
+    // Fetch meal options from `/api/planner/MPMeals`
 
     useEffect(() => {
 
@@ -45,8 +45,6 @@ function MealPlanner() {
             try {
 
                 setLoading(true);
-
-                console.log("Fetching meals from `/api/planner/MPMeals`...");
 
                 const response = await axios.get(`${config.BASE_URL}/api/planner/MPMeals`, {
 
@@ -58,21 +56,15 @@ function MealPlanner() {
 
                 if (response.data.meals && response.data.meals.length > 0) {
 
-                    setMealOptions(response.data.meals); //  Store full meal objects
-
-                    console.log("Fetched meals:", response.data.meals);
+                    setMealOptions(response.data.meals);
 
                 } else {
 
                     setMealOptions([]);
 
-                    console.log("No meals found.");
-
                 }
 
             } catch (error) {
-
-                console.error("Error fetching meal options:", error);
 
                 setError("Failed to fetch meal options.");
 
@@ -90,7 +82,7 @@ function MealPlanner() {
 
 
 
-    //  Fetch meal plan for selected date
+    // Fetch meal plan for selected date
 
     const fetchMealPlan = async () => {
 
@@ -122,19 +114,17 @@ function MealPlanner() {
 
 
 
-            console.log("Meal plan fetch response:", response.data);
-
-
-
             if (response.data.planner) {
 
                 setMealPlan(response.data.planner);
 
-                fetchMealDetails(response.data.planner.meals); //  Fetch full meal details
+                await fetchMealDetails(response.data.planner.meals);
 
             } else {
 
                 setMealPlan(null);
+
+                setMealDetails({});
 
                 setError("Meal plan not found. You may need to create one.");
 
@@ -142,11 +132,11 @@ function MealPlanner() {
 
         } catch (error) {
 
-            console.error("Error fetching meal plan:", error.response ? error.response.data : error.message);
-
             setError("Meal plan not found. You may need to create one.");
 
             setMealPlan(null);
+
+            setMealDetails({});
 
         } finally {
 
@@ -158,7 +148,7 @@ function MealPlanner() {
 
 
 
-    //  Fetch full meal details and categorize them properly
+    // Fetch full meal details and ensure UI updates
 
     const fetchMealDetails = async (meals) => {
 
@@ -182,15 +172,11 @@ function MealPlanner() {
 
             if (mealIds.length === 0) {
 
-                console.log("No valid meal IDs found.");
+                setMealDetails({});
 
                 return;
 
             }
-
-
-
-            console.log("Fetching details for meal IDs:", mealIds);
 
 
 
@@ -212,10 +198,6 @@ function MealPlanner() {
 
                 });
 
-
-
-                console.log("Fetched categorized meal details:", fetchedMeals);
-
                 setMealDetails(fetchedMeals);
 
             } else {
@@ -226,9 +208,9 @@ function MealPlanner() {
 
         } catch (error) {
 
-            console.error("Error fetching meal details:", error);
-
             setError("Failed to fetch meal details.");
+
+            setMealDetails({});
 
         } finally {
 
@@ -240,7 +222,7 @@ function MealPlanner() {
 
 
 
-    //  Create a new meal plan
+    // Create a new meal plan
 
     const createMealPlan = async () => {
 
@@ -280,13 +262,7 @@ function MealPlanner() {
 
                 {
 
-                    headers: {
-
-                        'Content-Type': 'application/json',
-
-                        'Authorization': `Bearer ${token}`
-
-                    }
+                    headers: { 'Authorization': `Bearer ${token}` }
 
                 }
 
@@ -294,19 +270,13 @@ function MealPlanner() {
 
 
 
-            console.log("Meal plan creation response:", response.data);
-
             alert("Meal Plan Created Successfully!");
 
             setMealPlan(response.data.planner);
 
-            fetchMealDetails(response.data.planner.meals);
-
-
+            await fetchMealDetails(response.data.planner.meals);
 
         } catch (error) {
-
-            console.error("Error creating meal plan:", error);
 
             setError("Failed to create meal plan.");
 
@@ -318,38 +288,75 @@ function MealPlanner() {
 
     };
 
+
+
+    // Delete a meal plan & Reset UI
+
     const deleteMealPlan = async () => {
-        if (!mealPlan) {
+
+        if (!mealPlan || !mealPlan._id) {
+
             setError("No meal plan selected to delete.");
+
             return;
+
         }
-    
+
+
+
         try {
+
             setLoading(true);
+
             await axios.delete(`${config.BASE_URL}/api/planner/delete/${mealPlan._id}`, {
+
                 headers: { 'Authorization': `Bearer ${token}` }
+
             });
-    
+
+
+
             alert("Meal Plan Deleted Successfully!");
-    
-            //  Remove the deleted meal plan from the state
+
+
+
+            // Reset state properly after deletion
+
             setMealPlan(null);
-            setSelectedBreakfast("");
-            setSelectedLunch("");
-            setSelectedDinner("");
+
             setMealDetails({});
-            
+
+            setSelectedBreakfast("");
+
+            setSelectedLunch("");
+
+            setSelectedDinner("");
+
         } catch (error) {
+
             console.error("Error deleting meal plan:", error);
+
             setError("Failed to delete meal plan.");
+
         } finally {
+
             setLoading(false);
+
         }
+
     };
 
+
+
+    // Format date to display only YYYY-MM-DD
+
     const formatDate = (isoDate) => {
-        return new Date(isoDate).toISOString().split("T")[0]; //   Extract only `YYYY-MM-DD`
+
+        return new Date(isoDate).toISOString().split("T")[0]; // Extract only `YYYY-MM-DD`
+
     };
+
+
 
     return (
 
@@ -374,6 +381,8 @@ function MealPlanner() {
                 <button className="fetch-btn" onClick={fetchMealPlan}>Fetch Meal Plan</button>
 
                 <button className="create-btn" onClick={createMealPlan}>Create Meal Plan</button>
+
+                {mealPlan && <button className="delete-btn" onClick={deleteMealPlan}> Delete Meal Plan</button>}
 
             </div>
 

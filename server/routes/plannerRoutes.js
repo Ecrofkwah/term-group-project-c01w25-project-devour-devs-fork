@@ -10,7 +10,6 @@ const router = express.Router();
 router.get("/", authenticateUser, plannerController.getMealPlan);
 router.post("/create", authenticateUser, plannerController.createMealPlan);
 router.get("/MPMeals", plannerController.getMealsMP);
-// router.put("/update/:id", authenticateUser, plannerController.updateMealPlan);
-router.delete("/delete/:id", authenticateUser, plannerController.deleteMealPlan);
+router.delete("/delete/:plannerId", authenticateUser, plannerController.deleteMealPlan);
 
 export{ router as plannerRouter }

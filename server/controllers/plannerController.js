@@ -87,46 +87,14 @@ const createMealPlan = async (req, res) => {
     }
 };
 
-// PUT: Update an existing meal plan (only if the user is the owner)
-// const updateMealPlan = async (req, res) => {
-//     try {
-//         const { plannerId } = req.params; // Extract plannerId from URL
-//         const { breakfast, lunch, dinner } = req.body;
-//         const userId = req.user.userId; // Ensure userId is correctly retrieved
-
-//         //  Ensure user owns the meal plan before updating
-//         const planner = await Planner.findById(plannerId);
-//         if (!planner || planner.userId.toString() !== userId) {
-//             return res.status(403).json({ message: "Unauthorized to update this meal plan" });
-//         }
-
-//         //  Update meal plan
-//         const updatedPlanner = await Planner.findByIdAndUpdate(
-//             plannerId,
-//             { meals: { breakfast, lunch, dinner } },
-//             { new: true } //  Return updated meal plan
-//         );
-
-//         if (!updatedPlanner) {
-//             return res.status(404).json({ message: "Meal plan not found" });
-//         }
-
-//         res.status(200).json({ message: "Meal plan updated successfully", planner: updatedPlanner });
-
-//     } catch (error) {
-//         console.error("Error updating meal plan:", error);
-//         res.status(500).json({ message: "Internal Server Error", error });
-//     }
-// };
-
 // DELETE: Delete a meal plan (only if the user is the owner)
 const deleteMealPlan = async (req, res) => {
     try {
-        const { id } = req.params; //  Fix: Use `id` instead of `plannerId`
+        const { plannerId } = req.params; //  Get plannerId from URL
         const userId = req.user.userId; //  Ensure only the owner can delete
 
         //  Check if the meal plan exists
-        const planner = await Planner.findById(id);
+        const planner = await Planner.findById(plannerId);
         if (!planner) {
             return res.status(404).json({ message: "Meal Plan not found" });
         }
@@ -137,7 +105,7 @@ const deleteMealPlan = async (req, res) => {
         }
 
         //  Delete the meal plan
-        await Planner.findByIdAndDelete(id);
+        await Planner.findByIdAndDelete(plannerId);
 
         res.status(200).json({ message: "Meal Plan successfully deleted" });
 

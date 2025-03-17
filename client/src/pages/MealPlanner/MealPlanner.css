@@ -71,6 +71,15 @@ button {
   background-color: #218838;
 }
 
+.delete-btn {
+  background-color: #f86157;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #f86157;;
+}
+
 /* Loading Message */
 .loading-message {
   text-align: center;
