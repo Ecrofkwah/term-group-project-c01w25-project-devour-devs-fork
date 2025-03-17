@@ -10,13 +10,13 @@ const SP_API_KEY = process.env.SPOONACULAR_API_KEY;
 
 const getMealsMP = async (req, res) => {
     const existingMeals = await Meal.find();
-    if (existingMeals.length >= 10) {
-        return res.status(201).json({ meals: existingMeals.map((result) => result.data).slice(0, 9) });
+    if (existingMeals.length >= 50) {
+        return res.status(201).json({ meals: existingMeals.map((result) => result.data).slice(0, 49) });
     }
 
     try {
         const response = await axios.get(`https://api.spoonacular.com/recipes/random`, {
-            params: { number: 10, apiKey: SP_API_KEY }
+            params: { number: 50, apiKey: SP_API_KEY }
         })
 
         if (response.data.recipes) {
@@ -87,6 +87,27 @@ const createMealPlan = async (req, res) => {
     }
 };
 
+//UPDATE: Update meal plan
+const updateMealPlan = async (req, res) => {
+    try {
+        const { plannerId } = req.params;
+        const { breakfast, lunch, dinner } = req.body;
+        const userId = req.user.userId;
+
+        const planner = await Planner.findById(plannerId);
+        if (!planner || planner.userId.toString() !== userId) {
+            return res.status(403).json({ message: "Unauthorized to update this meal plan" });
+        }
+
+        planner.meals = { breakfast, lunch, dinner };
+        await planner.save();
+
+        res.status(200).json({ message: "Meal plan updated successfully", planner });
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error });
+    }
+};
+
 // DELETE: Delete a meal plan (only if the user is the owner)
 const deleteMealPlan = async (req, res) => {
     try {
@@ -119,6 +140,7 @@ const plannerController = {
     getMealPlan,
     createMealPlan,
     getMealsMP,
+    updateMealPlan,
     deleteMealPlan
 };
 
