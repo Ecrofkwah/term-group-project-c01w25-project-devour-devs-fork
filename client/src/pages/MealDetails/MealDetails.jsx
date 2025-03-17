@@ -209,27 +209,27 @@ function MealDetails({loginUser}) {
           {isStepByStep ? 
           (
             <div className='step-by-step-instructions'>
-              <div dangerouslySetInnerHTML={{__html: aiAssistantInstructions}}></div>
               <div className='step-nav'>
                 {currentStep < totalSteps - 1 ? (
                   <button className='next-step-btn-available' onClick={showNextStep}>
-                    Next
+                    Next Step
                   </button>
                 ) : (
                   <button className='next-step-btn-unavailable' disabled>
-                    Next
+                    Next Step
                   </button>
                 )}
                 {currentStep > 0 ? (
                   <button className='prev-step-btn-available' onClick={showPrevStep}>
-                    Prev
+                    Prev Step
                   </button>
                 ) : (
                   <button className='prev-step-btn-unavailable' disabled>
-                    Prev
+                    Prev Step
                   </button>
                 )}
               </div>
+              <div dangerouslySetInnerHTML={{__html: aiAssistantInstructions}}></div>
             </div>
           ) : (
             meal.instructions ? 

@@ -17,7 +17,7 @@ const getStepByStepInstructions = async (req, res) => {
 
     try{
         const result = await model.generateContent(STEP_BY_STEP_PROMPT + instructions);
-        res.status(201).json({summary: result.response.text().substring(8, result.response.text().length - 3)});
+        res.status(201).json({summary: result.response.text().replaceAll("```", "").replaceAll("HTML", "").replaceAll("html", "")});//.substring(8, result.response.text().length - 3)
         //The start of the Gemini response is always ```HTML\n, so we remove it and the last three characters which are ```
     } catch (error){
         res.status(500).json({message: "Internal Server Error"});
