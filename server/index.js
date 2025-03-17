@@ -5,6 +5,7 @@ import cors from 'cors'
 import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
 import { mealRouter } from './routes/mealRoutes.js'
+import { aiAssistantRouter } from './routes/aiAssistantRoutes.js'
 
 // load env variables
 dotenv.config()
@@ -32,6 +33,7 @@ app.use((err, req, res, next) => {
 // map the routes
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
+app.use('/api/ai', aiAssistantRouter)
 
 if(process.env.NODE_ENV !== 'test'){
     // connect to mongoDB
