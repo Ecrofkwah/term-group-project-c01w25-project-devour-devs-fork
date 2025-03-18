@@ -18,5 +18,8 @@ export const STEP_BY_STEP_PROMPT = "Task for Gemini:\n" +
                                     "Each step should be formatted as follows: " +
                                     "<div class='step'> (current step instructions) <div class='comment'> (Any additional elaboration/clarification of step) </div> </div>" + 
                                     "Wrap the entire code in <div class='step-container'></div." +
-                                    "Follow this exact formatting, do not add any extra formatting.\n" + 
-                                    "Instructions: "
+                                    "Follow this exact formatting, do not add any extra formatting.\n"
+
+export const generationConfig = {
+    temperature: 0, // deterministic
+};

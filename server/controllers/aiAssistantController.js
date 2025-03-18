@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { AI_ASSISTANT_MODEL, STEP_BY_STEP_PROMPT } from '../constants.js';
+import { AI_ASSISTANT_MODEL, generationConfig, STEP_BY_STEP_PROMPT } from '../constants.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
@@ -16,7 +16,19 @@ const getStepByStepInstructions = async (req, res) => {
     }
 
     try{
-        const result = await model.generateContent(STEP_BY_STEP_PROMPT + instructions);
+        const result = await model.generateContent({
+            contents: [
+                {
+                    parts: [
+                        { 
+                            text: instructions,
+                        }
+                    ]
+                }
+            ],
+            generationConfig: generationConfig,
+            systemInstruction: STEP_BY_STEP_PROMPT,
+        })
         res.status(201).json({summary: result.response.text().replaceAll("```", "").replaceAll("HTML", "").replaceAll("html", "")});//.substring(8, result.response.text().length - 3)
         //The start of the Gemini response is always ```HTML\n, so we remove it and the last three characters which are ```
     } catch (error){

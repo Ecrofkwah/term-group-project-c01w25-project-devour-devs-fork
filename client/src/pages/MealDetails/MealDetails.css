@@ -107,6 +107,7 @@
     width: 800px;
     min-height: 150px;
     height: fit-content;
+    margin-bottom: 50px;
 }
 
 .step{
