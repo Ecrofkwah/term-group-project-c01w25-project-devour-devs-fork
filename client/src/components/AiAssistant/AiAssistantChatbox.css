@@ -1,5 +1,4 @@
 .chatbox {
-    background-color: rgb(6, 6, 6);
     border-radius: 12px;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
     display: flex;
@@ -10,7 +9,7 @@
     pointer-events: none;
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     height: 100%;
-    padding: 5px 5px 0px 5px;
+    margin-bottom: 10px;
     /*justify-content: space-between;*/
   }
   
@@ -24,16 +23,17 @@
     /*flex-grow: 0;
     flex-shrink: 1;
     flex-basis: auto;*/
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     /*height: 0;
     min-height: 100%;
     padding-bottom: 40px;*/
     width: 30%;
-    height: 45%;
+    height: 65%;
     padding-bottom: 8%;
     padding-right: 3%;
+    background: transparent;
   }
 
   .chatbox-toggle{
@@ -59,11 +59,13 @@
     justify-content: right;
     text-align: center;
     align-items: center;
+    background: transparent;
   }
 
   .chatbox-input{
     display: flex;
     justify-content: space-between;
+    font-size: 20px;
   }
 
   .chatbox-input.unavailable{
@@ -73,14 +75,21 @@
 
   .chat-field{
     width: 100%;
+    border-radius: 5px;
+    padding-left: 7px;
+    border-bottom-left-radius: 11px;
+    background-color: #E2E3DD;
+    text-overflow: ellipsis;
   }
 
   .messages-container{
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    gap: 8px;
+    gap: 25px;
     flex: 1;
+    background-color: #F3ECFD;
+    padding: 5px 10px 5px 10px;
   }
 
   .header-and-messages{
@@ -89,3 +98,57 @@
     flex: 1;
     overflow: hidden;
   }
+
+  .chatbox-header{
+    padding-top: 5px;
+    text-align: center;
+    border-bottom: solid;
+    border-color: rgb(205, 110, 110);
+    background-color: rgb(243, 127, 127);
+  }
+
+  .send-button{
+    border-radius: 2px;
+    border-bottom-right-radius: 11px;
+    padding-right: 2px;
+    padding-left: 2px;
+    background-color: #D6FFD6;
+  }
+
+  .chatbox-header-wrapper {
+    background: none;
+  }
+
+  .message.model{
+    background: none;
+    margin: none; 
+    padding: none;
+  }
+
+  .message.model  * {
+    background: none;
+    margin-bottom: 0;
+    padding: none;
+  }
+
+  .message.user{
+    width: 100%;
+    max-height: fit-content;
+    background: transparent;
+    display: flex;
+    justify-content: right;
+    margin: 0px;
+    padding: none;
+  }
+
+  .message.user > p {
+    background-color: #D0B4F9;
+    height: fit-content;
+    width: fit-content;
+    margin: 0px;
+    margin-bottom: 0px;
+    padding: 4px 10px 4px 10px;
+    border-radius: 10px;
+  }
+
+  

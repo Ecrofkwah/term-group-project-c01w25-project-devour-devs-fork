@@ -243,7 +243,7 @@ function MealDetails({loginUser}) {
           </div>
         </div>
       </div>
-      <AiAssistantChatbox />
+      {isStepByStep && <AiAssistantChatbox />}
     </div>
   )
 }

@@ -3,6 +3,7 @@ import './AiAssistantChatbox.css';
 import axios from 'axios';
 import config from '../../config/config';
 import { MdAssistant } from 'react-icons/md';
+import ReactMarkdown from 'react-markdown';
 
 const AiAssistantChatbox = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,7 @@ const AiAssistantChatbox = () => {
     //{ role: "model", parts: [{ text: 'Hello! How can I help you today?'}]}
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isOnCooldown, setIsOnCooldown] = useState(false);
+    const [isOnCooldown, setIsOnCooldown] = useState(0);
     const lastMessageRef = useRef(null);
 
     useEffect(() => {
@@ -22,7 +23,7 @@ const AiAssistantChatbox = () => {
     useEffect(() => {
         if (isOnCooldown) {
             document.querySelector('.chatbox-input').classList.add('unavailable');
-            setInput('There is a 5 second cooldown between messages');
+            setInput(`Wait ${isOnCooldown} seconds before sending...`);
         }
         else {
             document.querySelector('.chatbox-input').classList.remove('unavailable');
@@ -55,10 +56,16 @@ const AiAssistantChatbox = () => {
         try {
             const response = await axios.post(`${config.BASE_URL}/api/ai/chat`, { message: message, history: currentMessages});
             setMessages(response.data.history);
-            setIsOnCooldown(true);
-            setTimeout(() => {
-                setIsOnCooldown(false);
-            }, 5000)
+            setIsOnCooldown(5);
+            const interval = setInterval(() => {
+                setIsOnCooldown(prev => {
+                    if (prev <= 1) {
+                        clearInterval(interval);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
         }
         catch (error) {
             console.log('Error sending message to AI assistant');
@@ -74,19 +81,22 @@ const AiAssistantChatbox = () => {
             <div className={`chatbox ${isOpen ? 'open' : ''}`}>
                 <div className='header-and-messages'>
                     <div className='chatbox-header'>
-                        <h3>AI Assistant</h3>
+                        <h3 className='chatbox-header-wrapper'>AI Assistant</h3>
                     </div>
 
                     <div className='messages-container'>
                         {/* Introduction message, Gemini API does not accept model messaging first */}
                         <div key={1} className={`message model`}>
-                            Hello! How can I help you today?
+                            <p>Hello! How can I help you today? </p>
                         </div>
                         {messages.map((message, index) => (
                             <div key={index + 1} className={`message ${message.role}`}>
-                                {message.parts[0].text}
+                                <ReactMarkdown style={{background: "none"}}>
+                                    {message.parts[0].text}
+                                </ReactMarkdown>
                             </div>
                         ))}
+                        <div ref={lastMessageRef} />
                     </div>
                 </div>
                 
@@ -99,11 +109,10 @@ const AiAssistantChatbox = () => {
                     </div>
                     </div>
                 )}
-                <div ref={lastMessageRef} />
 
                 <form className='chatbox-input' onSubmit={handleEnter}>
                     <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading}/>
-                    <button type='submit' disabled={isLoading}>
+                    <button className='send-button' type='submit' disabled={isLoading}>
                         Send
                     </button>
                 </form>
