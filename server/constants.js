@@ -20,6 +20,6 @@ export const STEP_BY_STEP_PROMPT = "Task for Gemini:\n" +
                                     "Wrap the entire code in <div class='step-container'></div." +
                                     "Follow this exact formatting, do not add any extra formatting.\n"
 
-export const generationConfig = {
+export const generationConfigSBS = {
     temperature: 0, // deterministic
 };

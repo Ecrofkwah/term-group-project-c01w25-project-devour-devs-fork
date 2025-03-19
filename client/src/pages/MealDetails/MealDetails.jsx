@@ -4,6 +4,7 @@ import axios from 'axios';
 import './MealDetails.css'
 import config from '../../config/config';
 import MealRate from '../../components/MealRate/MealRate';
+import AiAssistantChatbox from '../../components/AiAssistant/AiAssistantChatbox';
 
 function MealDetails({loginUser}) {
   const {id} = useParams();
@@ -68,6 +69,7 @@ function MealDetails({loginUser}) {
   }, [id])
 
   useEffect(() => {
+    if (!meal) return;
     const fetchAiAssistantInstructions = async () => {
       try{
         const response = await axios.post(`${config.BASE_URL}/api/ai/step-by-step`, {
@@ -96,7 +98,6 @@ function MealDetails({loginUser}) {
       const newStep = currentStep + 1;
       setCurrentStep(newStep);
       steps[newStep].classList.add('active');
-      console.log(newStep);
     }
   };
 
@@ -107,7 +108,6 @@ function MealDetails({loginUser}) {
       const newStep = currentStep - 1;
       setCurrentStep(newStep);
       steps[newStep].classList.add('active');
-      console.log(newStep);
     }
   };
 
@@ -192,55 +192,58 @@ function MealDetails({loginUser}) {
         {meal.diets && meal.diets.length > 0 && <div className='meal-info'><b>Dietary Info: </b> {meal.diets.join(", ")}</div>}
         <div className='meal-info'>
           <div><b>Ingredients:</b></div>
-          <div>
-            <ul>
-              {meal.extendedIngredients.map((ingredient, index) => (
-                <li key={index}>
-                  {ingredient.original} {ingredient.measures.metric.amount && ingredient.measures.metric.unitShort &&
-                  `(${ingredient.measures.metric.amount} ${ingredient.measures.metric.unitShort})`}
-                </li>
-              ))}
-            </ul>
+            <div>
+              <ul>
+                {meal.extendedIngredients.map((ingredient, index) => (
+                  <li key={index}>
+                    {ingredient.original} {ingredient.measures.metric.amount && ingredient.measures.metric.unitShort &&
+                    `(${ingredient.measures.metric.amount} ${ingredient.measures.metric.unitShort})`}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        
+        <div className='help-container'>
+          <div className='meal-info instructions'>
+            <div><b>Instructions:</b></div>
+            {isStepByStep ? 
+            (
+              <div className='step-by-step-instructions'>
+                <div className='step-nav'>
+                  {currentStep < totalSteps - 1 ? (
+                    <button className='next-step-btn-available' onClick={showNextStep}>
+                      Next Step
+                    </button>
+                  ) : (
+                    <button className='next-step-btn-unavailable' disabled>
+                      Next Step
+                    </button>
+                  )}
+                  {currentStep > 0 ? (
+                    <button className='prev-step-btn-available' onClick={showPrevStep}>
+                      Prev Step
+                    </button>
+                  ) : (
+                    <button className='prev-step-btn-unavailable' disabled>
+                      Prev Step
+                    </button>
+                  )}
+                </div>
+                <div dangerouslySetInnerHTML={{__html: aiAssistantInstructions}}></div>
+              </div>
+            ) : (
+              meal.instructions ? 
+              (
+                <div className='default-instructions' dangerouslySetInnerHTML={{__html: meal.instructions}}></div>
+              ) : (
+                <div>No instructions available</div>
+              )
+            )}
           </div>
         </div>
-        
-        <div className='meal-info'>
-          <div><b>Instructions:</b></div>
-          {isStepByStep ? 
-          (
-            <div className='step-by-step-instructions'>
-              <div className='step-nav'>
-                {currentStep < totalSteps - 1 ? (
-                  <button className='next-step-btn-available' onClick={showNextStep}>
-                    Next Step
-                  </button>
-                ) : (
-                  <button className='next-step-btn-unavailable' disabled>
-                    Next Step
-                  </button>
-                )}
-                {currentStep > 0 ? (
-                  <button className='prev-step-btn-available' onClick={showPrevStep}>
-                    Prev Step
-                  </button>
-                ) : (
-                  <button className='prev-step-btn-unavailable' disabled>
-                    Prev Step
-                  </button>
-                )}
-              </div>
-              <div dangerouslySetInnerHTML={{__html: aiAssistantInstructions}}></div>
-            </div>
-          ) : (
-            meal.instructions ? 
-            (
-              <div dangerouslySetInnerHTML={{__html: meal.instructions}}></div>
-            ) : (
-              <div>No instructions available</div>
-            )
-          )}
-        </div>
       </div>
+      <AiAssistantChatbox />
     </div>
   )
 }
