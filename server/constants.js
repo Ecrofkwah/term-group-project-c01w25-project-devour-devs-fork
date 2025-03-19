@@ -16,8 +16,8 @@ export const STEP_BY_STEP_PROMPT = "Task for Gemini:\n" +
                                     "Return: A segment of HTML code. " +
                                     "Break the given instructions into clear, sequential steps." +
                                     "Each step should be formatted as follows: " +
-                                    "<div class='step'> (current step instructions) <div class='comment'> (Any additional elaboration/clarification of step) </div> </div>" + 
-                                    "Wrap the entire code in <div class='step-container'></div." +
+                                    "<div class='step'> <b>(current step instructions)</b> <div class='comment'> (Any additional elaboration/clarification of step) </div> </div>" + 
+                                    "Wrap the entire code in <div class='step-container'></div>." +
                                     "Follow this exact formatting, do not add any extra formatting.\n"
 
 export const generationConfigSBS = {

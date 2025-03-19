@@ -103,9 +103,10 @@
     font-size: 15px;
     font-style: italic;
     /*color: rgb(0, 162, 255);*/
-    color: rgb(0, 112, 168);
+    color: #0E95AA;
     background-color: transparent;
-    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
 }
 
 .step-container{
@@ -114,12 +115,10 @@
     grid-template: 1fr / 1fr;
     width: 100%;
     height: fit-content;
-    margin-bottom: 50px;
+    /*margin-bottom: 50px;*/
 }
 
 .step{
-    font-size: 20px;
-    font-weight: bold;
     text-align: center;
     position: relative;
     grid-column: 1;
@@ -131,14 +130,27 @@
     flex-direction: column;
     transform: scale(0.95);
     transition: transform 0.5s, opacity 0.5s;
-    background-color: rgb(230, 156, 255);
+    background-color: #E2CAD0;
     border-radius: 15px;
-    padding: 10px;
-    color: black;
+    color: #141414;
     opacity: 0;
     border-width: 2px;
-    border-color: rgb(148, 101, 163);
+    border-color: #CDA2AE;
     border-style: solid;
+}
+
+.step > b{
+    font-size: 20px;
+    background: none;
+    height: fit-content;    
+    width: 100%;
+    padding: 10px;
+    background-color: #D9B5E3;
+    border-top-right-radius: 14px;
+    border-top-left-radius: 14px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #B36BC7;
 }
 
 .step.active{
@@ -163,17 +175,17 @@
     border-radius: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
-    background-color: rgb(227, 30, 63);
+    background-color: #913B58;
     color: white;
     box-shadow: 0 6px #999;
 }
 
 .prev-step-btn-available:hover{
-    background-color: rgb(168, 23, 47);
+    background-color: #742F46;
 }
 
 .prev-step-btn-available:active{
-    background-color: rgb(168, 23, 47);
+    background-color: #742F46;
     transform: translateY(4px);
     box-shadow: 0 2px #999;
 }
@@ -184,17 +196,17 @@
     border-radius: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
-    background-color: rgb(95, 148, 27);
+    background-color: #006600;
     color: white;
     box-shadow: 0 6px #999;
 }
 
 .next-step-btn-available:hover{
-    background-color: rgb(73, 113, 21);
+    background-color: #003D00;
 }
 
 .next-step-btn-available:active{
-    background-color: rgb(73, 113, 21);
+    background-color: #003D00;
     transform: translateY(4px);
     box-shadow: 0 2px #999;
 }

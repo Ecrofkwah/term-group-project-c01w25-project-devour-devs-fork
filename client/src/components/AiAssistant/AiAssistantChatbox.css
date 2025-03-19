@@ -1,6 +1,6 @@
 .chatbox {
     border-radius: 12px;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.395);
     display: flex;
     flex-direction: column;
     overflow: hidden;
