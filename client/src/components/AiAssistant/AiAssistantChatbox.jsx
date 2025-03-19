@@ -21,15 +21,21 @@ const AiAssistantChatbox = () => {
     }, [messages, isOpen]);
 
     useEffect(() => {
+        const chatField = document.querySelector('.chatbox-input');
         if (isOnCooldown) {
-            document.querySelector('.chatbox-input').classList.add('unavailable');
+            chatField.classList.add('unavailable');
             setInput(`Wait ${isOnCooldown} seconds before sending...`);
         }
         else {
-            document.querySelector('.chatbox-input').classList.remove('unavailable');
+            chatField.classList.remove('unavailable');
             setInput('');
+            document.querySelector('.chat-field').focus();
         }
     }, [isOnCooldown]);
+
+    useEffect(() => {
+        document.querySelector('.chat-field').focus();
+    }, [isOpen]);
 
     const toggleChatbox = () => {
         setIsOpen(!isOpen);
