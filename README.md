@@ -35,8 +35,11 @@ Our project RecipeConnect is a recipe sharing platform designed specifically for
 
 <b>3. Sign Up for Spoonacular API key:</b>
 - Go to https://spoonacular.com/food-api and sign up for a free api key
+
+<b>4. Sign Up for Gemini API Key:</b>
+- Go to https://aistudio.google.com/app/apikey and click "Create API key"
   
-<b>4. Set Up `.env` File:</b>
+<b>5. Set Up `.env` File:</b>
 - Create a `.env` file in the `server` folder.
 - Add the following to the file:
 ```bash
@@ -45,9 +48,10 @@ MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
 JWT_SECRET="ds9u2f383hf839"
 NODE_ENV = "development"
 SPOONACULAR_API_KEY="put your spoonacular api key here"
+GEMINI_API_KEY = "put your gemini api key here"
 ```
 
-<b>5. Install Packages:</b>
+<b>6. Install Packages:</b>
 
 Frontend: Navigate to the `client` folder and install dependencies:
 ```
@@ -61,7 +65,7 @@ cd server
 npm install
 ```
 
-<b>6. Run the app:</b>
+<b>7. Run the app:</b>
 
 Navigate to `client` folder, start the frontend:
 ```
