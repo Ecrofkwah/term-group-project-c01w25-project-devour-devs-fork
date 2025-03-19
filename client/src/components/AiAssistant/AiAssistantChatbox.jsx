@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './AiAssistantChatbox.css';
 import axios from 'axios';
 import config from '../../config/config';
@@ -41,7 +41,7 @@ const AiAssistantChatbox = () => {
         }
     }
 
-    const handleEnter = async(e) => {
+    const handleEnter = async (e) => {
         e.preventDefault();
         if (!input.trim()) {
             return;
@@ -51,10 +51,10 @@ const AiAssistantChatbox = () => {
         setInput('');
         setIsLoading(true);
         const currentMessages = messages;
-        setMessages(prev => [...prev, { role: "user", parts: [{ text: message}]}]);
+        setMessages(prev => [...prev, { role: "user", parts: [{ text: message }] }]);
 
         try {
-            const response = await axios.post(`${config.BASE_URL}/api/ai/chat`, { message: message, history: currentMessages});
+            const response = await axios.post(`${config.BASE_URL}/api/ai/chat`, { message: message, history: currentMessages });
             setMessages(response.data.history);
             setIsOnCooldown(5);
             const interval = setInterval(() => {
@@ -69,7 +69,7 @@ const AiAssistantChatbox = () => {
         }
         catch (error) {
             console.log('Error sending message to AI assistant');
-            setMessages(prev => [...prev, { role: "model", parts: [{ text: 'Error processing request'}]}]);
+            setMessages(prev => [...prev, { role: "model", parts: [{ text: 'Error processing request' }] }]);
         }
 
         setIsLoading(false);
@@ -91,27 +91,26 @@ const AiAssistantChatbox = () => {
                         </div>
                         {messages.map((message, index) => (
                             <div key={index + 1} className={`message ${message.role}`}>
-                                <ReactMarkdown style={{background: "none"}}>
+                                <ReactMarkdown style={{ background: "none" }}>
                                     {message.parts[0].text}
                                 </ReactMarkdown>
                             </div>
                         ))}
+                        {isLoading && (
+                            <div className="message bot-message loading">
+                                <div className="typing-indicator">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        )}
                         <div ref={lastMessageRef} />
                     </div>
                 </div>
-                
-                {isLoading && (
-                    <div className="message bot-message loading">
-                    <div className="typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                    </div>
-                )}
 
                 <form className='chatbox-input' onSubmit={handleEnter}>
-                    <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading}/>
+                    <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading} />
                     <button className='send-button' type='submit' disabled={isLoading}>
                         Send
                     </button>
@@ -119,7 +118,7 @@ const AiAssistantChatbox = () => {
             </div>
             <div className='button-section'>
                 <button className={`chatbox-toggle ${isOpen ? 'open' : ''}`} onClick={toggleChatbox}>
-                    <MdAssistant style = {{background: "transparent"}}/> 
+                    <MdAssistant style={{ background: "transparent" }} />
                 </button>
             </div>
         </div>
