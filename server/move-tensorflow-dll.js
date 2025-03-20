@@ -5,8 +5,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const sourcePath = path.join(__dirname, 'node_modules', '@tensorflow', 'tfjs-node', 'tensorflow.dll');
-const destinationPath = path.join(__dirname, 'node_modules', '@tensorflow', 'napi-v8', 'tensorflow.dll');
+const sourcePath = path.join(__dirname, 'node_modules', '@tensorflow', 'tfjs-node', 'deps', 'lib', 'tensorflow.dll');
+const destinationPath = path.join(__dirname, 'node_modules', '@tensorflow', 'tfjs-node', 'lib', 'napi-v8', 'tensorflow.dll');
 
 // function to move tensorflow.dll
 const moveTensorflowDLL = async () => {
