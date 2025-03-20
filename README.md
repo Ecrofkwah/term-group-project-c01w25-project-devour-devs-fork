@@ -33,13 +33,20 @@ Our project RecipeConnect is a recipe sharing platform designed specifically for
 - Create a new database named `recipeconnect` with a collection called `users`.
 - If you don't see the database, refresh by clicking the three dots next to localhost:27017 and selecting Refresh Databases.
 
-<b>3. Sign Up for Spoonacular API key:</b>
+<b>3. Sign up for API keys used by the app:</b>
+
+Sign Up for Spoonacular API key:
 - Go to https://spoonacular.com/food-api and sign up for a free api key
 
-<b>4. Sign Up for Gemini API Key:</b>
+Sign Up for Gemini API Key:
 - Go to https://aistudio.google.com/app/apikey and click "Create API key"
+
+Sign Up for Roboflow API Key:
+- Go to https://universe.roboflow.com/ and sign up for an account
+- After logged in, go to your project. Create one if you don't have any project
+- Then, go to Settings > API Keys to access your api key
   
-<b>5. Set Up `.env` File:</b>
+<b>4. Set Up `.env` File:</b>
 - Create a `.env` file in the `server` folder.
 - Add the following to the file:
 ```bash
@@ -49,9 +56,10 @@ JWT_SECRET="ds9u2f383hf839"
 NODE_ENV = "development"
 SPOONACULAR_API_KEY="put your spoonacular api key here"
 GEMINI_API_KEY = "put your gemini api key here"
+ROBOFLOW_API_KEY = "put your roboflow api key here"
 ```
 
-<b>6. Install Packages:</b>
+<b>5. Install Packages:</b>
 
 Frontend: Navigate to the `client` folder and install dependencies:
 ```
@@ -65,7 +73,7 @@ cd server
 npm install
 ```
 
-<b>7. Run the app:</b>
+<b>6. Run the app:</b>
 
 Navigate to `client` folder, start the frontend:
 ```
