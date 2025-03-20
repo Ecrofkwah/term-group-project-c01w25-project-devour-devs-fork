@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "prestart": "node move-tensorflow-dll.js"
   },
   "keywords": [],
   "author": "",
