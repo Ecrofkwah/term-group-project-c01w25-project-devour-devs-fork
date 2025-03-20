@@ -9,6 +9,7 @@ dotenv.config()
 const SP_API_KEY = process.env.SPOONACULAR_API_KEY;
 
 const getMealsMP = async (req, res) => {
+
     const existingMeals = await Meal.find();
     if (existingMeals.length >= 50) {
         return res.status(201).json({ meals: existingMeals.map((result) => result.data).slice(0, 49) });
@@ -16,8 +17,10 @@ const getMealsMP = async (req, res) => {
 
     try {
         const response = await axios.get(`https://api.spoonacular.com/recipes/random`, {
-            params: { number: 50, apiKey: SP_API_KEY }
+            params: { number: 50, includeNutrition: true, apiKey: SP_API_KEY }
         })
+
+     
 
         if (response.data.recipes) {
             await Meal.insertMany(response.data.recipes.map((recipe) => ({

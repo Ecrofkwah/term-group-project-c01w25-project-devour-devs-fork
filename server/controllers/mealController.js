@@ -14,7 +14,7 @@ const getMeals = async (req, res) => {
 
     try{
         const response = await axios.get(`https://api.spoonacular.com/recipes/random`, {
-            params: {number: 50, apiKey: SP_API_KEY}
+            params: {number: 50, apiKey: SP_API_KEY, includeNutrition: true,}
         })
 
         if(response.data.recipes){

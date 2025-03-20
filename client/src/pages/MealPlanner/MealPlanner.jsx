@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../../config/config';
 import './MealPlanner.css';
-import MealCard from '../../components/MealCard/MealCard';
+import MealCardMP from '../../components/MealCardMP/MealCardMP';
 
 function MealPlanner() {
     const [date, setDate] = useState("");
@@ -37,6 +37,20 @@ function MealPlanner() {
         }
         fetchMeals();
     }, []);
+
+    useEffect(() => {
+        
+        if(!mealPlan) {
+            setSelectedBreakfast("")
+            setSelectedLunch("")
+            setSelectedDinner("")
+            return;
+        }
+        setSelectedBreakfast(mealPlan.meals.breakfast)
+        setSelectedLunch(mealPlan.meals.lunch)
+        setSelectedDinner(mealPlan.meals.dinner)
+    }, [mealPlan]);
+
 
     const fetchMealPlan = async () => {
         try {
@@ -86,7 +100,7 @@ function MealPlanner() {
                 return;
             }
 
-            const response = await axios.get(`${config.BASE_URL}/api/meals/all`);
+            const response = await axios.get(`${config.BASE_URL}/api/planner/MPMeals`);
 
             if (response.data.meals) {
                 mealIds.forEach(([mealType, mealId]) => {
@@ -235,7 +249,7 @@ function MealPlanner() {
                                 ))}
                             </select>
 
-                            {mealDetails[mealType] && <MealCard meal={mealDetails[mealType]} />}
+                            {mealDetails[mealType] && <MealCardMP meal={mealDetails[mealType]} />}
                         </div>
                     ))}
                 </div>
