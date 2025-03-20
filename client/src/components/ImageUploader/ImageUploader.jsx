@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import config from '../../config/config.js';
 import axios from 'axios';
+import RecognitionResult from '../RecognitionResult/RecognitionResult.jsx';
+import './ImageUploader.css'
 
 function ImageUploader() {
   const [image, setImage] = useState(null);
-  const [predictions, setPredictions] = useState([]);
+  const [predictions, setPredictions] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0]
     setImage(file);
+    setPredictions(null);
   }
 
   const handlePredictions = async () =>{
@@ -25,52 +29,28 @@ function ImageUploader() {
             headers: {"Content-Type": "multipart/form-data"},
         });
 
-        setPredictions(response.data.predictions)
+        setPredictions(response.data)
+        setShowModal(true);
+
     } catch(error){
         console.error("Error recognizing ingredients", error)
     } 
   }
 
-  const handleDetections = async () =>{
-    if(!image){
-        alert("Please upload an image.");
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append("image", image);
-
-    try{
-        const response = await axios.post(`${config.BASE_URL}/api/image/detect`, formData, {
-            headers: {"Content-Type": "multipart/form-data"},
-        });
-
-        setPredictions(response.data.detections)
-        console.log(response.data.detections)
-    } catch(error){
-        console.error("Error recognizing ingredients", error)
-    } 
-  }
+  const closeModal = () => {
+    setShowModal(false); // close modal
+  };
 
   return (
-    <div>
-      <h2>Upload an image for ingredient recognition</h2>
+    <div className='image-uploader'>
+      <h2>Upload an image of your dish, and get nutritional insights!</h2>
       <input type="file" onChange={handleImageUpload}/>
-      <button onClick={handlePredictions}>Recognize</button>
-      <button onClick={handleDetections}>Detect</button>
+      <button onClick={handlePredictions}>Analyze</button>
 
       {/* display uploaded image */}
-      {image && <img src={URL.createObjectURL(image)} width="224"/>}
+      {image && <img src={URL.createObjectURL(image)}/>}
 
-      <h3>Predictions:</h3>
-      <ul>
-        {predictions.length > 0
-            ? (predictions.map((prediction, index) => (
-                <li key={index}>Ingredient {index + 1}: {prediction}</li>
-            )))
-            : (<li>No predictions yet</li>)
-        }
-      </ul>
+      <RecognitionResult showModal={showModal} closeModal={closeModal} image={image} predictions={predictions}/>
     </div>
   )
 }

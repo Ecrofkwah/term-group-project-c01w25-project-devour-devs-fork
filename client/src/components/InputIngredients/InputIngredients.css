@@ -58,3 +58,37 @@
     color: white;
     padding: 10px;
 }
+
+.toggle-wrapper{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.toggle-wrapper .toggle{
+    padding: 10px;
+    border: 2px solid black;
+}
+
+.toggle-wrapper .toggle.manual{
+    border-radius: 16px 0px 0px 16px;
+}
+
+.toggle-wrapper .toggle{
+    border-radius: 0px 16px 16px 0px;
+}
+
+.toggle-wrapper .toggle.active{
+    background-color: black;
+    color: white;
+}
+
+.detect-btn{
+    margin: 0px 0px 0px 20px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgb(99, 99, 255);
+    color: white;
+    min-width: 80px;
+}

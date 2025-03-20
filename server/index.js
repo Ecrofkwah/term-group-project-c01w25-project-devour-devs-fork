@@ -6,6 +6,7 @@ import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
 import { mealRouter } from './routes/mealRoutes.js'
 import { imageRouter } from './routes/imageRoutes.js'
+import {intakeRouter} from './routes/intakeRoutes.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -36,6 +37,7 @@ app.use((err, req, res, next) => {
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
 app.use('/api/image', imageRouter)
+app.use('/api/intake', intakeRouter)
 
 // set up static files path
 const __filename = fileURLToPath(import.meta.url);

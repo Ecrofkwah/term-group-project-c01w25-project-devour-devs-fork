@@ -1,0 +1,22 @@
+.image-uploader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-uploader img{
+    min-width: 45%;
+    max-width: 500px;
+    border: 5px solid black;
+}
+
+.image-uploader button{
+    padding: 10px;
+    min-width: 100px;
+    background-color: rgb(70, 70, 255);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    margin: 20px;
+}

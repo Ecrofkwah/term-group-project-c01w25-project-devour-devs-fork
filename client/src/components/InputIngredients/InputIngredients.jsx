@@ -49,8 +49,8 @@ function InputIngredients({setRecommended}) {
     }
   }
 
-  const toggleMode = () =>{
-    setMode(mode === "manual" ? "upload" : "manual")
+  const toggleMode = (mode) =>{
+    setMode(mode === "manual" ? "manual" : "upload")
     setFile(null)
     setImageURL("")
     setDetections([])
@@ -139,9 +139,15 @@ function InputIngredients({setRecommended}) {
   return (
     <div className='input-ingredient'>
       {/* <h2>Enter Ingredients:</h2> */}
-      <button className='toggle' onClick={toggleMode}>
-        Switch to {mode === "manual" ? "Upload an Image instead" : "Manually Enter"}
-      </button>
+      <div className='toggle-wrapper'>
+        <button className={mode==="manual" ? "toggle manual active" : " manual toggle"} onClick={(e) => toggleMode("manual")}>
+          Enter ingredients
+        </button>
+        <button className={mode==="upload" ? "toggle upload active" : "upload toggle"} onClick={(e) => toggleMode("upload")}>
+          Upload an image
+        </button>
+      </div>
+      
       {mode === "manual" ? (<>
         <div className='input-container'>
         <input 
@@ -157,11 +163,11 @@ function InputIngredients({setRecommended}) {
         </>) : (<div>
           <input type="file" accept="image/*" onChange={handleFileChange} />
           <button className="detect-btn" onClick={handleDetect}>
-            Detect Ingredients
+            Detect
           </button>
 
           {imageURL && (
-            <div style={{ position: "relative", maxWidth: "700px"}}>
+            <div style={{ position: "relative", maxWidth: "700px", margin: "20px"}}>
               {detections.length > 0 
                 ? <canvas ref={canvasRef} style={{ border: "1px solid black", maxWidth: "100%" }} />
                 : <img src={imageURL} style={{ maxWidth: "100%", display: "block" }} />
