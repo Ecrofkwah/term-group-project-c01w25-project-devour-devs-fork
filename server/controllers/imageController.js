@@ -30,12 +30,12 @@ loadModel();
 const {categories, ingredients} = loadMappings();
 
 const imageRecognizer = async (req, res) => {
+    const imagePath = req.file.path;
     try{
         if(!model){
             return res.status(500).send("Model is still loaded. Please try again")
         }
 
-        const imagePath = req.file.path;
         const imageBuffer = fs.readFileSync(imagePath);
         
         // decode and process image
@@ -56,14 +56,10 @@ const imageRecognizer = async (req, res) => {
         const proteinPrediction = decodeNutrientsPrediction(proteinArray);
         const carbsPrediction = decodeNutrientsPrediction(carbsArray);
         const caloriePrediction = decodeNutrientsPrediction(calorieArray);
-    
-
-        // delete image after processing
-        await deleteImage(imagePath);
         
         // send prediction
         console.log(ingredientsPrediction)
-        return res.status(201).json({
+        res.status(201).json({
             category: categoryPrediction,
             ingredients: ingredientsPrediction,
             calories: caloriePrediction,
@@ -75,6 +71,9 @@ const imageRecognizer = async (req, res) => {
     } catch(error) {
         console.error("Error image recognition", error)
         res.status(500).send("Error processing image");
+    } finally {
+        // delete image after processing
+        await deleteImage(imagePath);
     }
 }
 
@@ -119,8 +118,8 @@ const deleteImage = (filePath) => {
 }
 
 const ingredientsDetector = async (req, res) => {
-  try{
     const imagePath = req.file.path;
+    try{
     const image = fs.readFileSync(imagePath, {encoding: 'base64'});
     const response = await axios({
         method: 'POST',
@@ -134,14 +133,14 @@ const ingredientsDetector = async (req, res) => {
         }
     })
 
-    // delete image after processing
-    await deleteImage(imagePath);
-
     const detections = response.data.predictions;
-    return res.json({success: true, detections})
+    res.json({success: true, detections})
   } catch(error){
     console.error(error)
-    return res.status(500).json({success: false, error: "ingredients detection failed"})
+    res.status(500).json({success: false, error: "ingredients detection failed"})
+  } finally {
+    // delete image after processing
+    await deleteImage(imagePath);
   }
 }
 
