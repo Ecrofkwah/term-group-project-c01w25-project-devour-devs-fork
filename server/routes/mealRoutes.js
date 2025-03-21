@@ -1,5 +1,6 @@
 import express from 'express';
 import mealController from '../controllers/mealController.js';
+import {authenticateUser} from '../middlewares/authMiddleware.js';
 
 const router = express.Router()
 
@@ -12,5 +13,6 @@ router.post('/rating', mealController.rateMeal);
 router.get('/rating', mealController.getMealRate);
 router.get('/search', mealController.searchMeal);
 router.get('/rating/user', mealController.getUserRating);
+router.post('/recommend', authenticateUser, mealController.recommendMealsByIngredients);
 
 export { router as mealRouter }
