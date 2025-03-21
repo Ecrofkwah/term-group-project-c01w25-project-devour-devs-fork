@@ -115,7 +115,7 @@ MVC Structure:
 1. Git Flow: We will use git flow for managing branches and releases.
 2. Branches naming: `main`, `develop`, `feature/feature-name`, `bugfix/bug-name`, `release/release-version`, `hotfix/hotfix-name`
 3. We will use Jira for tracking issues.
-4. Pull request: All changes to the `main` and `develop` branches should be via pull requests, which should be reviewed by at least 2 other people before merging, unless specified otherwise.
+4. Pull request: All changes to the `main` branch should be via pull requests, which should be reviewed by at least 2 other people before merging, unless specified otherwise.
 
 
 
