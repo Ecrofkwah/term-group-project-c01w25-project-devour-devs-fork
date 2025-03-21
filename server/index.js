@@ -10,6 +10,7 @@ import { imageRouter } from './routes/imageRoutes.js'
 import {intakeRouter} from './routes/intakeRoutes.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { aiAssistantRouter } from './routes/aiAssistantRoutes.js'
 
 // load env variables
 dotenv.config()
@@ -45,6 +46,7 @@ app.use('/api/intake', intakeRouter)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // app.use('/assets', express.static(path.join(__dirname, 'assets')))
+app.use('/api/ai', aiAssistantRouter)
 
 if(process.env.NODE_ENV !== 'test'){
     // connect to mongoDB

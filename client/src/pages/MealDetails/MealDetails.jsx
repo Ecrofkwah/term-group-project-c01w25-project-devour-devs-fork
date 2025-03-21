@@ -4,6 +4,7 @@ import axios from 'axios';
 import './MealDetails.css'
 import config from '../../config/config';
 import MealRate from '../../components/MealRate/MealRate';
+import AiAssistantChatbox from '../../components/AiAssistant/AiAssistantChatbox';
 
 function MealDetails({loginUser}) {
   const {id} = useParams();
@@ -12,6 +13,10 @@ function MealDetails({loginUser}) {
   const [favMessage, setFavMessage] = useState('');
   const [isFav, setIsFav] = useState(false);
   const [rating, setRating] = useState(0);
+  const [isStepByStep, setIsStepByStep] = useState(false);
+  const [aiAssistantInstructions, setAiAssistantInstructions] = useState('No instructions available');
+  const [currentStep, setCurrentStep] = useState(0);
+  const [totalSteps, setTotalSteps] = useState(0);
 
   const userId = localStorage.getItem("userId");
 
@@ -63,6 +68,49 @@ function MealDetails({loginUser}) {
     fetchMealDetails(id);
   }, [id])
 
+  useEffect(() => {
+    if (!meal) return;
+    const fetchAiAssistantInstructions = async () => {
+      try{
+        const response = await axios.post(`${config.BASE_URL}/api/ai/step-by-step`, {
+          instructions: meal.instructions
+        });
+        setAiAssistantInstructions(response.data.summary);
+      } catch (error){
+        console.log('Error fetching AI assistant instructions');
+      }
+    }
+    fetchAiAssistantInstructions();
+  }, [meal])
+
+  useEffect(() => {
+    const steps = document.querySelectorAll('.step');
+    if (steps[currentStep]){
+      steps[currentStep].classList.add('active');
+    }
+    setTotalSteps(steps.length);
+  }, [isStepByStep, aiAssistantInstructions])
+
+  const showNextStep = () => {
+    const steps = document.querySelectorAll('.step');
+    if (currentStep < document.querySelectorAll('.step').length - 1) {
+      steps[currentStep].classList.remove('active');
+      const newStep = currentStep + 1;
+      setCurrentStep(newStep);
+      steps[newStep].classList.add('active');
+    }
+  };
+
+  const showPrevStep = () => {
+    const steps = document.querySelectorAll('.step');
+    if (currentStep > 0) {
+      steps[currentStep].classList.remove('active');
+      const newStep = currentStep - 1;
+      setCurrentStep(newStep);
+      steps[newStep].classList.add('active');
+    }
+  };
+
   const handleAddToFavourites = async () => {
     // setFavMessage('');
     try {
@@ -106,16 +154,30 @@ function MealDetails({loginUser}) {
           <img src={meal.image}/>
         </div>
 
-        {loginUser 
-        ? (!isFav 
-          ? (<div className='add-to-fav-btn' onClick={handleAddToFavourites}>
-              Add to Favourites
-            </div>) 
-          : (<div className='remove-fav-btn' onClick={handleRemoveFromFavourites}>
-              Remove from Favourites
-            </div>)) 
-        : <></>}
-        {/* {favMessage && <div className="fav-message">{favMessage}</div>} */}
+        <div className='recipe-options'>
+          <div className='fav-btn-container'>{loginUser 
+            ? (!isFav 
+              ? (<div className='add-to-fav-btn' onClick={handleAddToFavourites}>
+                  Add to Favourites
+                </div>) 
+              : (<div className='remove-fav-btn' onClick={handleRemoveFromFavourites}>
+                  Remove from Favourites
+                </div>)) 
+            : <></>}
+          </div>
+          <div className='rating-select'>
+            {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}    
+          </div>
+          {/* {favMessage && <div className="fav-message">{favMessage}</div>} */}
+          <div className='step-by-step-container'>
+            {!isStepByStep ? 
+            (
+              <div className='step-by-step-btn-off' onClick={() => setIsStepByStep(true)}> Step-by-Step Mode </div>
+            ) : (
+              <div className='step-by-step-btn-on' onClick={() => setIsStepByStep(false)}> Step-by-Step Mode </div>
+            )}
+          </div>
+        </div>
 
         <div className='meal-info'>
           <div><b>Summary:</b></div>
@@ -130,25 +192,58 @@ function MealDetails({loginUser}) {
         {meal.diets && meal.diets.length > 0 && <div className='meal-info'><b>Dietary Info: </b> {meal.diets.join(", ")}</div>}
         <div className='meal-info'>
           <div><b>Ingredients:</b></div>
-          <div>
-            <ul>
-              {meal.extendedIngredients.map((ingredient, index) => (
-                <li key={index}>
-                  {ingredient.original} {ingredient.measures.metric.amount && ingredient.measures.metric.unitShort &&
-                  `(${ingredient.measures.metric.amount} ${ingredient.measures.metric.unitShort})`}
-                </li>
-              ))}
-            </ul>
+            <div>
+              <ul>
+                {meal.extendedIngredients.map((ingredient, index) => (
+                  <li key={index}>
+                    {ingredient.original} {ingredient.measures.metric.amount && ingredient.measures.metric.unitShort &&
+                    `(${ingredient.measures.metric.amount} ${ingredient.measures.metric.unitShort})`}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        
+        <div className='help-container'>
+          <div className='meal-info instructions'>
+            <div><b>Instructions:</b></div>
+            {isStepByStep ? 
+            (
+              <div className='step-by-step-instructions'>
+                <div className='step-nav'>
+                  {currentStep < totalSteps - 1 ? (
+                    <button className='next-step-btn-available' onClick={showNextStep}>
+                      Next Step
+                    </button>
+                  ) : (
+                    <button className='next-step-btn-unavailable' disabled>
+                      Next Step
+                    </button>
+                  )}
+                  {currentStep > 0 ? (
+                    <button className='prev-step-btn-available' onClick={showPrevStep}>
+                      Prev Step
+                    </button>
+                  ) : (
+                    <button className='prev-step-btn-unavailable' disabled>
+                      Prev Step
+                    </button>
+                  )}
+                </div>
+                <div dangerouslySetInnerHTML={{__html: aiAssistantInstructions}}></div>
+              </div>
+            ) : (
+              meal.instructions ? 
+              (
+                <div className='default-instructions' dangerouslySetInnerHTML={{__html: meal.instructions}}></div>
+              ) : (
+                <div>No instructions available</div>
+              )
+            )}
           </div>
         </div>
-        
-        <div className='meal-info'>
-          <div><b>Instructions:</b></div>
-          {meal.instructions ? <div dangerouslySetInnerHTML={{__html: meal.instructions}}></div> : <div>No instructions available</div>}
-        </div>
       </div>
-
-      {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}
+      {isStepByStep && <AiAssistantChatbox />}
     </div>
   )
 }
