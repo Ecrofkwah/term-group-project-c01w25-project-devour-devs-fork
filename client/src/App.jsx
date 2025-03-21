@@ -54,7 +54,7 @@ function App() {
           <Route path='/recommend' element={<FridgeToPlate/>}/>
           <Route path='/search' element={<SearchResult/>}/>
           
-          <Route path='/imagerecognition' element={<ImageUploader/>}/>
+          {/* <Route path='/imagerecognition' element={<ImageUploader/>}/> */}
 
           {/* <Route path='/managerecipe/myrecipe' element={<ManageRecipes loginUser={loginUser} setLoginUser={setLoginUser}/>}/>
           <Route path='/managerecipe/addrecipe' element={<AddRecipe/>}/>
