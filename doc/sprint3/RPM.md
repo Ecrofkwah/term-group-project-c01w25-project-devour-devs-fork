@@ -137,6 +137,16 @@ This feature could not be completed fully due to time constraints and the comple
 
 - <b>Meal Image Upload & Nutritional Analysis Feature:</b>
   - The AI model used is only able to recognize 101 dishes.
+  - To enable the Spoonacular API and Meal Image Upload & Nutritional Analysis Feature, will need to update .env file to:
+    - PORT="3000"
+    - MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
+    - JWT_SECRET="ds9u2f383hf839"
+    - NODE_ENV = "development"
+    - SPOONACULAR_API_KEY= “{put your Spoonacular api key here}”
+    - GEMINI_API_KEY = “{Your API key}”
+    - ROBOFLOW_API_KEY = "{put your roboflow api key here}"
+
+
 
 
 
