@@ -20,6 +20,7 @@ function AppNavbar({loginUser, setLoginUser}) {
 
   const handleLogout = () => {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('userId');
     setLoginUser(null);
   }
   

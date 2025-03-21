@@ -39,18 +39,20 @@ function MealDetails({loginUser}) {
     }
 
     // checking if the meal is in favorite or not
-    try {
-      const response = await axios.get(`${config.BASE_URL}/api/meals/favourites`, { 
-          params: { userId } 
-      });
-      if(response.data.meals && response.data.meals.find(meal => Number(meal.id) === Number(id))){
-        setIsFav(true)
+    if (userId){
+      try {
+        const response = await axios.get(`${config.BASE_URL}/api/meals/favourites`, { 
+            params: { userId } 
+        });
+        if(response.data.meals && response.data.meals.find(meal => Number(meal.id) === Number(id))){
+          setIsFav(true)
+        }
+        else {
+          setIsFav(false)
+        }
+      } catch (err) {
+        setError("Error checking favourite meals");
       }
-      else {
-        setIsFav(false)
-      }
-    } catch (err) {
-      setError("Error checking favourite meals");
     }
 
     // Getting rating
