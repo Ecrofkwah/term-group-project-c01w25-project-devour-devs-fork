@@ -1,0 +1,21 @@
+.rec-card{
+    background-color: pink;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    width: fit-content;
+    height: fit-content;
+    border: 4px solid black;
+}
+
+.rec-card .rec-info{
+    background-color: transparent;
+    color: black;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+    width: 300px;
+}
+
+.rec-info b{
+    background-color: transparent;
+}

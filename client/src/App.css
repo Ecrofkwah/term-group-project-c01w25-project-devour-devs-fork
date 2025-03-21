@@ -11,7 +11,7 @@
   --primary-green: rgb(7, 232, 7);
   --dark-green: green;
   --primary-red: red;
-  --background-color: rgba(250, 250, 242, 0.904);
+  --background-color: rgb(250, 250, 242);
 }
 
 .pages{
