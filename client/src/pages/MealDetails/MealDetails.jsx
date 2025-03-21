@@ -9,41 +9,85 @@ function MealDetails({loginUser}) {
   const {id} = useParams();
   const [meal, setMeal] = useState(null);
   const [error, setError] = useState('');
+  const [favMessage, setFavMessage] = useState('');
+  const [isFav, setIsFav] = useState(false);
+  const [rating, setRating] = useState(0);
 
-  useEffect(() => {
-    const fetchMealDetails = async () => {
-      setError('');
+  const userId = localStorage.getItem("userId");
 
-      // let storedMeals = JSON.parse(localStorage.getItem('meals')) || []
-      // if(storedMeals.length >= 150){
-      //   localStorage.removeItem('meals')
-      //   storedMeals = []
-      // }
+  async function fetchMealDetails (id){
+    setError('');
 
-      // const cachedMeal = storedMeals.find((meal) => Number(meal.id) === Number(id));
-      // if(cachedMeal){
-      //   setMeal(cachedMeal)
-      //   return
-      // }
+    try{
+      const response = await axios.get(`${config.BASE_URL}/api/meals/details?id=${id}`)
+      if(response.data.meal){
+        // storedMeals = [... storedMeals, response.data.meal]
+        // localStorage.setItem('meals', JSON.stringify(storedMeals))
 
-      try{
-        const response = await axios.get(`${config.BASE_URL}/api/meals/details?id=${id}`)
-        if(response.data.meal){
-          // storedMeals = [... storedMeals, response.data.meal]
-          // localStorage.setItem('meals', JSON.stringify(storedMeals))
-
-          setMeal(response.data.meal)
-        } else {
-          setError("Meal details not available")
-          setMeal(null)
-        }
-      } catch (error) {
-        setError('Error fetching meal details')
+        setMeal(response.data.meal)
+      } else {
+        setError("Meal details not available")
+        setMeal(null)
       }
+    } catch (error) {
+      setError('Error fetching meal details')
     }
 
-    fetchMealDetails();
+    // checking if the meal is in favorite or not
+    try {
+      const response = await axios.get(`${config.BASE_URL}/api/meals/favourites`, { 
+          params: { userId } 
+      });
+      if(response.data.meals && response.data.meals.find(meal => Number(meal.id) === Number(id))){
+        setIsFav(true)
+      }
+      else {
+        setIsFav(false)
+      }
+    } catch (err) {
+      setError("Error checking favourite meals");
+    }
+
+    // Getting rating
+    try{
+      const result = await axios.get(`${config.BASE_URL}/api/meals/rating/user?mealId=${id}&userId=${userId}`);
+      const rating = result.data;
+      setRating(rating.rating);
+    }
+    catch (error){
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchMealDetails(id);
   }, [id])
+
+  const handleAddToFavourites = async () => {
+    // setFavMessage('');
+    try {
+      const response = await axios.post(`${config.BASE_URL}/api/meals/favourites`, {
+        userId: loginUser.userId,
+        mealId: meal.id
+      });
+      //setFavMessage(response.data.message || "Meal added to favourites");
+      setIsFav(true)
+    } catch (err) {
+      //setFavMessage("Error adding to favourites");
+      console.log("Error adding to fav");
+    }
+  };
+
+  const handleRemoveFromFavourites = async () => {
+    try {
+      const response = await axios.delete(`${config.BASE_URL}/api/meals/favourites`, {
+        data: { userId: loginUser.userId, mealId: meal.id }
+      });
+      setIsFav(false)
+    } catch (err) {
+      console.log("Error remove from fav")
+    }
+  };
 
   if(error){
     return <div>{error}</div>
@@ -62,7 +106,16 @@ function MealDetails({loginUser}) {
           <img src={meal.image}/>
         </div>
 
-        {loginUser && <div className='add-to-fav-btn'>Add to Favourites</div>}
+        {loginUser 
+        ? (!isFav 
+          ? (<div className='add-to-fav-btn' onClick={handleAddToFavourites}>
+              Add to Favourites
+            </div>) 
+          : (<div className='remove-fav-btn' onClick={handleRemoveFromFavourites}>
+              Remove from Favourites
+            </div>)) 
+        : <></>}
+        {/* {favMessage && <div className="fav-message">{favMessage}</div>} */}
 
         <div className='meal-info'>
           <div><b>Summary:</b></div>
@@ -95,7 +148,7 @@ function MealDetails({loginUser}) {
         </div>
       </div>
 
-      {loginUser && <MealRate mealId={id} userId={loginUser.userId}/>}
+      {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}
     </div>
   )
 }

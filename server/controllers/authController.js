@@ -1,9 +1,15 @@
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
+import xss from 'xss';
 
 const register = async (req, res) => {
     try{
-        const {username, email, password} = req.body;
+        let {username, email, password} = req.body;
+
+        // Sanitize inputs
+        username = xss(username); 
+        email = xss(email);
+        password = xss(password);
 
         // Check for existing email
         const existingEmail = await User.findUserByEmail(email);
@@ -37,12 +43,17 @@ const register = async (req, res) => {
             success: false,
             message: "Server error"
         })
+        console.log(error)
     }
 }
 
 const login = async (req, res) => {
     try{
-        const {email, password} = req.body;
+        let {email, password} = req.body;
+
+        // Sanitize inputs
+        email = xss(email);
+        password = xss(password);
 
         // Find user
         const user = await User.findUserByEmail(email);
@@ -64,6 +75,7 @@ const login = async (req, res) => {
         // Send token to frontend
         res.status(201).json({
             token,
+            userId: user._id,
             success: true,
             message: "Logged in successfully",
         })

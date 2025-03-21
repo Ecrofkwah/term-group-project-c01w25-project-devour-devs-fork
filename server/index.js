@@ -6,14 +6,13 @@ import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
 import { mealRouter } from './routes/mealRoutes.js'
 import { plannerRouter } from './routes/plannerRoutes.js'
+import { imageRouter } from './routes/imageRoutes.js'
+import {intakeRouter} from './routes/intakeRoutes.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // load env variables
 dotenv.config()
-
-// connect to mongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => {console.log("Connected")})
-    .catch((error) => console.log(`Error connecting to DB: ${error}`))
 
 const app = express()
 app.use(express.json())
@@ -39,8 +38,26 @@ app.use((err, req, res, next) => {
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
 app.use('/api/planner', plannerRouter)
+app.use('/api/image', imageRouter)
+app.use('/api/intake', intakeRouter)
 
-app.listen(process.env.PORT, () => {
-    console.log("server listening ...")
-})
+// set up static files path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// app.use('/assets', express.static(path.join(__dirname, 'assets')))
+
+if(process.env.NODE_ENV !== 'test'){
+    // connect to mongoDB
+    mongoose.connect(process.env.MONGODB_URI)
+     .then(() => {console.log("Connected")})
+     .catch((error) => console.log(`Error connecting to DB: ${error}`))
+
+    // listen to port
+    app.listen(process.env.PORT, () => {
+        console.log("server listening ...")
+    })
+}
+
+export default app;
+
 

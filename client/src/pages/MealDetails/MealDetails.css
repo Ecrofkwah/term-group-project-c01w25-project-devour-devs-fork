@@ -34,4 +34,16 @@
     width: fit-content;
     padding: 10px;
     cursor: pointer;
+    margin-top: 10px;
+}
+
+.remove-fav-btn{
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(255, 68, 68);
+    color: white;
+    width: fit-content;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
 }

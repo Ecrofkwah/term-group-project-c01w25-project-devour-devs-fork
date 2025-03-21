@@ -19,6 +19,7 @@ function LogIn() {
     .then((response) => {
         if(response.data.success && response.data.token){
           localStorage.setItem("jwt", response.data.token);
+          localStorage.setItem("userId", response.data.userId);
           navigate("/");
           window.location.reload()
         } else {
@@ -29,7 +30,10 @@ function LogIn() {
     .catch((error) => {
       if(error.response.status === 401){
         setError(error.response.data.message)
-      } else {
+      } else if(error.response.data.errors){
+        setError(error.response.data.errors[0].msg)
+      }
+      else {
         setError("Something went wrong. Please try again")
       }
     })
