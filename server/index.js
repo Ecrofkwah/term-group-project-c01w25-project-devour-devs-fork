@@ -5,6 +5,7 @@ import cors from 'cors'
 import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
 import { mealRouter } from './routes/mealRoutes.js'
+import { plannerRouter } from './routes/plannerRoutes.js'
 import { imageRouter } from './routes/imageRoutes.js'
 import {intakeRouter} from './routes/intakeRoutes.js'
 import path from 'path';
@@ -36,6 +37,7 @@ app.use((err, req, res, next) => {
 // map the routes
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
+app.use('/api/planner', plannerRouter)
 app.use('/api/image', imageRouter)
 app.use('/api/intake', intakeRouter)
 
