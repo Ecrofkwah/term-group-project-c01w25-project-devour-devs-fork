@@ -54,7 +54,6 @@ describe('MealDetails add to favourite', () => {
     axios.get.mockResolvedValueOnce({ data: { meal: mockMeal } });
     axios.get.mockResolvedValueOnce({ data: { meals: [] } }); // Initially not a favourite
     axios.post.mockResolvedValueOnce({ data: { message: 'Added to favourites' } });
-    axios.get.mockResolvedValueOnce({ data: { meals: [mockMeal] } });
 
     render(<MealDetails loginUser={{ userId: 'user123' }} />, { wrapper: MemoryRouter });
 
