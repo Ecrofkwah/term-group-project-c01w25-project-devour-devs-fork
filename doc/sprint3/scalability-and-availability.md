@@ -1,4 +1,4 @@
-# Scalability & Availability Considerations for Recipe MERN App
+# Scalability & Availability Considerations
 
 ## 1. Handling Increased Users or Data
 
