@@ -49,7 +49,7 @@
     transform: scale(1.05);
 }
   
-.delete-btn {
+.intake-delete-btn {
     background: rgb(255, 77, 77);
     color: white;
     border: none;
@@ -60,7 +60,7 @@
     font-size: 14px;
 }
   
-.delete-btn:hover {
+.intake-delete-btn:hover {
     background: rgb(198, 44, 44);
 }
   

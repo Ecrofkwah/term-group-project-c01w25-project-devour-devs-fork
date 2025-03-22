@@ -115,7 +115,7 @@ function MyIntake() {
                 <div>Protein: {intake.protein?.toFixed(2)} g</div>
                 <div>Carbs: {intake.carbs?.toFixed(2)} g</div>
                 <div>Fat: {intake.fat?.toFixed(2)} g</div>
-                <button className="delete-btn" onClick={()=> deleteIntake(intake._id)}>Delete</button>
+                <button className="intake-delete-btn" onClick={()=> deleteIntake(intake._id)}>Delete</button>
               </div>
             ))}
           </div>
