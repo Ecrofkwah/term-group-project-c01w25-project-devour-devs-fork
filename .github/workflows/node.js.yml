@@ -36,7 +36,6 @@ jobs:
 
     - name: Testing backend
       run: |
-        cd term-group-project-c01w25-project-devour-devs
         npm install
         cd server
         npm install
