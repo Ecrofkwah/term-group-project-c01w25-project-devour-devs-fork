@@ -8,5 +8,6 @@ const router = express.Router()
 router.post("/register", validateRegisterInput, validate, authController.register);
 router.post("/login", validateLoginInput, validate, authController.login);
 router.get("/me", authenticateUser, authController.me);
+router.delete('/deleteAllUsers', authController.deleteAll);
 
 export { router as userRouter }

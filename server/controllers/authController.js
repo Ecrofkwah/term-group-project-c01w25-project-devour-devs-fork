@@ -101,10 +101,15 @@ const me = (req, res) => {
     })
 }
 
+const deleteAll = (req, res) => {
+    User.deleteMany();
+}
+
 const authController = {
     register,
     login,
-    me
+    me,
+    deleteAll
 }
 
 export default authController;

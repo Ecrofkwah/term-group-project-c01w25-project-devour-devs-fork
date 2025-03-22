@@ -11,6 +11,7 @@ import {intakeRouter} from './routes/intakeRoutes.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { aiAssistantRouter } from './routes/aiAssistantRoutes.js'
+import { connect } from '../cypress/e2e/mongodb-test-db.js';
 
 // load env variables
 dotenv.config()
@@ -48,8 +49,16 @@ const __dirname = path.dirname(__filename);
 // app.use('/assets', express.static(path.join(__dirname, 'assets')))
 app.use('/api/ai', aiAssistantRouter)
 
-if(process.env.NODE_ENV !== 'test'){
+console.log('process.env.NODE_ENV:');
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'test-cy'){
+    connect();
+    console.log('connected to memory server')
+    console.log(`URI: ${process.env.MONGODB_URI}`)
+}
+else if(process.env.NODE_ENV !== 'test'){
     // connect to mongoDB
+    console.log(process.env.MONGODB_URI)
     mongoose.connect(process.env.MONGODB_URI)
      .then(() => {console.log("Connected")})
      .catch((error) => console.log(`Error connecting to DB: ${error}`))
