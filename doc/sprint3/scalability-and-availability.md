@@ -10,5 +10,4 @@ As the Recipe MERN app grows in terms of users and the amount of recipe data, we
 
 To ensure fast performance and a good user experience, we will implement **caching** strategies:
 
-- **Caching**:
 - **Client-side Caching (Local Storage)**: We will use **local storage** on users' browsers to store frequently accessed recipe data. For example, popular or recently viewed recipes can be stored in the browser’s local storage, so the app doesn’t need to reload the same data from the backend every time. This makes the app faster and reduces the number of requests to the backend.
