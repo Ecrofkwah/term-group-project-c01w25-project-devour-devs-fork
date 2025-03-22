@@ -55,12 +55,12 @@ app.use('/api/ai', aiAssistantRouter)
 
 console.log('process.env.NODE_ENV:');
 console.log(process.env.NODE_ENV);
-if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-cy'){
+if (process.env.NODE_ENV === 'test-cy'){
     connect();
     console.log('connected to memory server')
     console.log(`URI: ${process.env.MONGODB_URI}`)
 }
-else{
+else if (process.env.NODE_ENV !== 'test'){
     // connect to mongoDB
     console.log(process.env.MONGODB_URI)
     mongoose.connect(process.env.MONGODB_URI)
