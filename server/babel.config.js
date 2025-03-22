@@ -1,5 +1,11 @@
-export default {
-    presets: [
-        "@babel/preset-env" // make sure jest understand es6 syntax
-    ],
-}
+module.exports = {
+  presets: [
+    [
+      "@babel/preset-env",
+      {
+        targets: { node: "current" }
+      }
+    ]
+  ],
+  plugins: ["babel-plugin-transform-import-meta"]
+};
