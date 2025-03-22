@@ -44,8 +44,10 @@ app.use('/api/image', imageRouter)
 app.use('/api/intake', intakeRouter)
 
 // set up static files path
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+if (process.env.NODE_ENV !== 'test') {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+}
 // app.use('/assets', express.static(path.join(__dirname, 'assets')))
 app.use('/api/ai', aiAssistantRouter)
 
