@@ -2,7 +2,7 @@
 
 ## 1. Handling Increased Users or Data
 
-As the Recipe MERN app grows in terms of users and the amount of recipe data, we will focus on scaling the database to handle increased traffic and data:
+As the app grows in terms of users and the amount of recipe data, we will focus on scaling the database to handle increased traffic and data:
 
 - **Database Scaling**: We plan to use **MongoDB Atlas**, a cloud-based database service. MongoDB Atlas automatically helps scale the database. This ensures that the database can handle a large number of recipes and users without slowing down. 
 
