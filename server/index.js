@@ -5,6 +5,13 @@ import cors from 'cors'
 import { userRouter } from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
 import { mealRouter } from './routes/mealRoutes.js'
+import { plannerRouter } from './routes/plannerRoutes.js'
+import { imageRouter } from './routes/imageRoutes.js'
+import {intakeRouter} from './routes/intakeRoutes.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { aiAssistantRouter } from './routes/aiAssistantRoutes.js'
+import { connect } from '../cypress/e2e/mongodb-test-db.js';
 
 // load env variables
 dotenv.config()
@@ -32,9 +39,26 @@ app.use((err, req, res, next) => {
 // map the routes
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
+app.use('/api/planner', plannerRouter)
+app.use('/api/image', imageRouter)
+app.use('/api/intake', intakeRouter)
 
-if(process.env.NODE_ENV !== 'test'){
+// set up static files path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// app.use('/assets', express.static(path.join(__dirname, 'assets')))
+app.use('/api/ai', aiAssistantRouter)
+
+console.log('process.env.NODE_ENV:');
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'test-cy'){
+    connect();
+    console.log('connected to memory server')
+    console.log(`URI: ${process.env.MONGODB_URI}`)
+}
+else if(process.env.NODE_ENV !== 'test'){
     // connect to mongoDB
+    console.log(process.env.MONGODB_URI)
     mongoose.connect(process.env.MONGODB_URI)
      .then(() => {console.log("Connected")})
      .catch((error) => console.log(`Error connecting to DB: ${error}`))

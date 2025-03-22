@@ -36,7 +36,14 @@ function Register() {
               setError(response.data.message);
           }
       })
-      .catch((error) => setError(error.response.data.message))
+      .catch((error) => {
+        if(error.response.data.errors){
+            setError(error.response.data.errors[0].msg)
+        }
+        else{
+           setError(error.response.data.message) 
+        }
+      })
     }
   
     return (

@@ -1,0 +1,29 @@
+{
+  "name": "root",
+  "version": "1.0.0",
+  "description": "By team: Devour Devs",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTSC-CSCC01-Software-Engineering-I/term-group-project-c01w25-project-devour-devs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTSC-CSCC01-Software-Engineering-I/term-group-project-c01w25-project-devour-devs/issues"
+  },
+  "homepage": "https://github.com/UTSC-CSCC01-Software-Engineering-I/term-group-project-c01w25-project-devour-devs#readme",
+  "devDependencies": {
+    "cypress": "^14.2.0",
+    "dotenv": "^16.4.7",
+    "mongodb-memory-server": "^10.1.4",
+    "mongoose": "^8.12.2"
+  }
+}
