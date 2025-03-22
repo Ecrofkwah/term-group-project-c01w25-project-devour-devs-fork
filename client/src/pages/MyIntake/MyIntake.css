@@ -1,0 +1,131 @@
+:root{
+    --intake-total-color: black;
+}
+
+.intake-page {
+    padding: 20px;
+    font-family: "Arial", sans-serif;
+}
+  
+.intake-carousel-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(182, 182, 182) transparent;
+}
+  
+.intake-carousel-container::-webkit-scrollbar {
+    height: 8px;
+}
+  
+.intake-carousel-container::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius: 5px;
+}
+  
+.intake-carousel-container::-webkit-scrollbar-thumb:hover {
+    background-color: grey;
+}
+  
+.intake-carousel {
+    display: flex;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+  
+.intake-carousel-item {
+    flex: 0 0 200px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 14px;
+    min-height: 180px;
+    transition: transform 0.2s ease-in-out;
+}
+  
+.intake-carousel-item:hover {
+    transform: scale(1.05);
+}
+  
+.intake-delete-btn {
+    background: rgb(255, 77, 77);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+  
+.intake-delete-btn:hover {
+    background: rgb(198, 44, 44);
+}
+  
+.no-intake-message {
+    font-size: 16px;
+}
+
+.total-intake-wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.today-intake {
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+  
+.today-intake h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: rgb(46, 46, 46);
+    text-align: center;
+}
+
+.intake-error-message {
+    color: red;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.total-intake{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid var(--intake-total-color);
+    width: fit-content;
+    align-self: center;
+    padding: 20px;
+    border-radius: 8px;
+    color: var(--intake-total-color);
+}
+  
+.total-intake .intake-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+  
+.total-intake .intake-summary div b {
+    color: var(--intake-total-color);
+}
+
+.total-intake h3 {
+    color: var(--intake-total-color);
+}
+  
+.today-intake .intake-summary div span {
+    font-weight: 700;
+    color: rgb(46, 46, 46);
+}
+
+.intake-carousel-item{
+    width: 300px;
+}

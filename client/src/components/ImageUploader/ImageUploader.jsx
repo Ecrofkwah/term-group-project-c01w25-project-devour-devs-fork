@@ -43,9 +43,12 @@ function ImageUploader() {
 
   return (
     <div className='image-uploader'>
-      <h2>Upload an image of your dish, and get nutritional insights!</h2>
-      <input type="file" onChange={handleImageUpload}/>
-      <button onClick={handlePredictions}>Analyze</button>
+      <h2>Upload an image of your meal, and get nutritional insights!</h2>
+      <div className='input-upload-box'>
+        <input type="file" onChange={handleImageUpload}/>
+        <button className="analyze-btn" onClick={handlePredictions}>Analyze</button>
+      </div>
+      
 
       {/* display uploaded image */}
       {image && <img src={URL.createObjectURL(image)}/>}
