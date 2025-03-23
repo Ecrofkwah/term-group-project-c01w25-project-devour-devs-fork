@@ -39,18 +39,16 @@ function MealPlanner() {
     }, []);
 
     useEffect(() => {
-        
-        if(!mealPlan) {
-            setSelectedBreakfast("")
-            setSelectedLunch("")
-            setSelectedDinner("")
+        if (!mealPlan) {
+            setSelectedBreakfast("");
+            setSelectedLunch("");
+            setSelectedDinner("");
             return;
         }
-        setSelectedBreakfast(mealPlan.meals.breakfast)
-        setSelectedLunch(mealPlan.meals.lunch)
-        setSelectedDinner(mealPlan.meals.dinner)
+        setSelectedBreakfast(mealPlan.meals.breakfast);
+        setSelectedLunch(mealPlan.meals.lunch);
+        setSelectedDinner(mealPlan.meals.dinner);
     }, [mealPlan]);
-
 
     const fetchMealPlan = async () => {
         try {
@@ -87,28 +85,29 @@ function MealPlanner() {
     const fetchMealDetails = async (meals) => {
         try {
             setLoading(true);
-            let fetchedMeals = {
-                breakfast: null,
-                lunch: null,
-                dinner: null
-            };
-
-            let mealIds = Object.entries(meals).filter(([mealType, id]) => id !== null);
-
-            if (mealIds.length === 0) {
-                setMealDetails({});
-                return;
-            }
+            let fetchedMeals = { breakfast: null, lunch: null, dinner: null };
 
             const response = await axios.get(`${config.BASE_URL}/api/planner/MPMeals`);
 
             if (response.data.meals) {
-                mealIds.forEach(([mealType, mealId]) => {
-                    const meal = response.data.meals.find(m => m.id === mealId);
-                    if (meal) {
-                        fetchedMeals[mealType] = meal;
+                const allMeals = response.data.meals;
+
+                ['breakfast', 'lunch', 'dinner'].forEach(mealType => {
+                    const mealId = Number(meals[mealType]);
+                    const match = allMeals.find(m => {
+                        const flatId = m.id;
+                        const nestedId = m.data?.id;
+                        return Number(flatId) === mealId || Number(nestedId) === mealId;
+                    });
+
+                    if (match) {
+                        const mealData = match.data?.id ? match.data : match;
+                        fetchedMeals[mealType] = mealData;
+                    } else {
+                        console.warn(`No match found for ${mealType} ID:`, mealId);
                     }
                 });
+
                 setMealDetails(fetchedMeals);
             } else {
                 setMealDetails({});
@@ -154,6 +153,55 @@ function MealPlanner() {
         }
     };
 
+    const randomizeMealPlan = async () => {
+        if (mealPlan) return; // Prevent randomizing if a meal plan already exists
+
+        try {
+            if (!date) {
+                setError("Please select a date to randomize meals.");
+                return;
+            }
+
+            setLoading(true);
+            setError(null);
+
+            const getRandomMealId = (mealType) => {
+                const filtered = mealOptions.filter(m => m.dishTypes?.some(dt => dt.toLowerCase().includes(mealType)));
+                const picked = filtered[Math.floor(Math.random() * filtered.length)];
+                return picked?.id || null;
+            };
+
+            const breakfast = getRandomMealId("breakfast");
+            const lunch = getRandomMealId("lunch");
+            const dinner = getRandomMealId("dinner");
+
+            if (!breakfast || !lunch || !dinner) {
+                setError("Could not find valid meals for all categories.");
+                return;
+            }
+
+            const response = await axios.post(`${config.BASE_URL}/api/planner/create`, {
+                date,
+                breakfast,
+                lunch,
+                dinner
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            setMealPlan(response.data.planner);
+            setSelectedBreakfast(breakfast);
+            setSelectedLunch(lunch);
+            setSelectedDinner(dinner);
+            await fetchMealDetails({ breakfast, lunch, dinner });
+            alert("Meals randomized and saved!");
+        } catch (error) {
+            setError("Failed to randomize meal plan.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const updateMealPlan = async () => {
         if (!mealPlan || !mealPlan._id) {
             setError("No meal plan selected to update.");
@@ -177,32 +225,30 @@ function MealPlanner() {
         }
     };
 
-        // Delete meal plan
-        const deleteMealPlan = async () => {
-            if (!mealPlan || !mealPlan._id) {
-                setError("No meal plan selected to delete.");
-                return;
-            }
-    
-            try {
-                setLoading(true);
-                await axios.delete(`${config.BASE_URL}/api/planner/delete/${mealPlan._id}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-    
-                alert("Meal Plan Deleted Successfully!");
-                setMealPlan(null);
-                setMealDetails({});
-                setSelectedBreakfast("");
-                setSelectedLunch("");
-                setSelectedDinner("");
-            } catch (error) {
-                setError("Failed to delete meal plan.");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const deleteMealPlan = async () => {
+        if (!mealPlan || !mealPlan._id) {
+            setError("No meal plan selected to delete.");
+            return;
+        }
 
+        try {
+            setLoading(true);
+            await axios.delete(`${config.BASE_URL}/api/planner/delete/${mealPlan._id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            alert("Meal Plan Deleted Successfully!");
+            setMealPlan(null);
+            setMealDetails({});
+            setSelectedBreakfast("");
+            setSelectedLunch("");
+            setSelectedDinner("");
+        } catch (error) {
+            setError("Failed to delete meal plan.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="meal-planner-container">
@@ -216,9 +262,9 @@ function MealPlanner() {
             <div className="button-container">
                 <button className="fetch-btn" onClick={fetchMealPlan}>Fetch Meal Plan</button>
                 <button className="create-btn" onClick={createMealPlan}>Create Meal Plan</button>
+                {!mealPlan && <button className="randomize-btn" onClick={randomizeMealPlan}>Randomize Meals</button>}
                 {mealPlan && <button className="update-btn" onClick={updateMealPlan}>Update Meal Plan</button>}
                 {mealPlan && <button className="delete-btn" onClick={deleteMealPlan}>Delete Meal Plan</button>}
-
             </div>
 
             {loading ? (
@@ -227,19 +273,19 @@ function MealPlanner() {
                 <div className="meal-plan-display">
                     <h3>📅 Meal Plan for {date}</h3>
 
-                    {["breakfast", "lunch", "dinner"].map((mealType) => (
+                    {['breakfast', 'lunch', 'dinner'].map((mealType) => (
                         <div className="meal-category" key={mealType}>
                             <label>{mealType.charAt(0).toUpperCase() + mealType.slice(1)}:</label>
                             <select
                                 value={
-                                    mealType === "breakfast" ? selectedBreakfast :
-                                        mealType === "lunch" ? selectedLunch :
-                                            selectedDinner
+                                    mealType === 'breakfast' ? selectedBreakfast :
+                                    mealType === 'lunch' ? selectedLunch :
+                                    selectedDinner
                                 }
                                 onChange={(e) => {
                                     const value = e.target.value;
-                                    if (mealType === "breakfast") setSelectedBreakfast(value);
-                                    else if (mealType === "lunch") setSelectedLunch(value);
+                                    if (mealType === 'breakfast') setSelectedBreakfast(value);
+                                    else if (mealType === 'lunch') setSelectedLunch(value);
                                     else setSelectedDinner(value);
                                 }}
                             >
@@ -257,19 +303,19 @@ function MealPlanner() {
                 <div className="meal-inputs">
                     <p>No meal plan found. Select meals to create one:</p>
 
-                    {["breakfast", "lunch", "dinner"].map((mealType) => (
+                    {['breakfast', 'lunch', 'dinner'].map((mealType) => (
                         <div className="meal-category" key={mealType}>
                             <label>{mealType.charAt(0).toUpperCase() + mealType.slice(1)}:</label>
                             <select
                                 value={
-                                    mealType === "breakfast" ? selectedBreakfast :
-                                        mealType === "lunch" ? selectedLunch :
-                                            selectedDinner
+                                    mealType === 'breakfast' ? selectedBreakfast :
+                                    mealType === 'lunch' ? selectedLunch :
+                                    selectedDinner
                                 }
                                 onChange={(e) => {
                                     const value = e.target.value;
-                                    if (mealType === "breakfast") setSelectedBreakfast(value);
-                                    else if (mealType === "lunch") setSelectedLunch(value);
+                                    if (mealType === 'breakfast') setSelectedBreakfast(value);
+                                    else if (mealType === 'lunch') setSelectedLunch(value);
                                     else setSelectedDinner(value);
                                 }}
                             >
