@@ -1,12 +1,19 @@
-import { connect, close } from 'mongodb-memory-server';
+import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
 import dotenv from 'dotenv';
-
-dotenv.config({ path: ".env.test" });
-
+ 
+dotenv.config({path: ".env.test"});
+ 
+let mongoServer;
+ 
 beforeAll(async () => {
-  await connect();
+    mongoServer = await MongoMemoryServer.create();
+    const mongoURI = mongoServer.getUri();
+    await mongoose.connect(mongoURI);
 });
-
+ 
 afterAll(async () => {
-  await close();
-});
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+    await mongoServer.stop();
+})
