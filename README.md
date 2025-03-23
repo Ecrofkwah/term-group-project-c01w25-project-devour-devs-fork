@@ -73,6 +73,12 @@ cd server
 npm install
 ```
 
+Root: Navigate to the root of the project and install dependencies:
+```
+cd ..
+npm install
+```
+
 <b>6. Run the app:</b>
 
 Navigate to `client` folder, start the frontend:
