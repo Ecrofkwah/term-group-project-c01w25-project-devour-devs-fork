@@ -1,19 +1,13 @@
-import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
+// tests/setupTests.js
+import { connect, close } from '../cypress/mongo-memory-server.js';
 import dotenv from 'dotenv';
 
-dotenv.config({path: ".env.test"});
-
-let mongoServer;
+dotenv.config({ path: ".env.test" });
 
 beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create();
-    const mongoURI = mongoServer.getUri();
-    await mongoose.connect(mongoURI);
+  await connect();
 });
 
 afterAll(async () => {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
-    await mongoServer.stop();
-})
+  await close();
+});
