@@ -1,5 +1,4 @@
-// tests/setupTests.js
-import { connect, close } from '../cypress/mongo-memory-server.js';
+import { connect, close } from 'mongodb-memory-server';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: ".env.test" });
