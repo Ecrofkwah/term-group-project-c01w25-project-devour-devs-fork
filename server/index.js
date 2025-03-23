@@ -58,7 +58,7 @@ console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-cy'){
     connect();
     console.log('connected to memory server')
-    console.log(`URI: ${process.env.MONGODB_URI}`)
+    console.log(`URI: ${process.env.MONGO_URI}`)
 }
 else {
     // connect to mongoDB
