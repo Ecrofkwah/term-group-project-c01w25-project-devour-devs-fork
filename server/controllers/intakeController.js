@@ -113,7 +113,7 @@ const lastNDaysIntake = async (req, res) => {
     try {
         const today = new Date();
         const nDaysAgo = new Date();
-        nDaysAgo.setDate(today.getDate() - 4); // last 5 days including today
+        nDaysAgo.setDate(today.getDate() - 5); // last 5 days including today
 
         const intakesForLastNDays = await Intake.aggregate([
             {
