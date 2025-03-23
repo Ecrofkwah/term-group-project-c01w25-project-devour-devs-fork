@@ -1,15 +1,21 @@
 /* Voice Transcription Popup Styles */
 
 .voice-transcription-container {
-    position: fixed;
+    /* position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-end; */
   }
   
+.container {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  top: 12px;
+}
   /* Main transcription box */
   .transcription-box {
     background-color: white;
@@ -304,6 +310,18 @@
 
 .typing-indicator span:nth-child(3) {
     animation-delay: 0.8s;
+}
+
+.w-full.h-full{
+    position: relative;
+    margin-top: 0px;
+    padding: 0px;
+    top: -20px;
+}
+
+#mic-button{
+  position: relative;
+  top: -20px;
 }
 
 @keyframes load {

@@ -116,6 +116,7 @@ function VoiceTranscription() {
     const height = canvas.height;
     const bufferLength = analyserRef.current.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
+
     
     // Clear canvas
     canvasCtx.clearRect(0, 0, width, height);
@@ -140,7 +141,7 @@ function VoiceTranscription() {
       
       for (let i = 0; i < bufferLength; i++) {
         // Calculate bar height based on frequency data
-        const barHeight = dataArray[i] / 2;
+        const barHeight = dataArray[i] / 2 / 2;
         
         // Draw bar
         const r = 255 * (barHeight / 128);
@@ -241,7 +242,7 @@ useEffect(() => {
   const generateCirclePoints = () => {
     const points = [];
     const segments = visualizerData.length;
-    const radius = 80;
+    const radius = 80 / 2;
     const centerX = 100;
     const centerY = 100;
     
@@ -282,13 +283,15 @@ return (
     {/* Canvas for bar visualizer */}
     <canvas 
       ref={canvasRef} 
-      width="300" 
-      height="100" 
+      width="150" 
+      //height="50" 
+      height='50'
       className="w-full h-24 bg-gray-900 rounded-lg mb-6"
     />
 
     {/* Circular Visualizer */}
-    <svg width="200" height="200" viewBox="0 0 200 200" className="w-full h-full">
+    <svg width="50" height="50" viewBox="0 0 200 200" className="w-full h-full">
+    {/* <svg width="200" height="200" viewBox="0 0 200 200" className="w-full h-full"> */}
       {/* Background circle */}
       <circle cx="100" cy="100" r="80" fill="transparent" stroke="#e5e7eb" strokeWidth="2" />
       
@@ -305,12 +308,13 @@ return (
     {/* Record button in center */}
     <button
         onClick={isRecording ? stopRecording : startRecording}
-        className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 rounded-full ${
+        className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-1 rounded-full${
           isRecording 
             ? 'bg-red-500 hover:bg-red-600' 
             : 'bg-blue-500 hover:bg-blue-600'
-        } text-white transition-all duration-300`}>
-      {isRecording ? <MicOff size={24} /> : <Mic size={24} />}
+        } text-white transition-all duration-300`}
+        id='mic-button'>
+      {isRecording ? <MicOff size={24} color='black' /> : <Mic size={24} color='black' />}
     </button>
 
     {/* Audio playback */}

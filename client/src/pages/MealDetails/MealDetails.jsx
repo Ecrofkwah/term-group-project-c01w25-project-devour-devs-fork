@@ -5,7 +5,7 @@ import './MealDetails.css'
 import config from '../../config/config';
 import MealRate from '../../components/MealRate/MealRate';
 import AiAssistantChatbox from '../../components/AiAssistant/AiAssistantChatbox';
-import VoiceTranscription from '../../components/Voice/VoiceTranscription';
+//import VoiceTranscription from '../../components/Voice/VoiceTranscription';
 
 function MealDetails({loginUser}) {
   const {id} = useParams();
@@ -247,6 +247,7 @@ function MealDetails({loginUser}) {
         </div>
       </div>
       {isStepByStep && <AiAssistantChatbox />}
+      {/* {isStepByStep && <VoiceTranscription/>} */}
     </div>
   )
 }
