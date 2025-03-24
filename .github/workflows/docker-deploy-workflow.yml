@@ -26,10 +26,10 @@ jobs:
 
       - name: Tag and Push Images
         run: |
-          docker tag RecipeConnect-frontend:latest ${{ secrets.DOCKER_USERNAME }}/RecipeConnect-frontend:latest
-          docker tag RecipeConnect-backend:latest ${{ secrets.DOCKER_USERNAME }}/RecipeConnect-backend:latest
+          docker tag recipeconnect-frontend:latest ${{ secrets.DOCKER_USERNAME }}/recipeconnect-frontend:latest
+          docker tag recipeconnect-backend:latest ${{ secrets.DOCKER_USERNAME }}/recipeconnect-backend:latest
 
-          docker push ${{ secrets.DOCKER_USERNAME }}/RecipeConnect-frontend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/RecipeConnect-backend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/recipeconnect-frontend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/recipeconnect-backend:latest
 
           docker images
