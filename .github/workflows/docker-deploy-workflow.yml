@@ -12,7 +12,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Docker Compose Build
-        run: docker-compose build
+        run: docker compose build
+
+      - name: Check Docker Compose Version
+        run: docker compose version
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
