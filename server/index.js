@@ -12,6 +12,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { aiAssistantRouter } from './routes/aiAssistantRoutes.js'
 import { connect } from '../cypress/e2e/mongodb-test-db.js';
+import { voiceRouter } from './routes/voiceRoutes.js'
 
 // load env variables
 dotenv.config()
@@ -22,7 +23,7 @@ app.use(cookieParser())
 
 // cors setup
 const corsConfig = {
-    origin: 'http://localhost:5173', // frontend url
+    origin: ['http://localhost:5173', 'http://127.0.0.1:8000'],
     credentials: true,
 }
 app.use(cors(corsConfig))
@@ -42,6 +43,7 @@ app.use('/api/meals', mealRouter)
 app.use('/api/planner', plannerRouter)
 app.use('/api/image', imageRouter)
 app.use('/api/intake', intakeRouter)
+app.use('/api/voice', voiceRouter)
 
 // set up static files path
 const __filename = fileURLToPath(import.meta.url);

@@ -46,17 +46,25 @@ const getChatResponse = async (req, res) => {
     }
 
     try{
-        const chat = model.startChat({ history: history || []});
-        const result = await chat.sendMessage(message);
+        const result = await modelConvesation(message, history);
         res.status(201).json({response: result.response.text(), history: chat._history});
     } catch (error){
         res.status(500).json({message: "Internal Server Error"});
     }
 }
 
+
+// Refer to this documentation https://ai.google.dev/gemini-api/docs/text-generation#javascript
+// Here history needs to be an array
+const modelConvesation = async (message, history) => {
+    const chat = model.startChat({ history: history || []});
+    return await chat.sendMessage(message);
+}
+
 const aiAssistantController = {
     getStepByStepInstructions,
-    getChatResponse
+    getChatResponse,
+    modelConvesation
 }
 
 export default aiAssistantController;
