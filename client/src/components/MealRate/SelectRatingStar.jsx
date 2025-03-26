@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../config/config';
 
-
 export const SelectRatingStar = ({ setRating, mealId, userId, index, color }) => {
     const navigate = useNavigate();
     const token = localStorage.getItem("jwt");
@@ -25,5 +24,14 @@ export const SelectRatingStar = ({ setRating, mealId, userId, index, color }) =>
     };
     return (
         <FaStar onClick={handleClick} style={{ color: `${color}`, stroke: 'black', strokeWidth: 2, fontSize: '50px' }} />
+        // <RatingGroup.Root
+        //     count={5}
+        //     value={index}
+        //     onClick={handleClick}
+        //     >
+        //       <RatingGroup.HiddenInput />
+        //       <RatingGroup.Control />
+        // </RatingGroup.Root>
+
     )
 }

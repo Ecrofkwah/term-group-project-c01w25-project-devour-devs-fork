@@ -6,7 +6,7 @@ dotenv.config();
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: AI_ASSISTANT_MODEL, systemInstruction: "You are a cooking helper/mentor. IMPORTANT: Don't answer anything prompts unrelated to cooking."});
+const model = genAI.getGenerativeModel({ model: AI_ASSISTANT_MODEL, systemInstruction: "You are a cooking helper/mentor. IMPORTANT: Don't answer anything prompts unrelated to cooking. Please keep your answers short and concise" });
 
 const chatSessions = {};
 
