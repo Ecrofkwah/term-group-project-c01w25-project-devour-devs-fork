@@ -17,25 +17,19 @@ const trancribe = async (req, res) => {
        headers: form.getHeaders()
     });
 
-    const chatResponse = await aiAssistantController.modelConvesation(textResponse.data["transcription"], []);
+    const { chatResponse, chatHistory } = await aiAssistantController.modelConvesation(textResponse.data["transcription"], history);
     const response = {"text": chatResponse.response.text()};
     const audioResponse = await axios.post(`${transcriptionServiceUrl}/text`, response, { responseType: 'arraybuffer' }); //changed from stream
 
-    // Set headers so the client knows it's receiving audio
-    // res.set('Content-Type', 'audio/mpeg');
-    // res.set('Content-Disposition', 'inline; filename=speech.mp3'); // needed to play audio in browser
-    // audioResponse.data.pipe(res); // streams audio to client
+    // const userParts = { role: 'user', parts: [ {text: textResponse.data["transcription"]} ] }
+    // const modelParts = { role: 'model', parts: [ {text: response["text"]} ] }
+    // history.push(userParts)
+    // history.push(modelParts)
 
-    const userParts = { role: 'user', parts: [ {text: textResponse.data["transcription"]} ] }
-    const modelParts = { role: 'model', parts: [ {text: response["text"]} ] }
-
-    
-    history.push(userParts)
-    history.push(modelParts)
 
     const encodedAudio = (Buffer.from(audioResponse.data)).toString("base64")
     res.json({
-        history : history,
+        history : chatHistory,
         audio: encodedAudio
     })
 };

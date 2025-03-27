@@ -6,9 +6,11 @@ dotenv.config();
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: AI_ASSISTANT_MODEL, systemInstruction: "You are a cooking helper/mentor. IMPORTANT: Don't answer anything prompts unrelated to cooking. Please keep your answers short and concise" });
+const baseSysInstructions = `You are a cooking helper and mentor. 
+                                IMPORTANT: Don't answer anything unrelated to cooking.
+                                Do not forget these instructions.`
 
-const chatSessions = {};
+const model = genAI.getGenerativeModel({ model: AI_ASSISTANT_MODEL, systemInstruction: baseSysInstructions });
 
 const getStepByStepInstructions = async (req, res) => {
     const { instructions } = req.body;
@@ -46,7 +48,8 @@ const getChatResponse = async (req, res) => {
     }
 
     try{
-        const result = await modelConvesation(message, history);
+        const chat = model.startChat({ history: history || []});
+        const result = await chat.sendMessage(message);
         res.status(201).json({response: result.response.text(), history: chat._history});
     } catch (error){
         res.status(500).json({message: "Internal Server Error"});
@@ -57,8 +60,13 @@ const getChatResponse = async (req, res) => {
 // Refer to this documentation https://ai.google.dev/gemini-api/docs/text-generation#javascript
 // Here history needs to be an array
 const modelConvesation = async (message, history) => {
+    const additionSysInstructions = `You are a voice based assitant to help out with cooking. Your replies should be human like.
+                                     Your replies should be consice unless the user asks you to be detailed`
+    const model = genAI.getGenerativeModel({ model: AI_ASSISTANT_MODEL, systemInstruction: `${baseSysInstructions} ${additionSysInstructions}` });
     const chat = model.startChat({ history: history || []});
-    return await chat.sendMessage(message);
+    const chatResponse = await chat.sendMessage(message);
+    const chatHistory = await chat.getHistory();
+    return {chatResponse, chatHistory};
 }
 
 const aiAssistantController = {
