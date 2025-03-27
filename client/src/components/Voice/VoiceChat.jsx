@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Button, Icon } from "@chakra-ui/react";
+import { Box, Button, Icon, Progress } from "@chakra-ui/react";
 import { IoMdMic } from "react-icons/io";
 import config from '../../config/config';
 
@@ -14,6 +14,7 @@ function VoiceChat() {
   const [loadingtext, setLoadingText] = useState('');
   const [isloading, setIsLoading] = useState(false)
   const [buttonText, setButtonText] = useState("Start Recording")
+  const [showProgess, setShowProgress] = useState(false)
 
 
   const audioRef = useRef(null)
@@ -162,6 +163,7 @@ function VoiceChat() {
     audioRef.current.addEventListener('playing', ()=>{
       setIsLoading(true)
       setLoadingText('Speaking')
+      setShowProgress(false)
     })
     audioRef.current.addEventListener('ended', ()=>{
       setIsLoading(false)
@@ -174,18 +176,27 @@ function VoiceChat() {
 const handleClick = () => {
   if (isRecording) {
     stopRecording();
+    if (buttonText === 'Recording' && !isloading) {setShowProgress(true)}
   } else {
     startRecording();
   }
 } 
 
-  return ( 
-    <Button onClick={handleClick}
-      isLoading={isloading}
-      loadingText={loadingtext}
-      >
-      {buttonText}
-    </Button>
+  return (
+    <Box width="200px" margin="auto">
+      {showProgess ?  (
+          <Progress size="sm" isIndeterminate colorScheme="blue" />
+        ) : ( 
+          <Button
+            onClick={handleClick}
+            isLoading={isloading}
+            loadingText={loadingtext}
+            >
+            {buttonText}
+          </Button>
+        )
+      }
+    </Box>
   )
 
 }

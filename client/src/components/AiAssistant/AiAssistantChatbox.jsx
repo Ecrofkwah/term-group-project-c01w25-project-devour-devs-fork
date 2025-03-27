@@ -116,16 +116,12 @@ const AiAssistantChatbox = () => {
                 </div>
 
                 <form className='chatbox-input' onSubmit={handleEnter}>
-                    <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading} />
+                    <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading}>
+                    </input>
                     <button className='send-button' type='submit' disabled={isLoading}>
                         Send
                     </button>
                 </form>
-            </div>
-            <div className='button-section'>
-                <button className={`chatbox-toggle ${isOpen ? 'open' : ''}`} onClick={toggleChatbox}>
-                    <MdAssistant style={{ background: "transparent" }} />
-                </button>
             </div>
         </div>
     )
