@@ -2,17 +2,20 @@
 By team: Devour Devs
 
 ## Description:
-RecipeConnect is an innovative recipe-sharing application designed to simplify the cooking experience for everyone, from beginners to culinary enthusiasts. Our mission is to be the go-to platform for finding and sharing recipes, addressing a wide array of user needs and preferences. However, we also offer numerous features that students would appreciate regarding budgeting, difficulty, and a focus on nutrition.
+RecipeConnect is a dynamic recipe and meal planning application designed to enhance the cooking experience for individuals at all levels. With a focus on simplicity and utility, RecipeConnect offers a range of features that empower users to discover recipes, plan their meals, and stay on track with their nutritional goals.
 
-###### Key Features (Description):
-- <b>Advanced Search Options:</b> Users can search for recipes by name, ingredients, one-pot dishes, cuisine type, and more. This comprehensive search capability enables users to pinpoint exactly what they want without sifting through endless unsuitable options.
-- <b>Budget-Friendly Cooking:</b> For those mindful of their finances, our app provides cost-effective shopping suggestions, budget-conscious meal plans, and a search filter focused on recipe cost.
-- <b>Recipe Creation and Sharing:</b> Recipe writers can easily create and save their recipes with our user-friendly builder, which automatically calculates nutritional information, cost, and difficulty.
-- <b>Virtual Pantry and Ingredient Substitution:</b> Users can manage a virtual pantry to track ingredients, find matching recipes, and receive ingredient buying suggestions. We also offer substitution options for limited ingredient scenarios.
-- <b>Healthy Eating Support:</b> To encourage healthier eating habits, RecipeConnect includes nutritional information for each recipe, customizable serving sizes, healthier ingredient alternatives, and calorie-based filtering.
+#### Key Features:
+- <b>User Authentication & Personalization:</b> Register and log in to save favorite recipes, meal plans, and track nutritional progress.
+- <b>Recipe Discovery & Search:</b> Browse and search recipes based on ingredients, dietary preferences, and cooking time, with suggestions based on what ingredients you have at home.
+- <b>Meal Planning:</b> Plan and manage weekly meals, ensuring a well-organized cooking schedule that aligns with dietary needs.
+- <b>AI Cooking Assistant:</b> Receive step-by-step cooking guidance and answers to your culinary questions, making meal prep easier.
+- <b>Nutritional Analysis:</b> Upload meal photos for instant nutritional breakdowns, helping you track calories and nutrients for healthier eating.
+
 
 ## Motivation:
-Our project RecipeConnect is a recipe sharing platform designed specifically for students. Many students struggle with eating proper three meals a day due to limited time, tight budgets and inexperienced in cooking. Our platform provides easy, affordable and quick recipes options tailored to student needs, where students can share their own recipe, discover new dishes to cook, interact and learn with one another. By simplifying home cooking, we hope to promote healthier eating habits, reduce reliance on takeouts and make cooking more accessible and enjoyable for our peers.
+RecipeConnect is designed to help home cooks, beginners, and anyone looking to adopt a healthier eating style. The app offers a user-friendly platform to discover new recipes, plan meals, and track nutrition, all with an emphasis on simplicity and practicality.
+Whether you're new to cooking, seeking fresh meal ideas, or aiming for healthier eating habits, RecipeConnect provides the tools to make meal planning easy and enjoyable, even on a busy schedule.
+
 
 ## Installation:
 ### <b>Prerequisites:</b>
