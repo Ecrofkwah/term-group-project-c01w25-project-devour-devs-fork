@@ -5,9 +5,13 @@ import config from '../../config/config';
 import { MdAssistant } from 'react-icons/md';
 import ReactMarkdown from 'react-markdown';
 
-const AiAssistantChatbox = () => {
+const AiAssistantChatbox = ({ mealInfo }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([]);
+
+    // Prop drilling so AI knows what dish we are refering too
+    const mealSummary = { role: 'user', parts: [ {text: mealInfo.summary.replace(/<[^>]*>/g, '')} ] }
+    const mealInstructions = { role: 'user', parts: [ {text: mealInfo.instructions.replace(/<[^>]*>/g, '')} ] }
+    const [messages, setMessages] = useState([mealSummary, mealInstructions]);
     //{ role: "model", parts: [{ text: 'Hello! How can I help you today?'}]}
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -122,6 +126,11 @@ const AiAssistantChatbox = () => {
                         Send
                     </button>
                 </form>
+            </div>
+            <div className='button-section'>
+                <button className={`chatbox-toggle ${isOpen ? 'open' : ''}`} onClick={toggleChatbox}>
+                    <MdAssistant style={{ background: "transparent" }} />
+                </button>
             </div>
         </div>
     )

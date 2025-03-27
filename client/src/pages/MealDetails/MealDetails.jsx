@@ -69,6 +69,7 @@ function MealDetails({loginUser}) {
 
   useEffect(() => {
     fetchMealDetails(id);
+    
   }, [id])
 
   useEffect(() => {
@@ -245,8 +246,8 @@ function MealDetails({loginUser}) {
           </div>
         </div>
       </div>
-      {isStepByStep && <AiAssistantChatbox />}
-      <VoiceChat />
+      {isStepByStep && <AiAssistantChatbox mealInfo = {meal}/>}
+      <VoiceChat mealInfo = {meal}/>
     </div>
   )
 }

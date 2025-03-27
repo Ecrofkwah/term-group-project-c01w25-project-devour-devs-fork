@@ -4,12 +4,26 @@ import { IoMdMic } from "react-icons/io";
 import config from '../../config/config';
 
 
-function VoiceChat() {
+function VoiceChat({ mealInfo }) {
   // State for recording status and audio data
   const [isRecording, setIsRecording] = useState(false);
   const [serverAudioUrl, setServerAudioUrl] = useState(null);
-  const [history, setHistory] = useState([])
 
+  const mealSummary = { role: 'user', parts: [ {text: mealInfo.summary.replace(/<[^>]*>/g, '')} ] }
+  const mealInstructions = { role: 'user', parts: [ {text: mealInfo.instructions.replace(/<[^>]*>/g, '')} ] }
+  // const mealIngredients = { role: 'user', parts: [ {text: mealInfo.extendedIngredients
+  //   .map((ingredient) => {
+  //     const { original, measures } = ingredient;
+  //     const metric = measures.metric;
+  //     const measurement =
+  //       metric.amount && metric.unitShort
+  //         ? `(${metric.amount} ${metric.unitShort})`
+  //         : "";
+  //     return `${original} ${measurement}`.trim();
+  //   })
+  //   .join(", ")} ] }
+
+  const [history, setHistory] = useState([mealSummary, mealInstructions])
   // states needed to determine if we are currently recording or playing audio
   const [loadingtext, setLoadingText] = useState('');
   const [isloading, setIsLoading] = useState(false)
