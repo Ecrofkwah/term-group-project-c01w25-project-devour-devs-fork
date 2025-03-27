@@ -1,0 +1,10 @@
+setuptools
+setuptools-rust
+pyaudio
+SpeechRecognition
+torch
+numpy
+fastapi[standard]
+openai-whisper
+librosa
+edge-tts

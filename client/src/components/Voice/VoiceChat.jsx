@@ -203,6 +203,8 @@ const handleClick = () => {
         ) : ( 
           <Button
             onClick={handleClick}
+            colorScheme='teal'
+            variant='outline'
             isLoading={isloading}
             loadingText={loadingtext}
             >
