@@ -12,19 +12,14 @@ const trancribe = async (req, res) => {
     form.append('audio', fileBuffer, req.file.originalname);
 
     const transcriptionServiceUrl = `${process.env.TRANSCRIPTION_URI}:${process.env.TRANSCRIPTION_PORT}`;
-
     const textResponse = await axios.post(`${transcriptionServiceUrl}/audio`, form, {
        headers: form.getHeaders()
     });
 
     const { chatResponse, chatHistory } = await aiAssistantController.modelConvesation(textResponse.data["transcription"], history);
     const response = {"text": chatResponse.response.text()};
-    const audioResponse = await axios.post(`${transcriptionServiceUrl}/text`, response, { responseType: 'arraybuffer' }); //changed from stream
+    const audioResponse = await axios.post(`${transcriptionServiceUrl}/text`, response, { responseType: 'arraybuffer' });
 
-    // const userParts = { role: 'user', parts: [ {text: textResponse.data["transcription"]} ] }
-    // const modelParts = { role: 'model', parts: [ {text: response["text"]} ] }
-    // history.push(userParts)
-    // history.push(modelParts)
 
 
     const encodedAudio = (Buffer.from(audioResponse.data)).toString("base64")

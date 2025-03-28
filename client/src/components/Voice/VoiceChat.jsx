@@ -85,7 +85,7 @@ function VoiceChat({ mealInfo }) {
       
       // Handle recording stop
       mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' }); // need to support audio format that is supported with chrome
         
         // Automatically send the recording to the backend
         sendAudioToBackend(audioBlob);
@@ -127,9 +127,8 @@ function VoiceChat({ mealInfo }) {
   const sendAudioToBackend = async (audioBlob) => {
     const json_string = JSON.stringify(history);
     const formData = new FormData();
-    formData.append('audio', audioBlob)
+    formData.append('audio', audioBlob, "recording.webm")
     formData.append('history', json_string)
-    
     try {
       const response = await fetch(`${config.BASE_URL}/api/voice/transcribe`, { 
         method: 'POST',
@@ -144,7 +143,6 @@ function VoiceChat({ mealInfo }) {
       const newAudioBlob = base64ToBlob(data.audio);
       fetchAndPlayAudio(newAudioBlob);
       setHistory(data.history)
-      console.log(data.history)
     } catch (error) {
       console.error('Error sending audio to server:', error);
     }

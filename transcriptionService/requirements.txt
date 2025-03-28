@@ -8,3 +8,5 @@ fastapi[standard]
 openai-whisper
 librosa
 edge-tts
+audioread
+ffmpeg-python

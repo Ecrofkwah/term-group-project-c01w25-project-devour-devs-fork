@@ -8,6 +8,8 @@ from io import BytesIO
 import librosa
 import json
 from datetime import datetime
+import ffmpeg
+
 
 app = FastAPI()
 
@@ -24,15 +26,29 @@ app.add_middleware(
     allow_headers=["*"],          # Allow all headers
 )
 
+# needed for consistent audio format, so it works with chrome
+def convert_audio_to_wav(audio_bytes: BytesIO) -> BytesIO:
+    # Launch ffmpeg to convert input audio (from any format) to WAV.
+    process = (
+        ffmpeg
+        .input('pipe:0')
+        .output('pipe:1', format='wav')
+        .run_async(pipe_stdin=True, pipe_stdout=True, pipe_stderr=True)
+    )
+    out, err = process.communicate(input=audio_bytes.getvalue())
+    if process.returncode != 0:
+        raise Exception("FFmpeg conversion failed: " + err.decode())
+    return BytesIO(out)
+
 @app.post("/audio/")
 async def upload_audio(audio: UploadFile = File()):
 
     # Read the file content into memory
     contents = audio.file.read()
-    # print("got audio from server")
     audio_bytes = BytesIO(contents)
+    wav_audio = convert_audio_to_wav(audio_bytes)
     # For direct loading with librosa
-    audio, sr = librosa.load(audio_bytes)  # whisper expects 16kHz
+    audio, sr = librosa.load(wav_audio)  # whisper expects 16kHz
     if sr != 16000:
         # Resample to 16kHz if needed
         audio = librosa.resample(audio, orig_sr=sr, target_sr=16000)
