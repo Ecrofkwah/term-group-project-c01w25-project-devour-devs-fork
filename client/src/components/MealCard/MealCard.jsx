@@ -36,7 +36,7 @@ function MealCard({meal}) {
         <div>Cooking Time: {meal.readyInMinutes} min</div>
         <div>Servings: {meal.servings}</div>
       </div>
-      <div className="ratingContainer"> {rating ? <div className="ratings"> <Rating rating={rating.avgRating} /> <div className="ratingCount"> ({rating.numRatings}) </div> </div>: <p>Loading...</p>} </div>
+      <div className="ratingContainer"> {rating ? <div className="ratings"> <Rating rating={rating.avgRating} /> <div className="ratingCount"> ({rating.numRatings} users) </div> </div>: <p>Loading...</p>} </div>
     </div>
   )
 }
