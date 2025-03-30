@@ -129,7 +129,7 @@ const AiAssistantChatbox = ({ mealInfo }) => {
                 </form>
             </div>
             <div className='button-section'>
-                <VoiceChat mealInfo = {mealInfo} history = {messages} setHistory = {setMessages}/>
+                <VoiceChat mealInfo = {mealInfo} history = {messages} setHistory = {setMessages} cooldown = {isOnCooldown} setCooldown = {setIsOnCooldown}/>
                 <button className={`chatbox-toggle ${isOpen ? 'open' : ''}`} onClick={toggleChatbox}>
                     <MdAssistant style={{ background: "transparent" }} />
                 </button>
