@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Box, Button, Icon, Progress } from "@chakra-ui/react";
 import { IoMdMic } from "react-icons/io";
 import config from '../../config/config';
+import './VoiceChat.css'
 
-
-function VoiceChat({ mealInfo }) {
+function VoiceChat({ mealInfo, history, setHistory }) {
   // State for recording status and audio data
   const [isRecording, setIsRecording] = useState(false);
   const [serverAudioUrl, setServerAudioUrl] = useState(null);
@@ -23,7 +23,7 @@ function VoiceChat({ mealInfo }) {
   //   })
   //   .join(", ")} ] }
 
-  const [history, setHistory] = useState([mealSummary, mealInstructions])
+  //const [history, setHistory] = useState([mealSummary, mealInstructions])
   // states needed to determine if we are currently recording or playing audio
   const [loadingtext, setLoadingText] = useState('');
   const [isloading, setIsLoading] = useState(false)
@@ -195,7 +195,7 @@ const handleClick = () => {
 } 
 
   return (
-    <Box width="200px" margin="auto">
+    <Box width="200px" margin="auto" className='voice-chat-container'>
       {showProgess ?  (
           <Progress size="sm" isIndeterminate colorScheme="blue" />
         ) : ( 

@@ -247,7 +247,7 @@ function MealDetails({loginUser}) {
         </div>
       </div>
       {isStepByStep && <AiAssistantChatbox mealInfo = {meal}/>}
-      <VoiceChat mealInfo = {meal}/>
+      {/* <VoiceChat mealInfo = {meal}/> */}
     </div>
   )
 }

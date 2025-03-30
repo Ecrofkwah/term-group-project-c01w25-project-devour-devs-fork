@@ -4,8 +4,9 @@ import axios from 'axios';
 import config from '../../config/config';
 import { MdAssistant } from 'react-icons/md';
 import ReactMarkdown from 'react-markdown';
+import VoiceChat from '../../components/Voice/VoiceChat';
 
-const AiAssistantChatbox = ({ mealInfo }) => {
+const AiAssistantChatbox = ({ mealInfo }) => {  
     const [isOpen, setIsOpen] = useState(false);
 
     // Prop drilling so AI knows what dish we are refering too
@@ -128,6 +129,7 @@ const AiAssistantChatbox = ({ mealInfo }) => {
                 </form>
             </div>
             <div className='button-section'>
+                <VoiceChat mealInfo = {mealInfo} history = {messages} setHistory = {setMessages}/>
                 <button className={`chatbox-toggle ${isOpen ? 'open' : ''}`} onClick={toggleChatbox}>
                     <MdAssistant style={{ background: "transparent" }} />
                 </button>
