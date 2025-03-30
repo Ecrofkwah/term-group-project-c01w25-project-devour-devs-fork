@@ -13,7 +13,7 @@ RecipeConnect is a dynamic recipe and meal planning application designed to enha
 
 
 ## Motivation:
-RecipeConnect is designed to help home cooks, beginners, and anyone looking to adopt a healthier eating style. The app offers a user-friendly platform to discover new recipes, plan meals, and track nutrition, all with an emphasis on simplicity and practicality.
+RecipeConnect is designed to help home cooks, beginners, and anyone looking to adopt a healthier eating style. The app offers a user-friendly platform to discover new recipes, plan meals, and track nutrition.
 Whether you're new to cooking, seeking fresh meal ideas, or aiming for healthier eating habits, RecipeConnect provides the tools to make meal planning easy and enjoyable, even on a busy schedule.
 
 
@@ -114,11 +114,12 @@ Backend (server folder):
 - `/routes`: handle routing and map the endpoints to controllers. Ex: /sign up, /login
 - `/controllers`: contain logic for each route (e.g authController.js contains logic for user sign up / log in)
 - `index.js`: entry point for server, set up express app, connect to database, handle requests.
+- `/tests`: contains backend test cases
 
 MVC Structure:
-- Model: `/server/models` defines the data structure (ex, User schema in User.js)
+- Model: `/server/models` defines the data structure.
 - View: front end react app
-- Controller: `/server/controllers` handles the logic between model and view. (ex signUserUp. logUserIn)
+- Controller: `/server/controllers` handles the logic between model and view.
 
 ## Contribution:
 1. Git Flow: We will use git flow for managing branches and releases.
