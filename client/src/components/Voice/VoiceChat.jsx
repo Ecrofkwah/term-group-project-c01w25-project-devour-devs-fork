@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Button, Icon, Progress } from "@chakra-ui/react";
-import { IoMdMic } from "react-icons/io";
+import Button from 'react-bootstrap/Button';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import Spinner from 'react-bootstrap/Spinner';
 import config from '../../config/config';
 import './VoiceChat.css'
 
@@ -195,22 +196,34 @@ const handleClick = () => {
 } 
 
   return (
-    <Box width="200px" margin="auto" className='voice-chat-container'>
-      {showProgess ?  (
-          <Progress size="sm" isIndeterminate colorScheme="blue" />
-        ) : ( 
-          <Button
-            onClick={handleClick}
-            colorScheme='teal'
-            variant='outline'
-            isLoading={isloading}
-            loadingText={loadingtext}
-            >
-            {buttonText}
-          </Button>
-        )
-      }
-    </Box>
+
+    <div style={{ width: '200px', margin: 'auto' }} className='voice-chat-container'>
+      {showProgess ? (
+        // An indeterminate progress bar
+        <ProgressBar animated now={100} variant="primary" style={{ height: '4px' }} />
+      ) : (
+        <Button
+          onClick={handleClick}
+          variant="outline-primary"
+          disabled={isloading}
+        >
+          {isloading ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />{' '}
+              {loadingtext}
+            </>
+          ) : (
+            buttonText
+          )}
+        </Button>
+      )}
+    </div>
   )
 
 }
