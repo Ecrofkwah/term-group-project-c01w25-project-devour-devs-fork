@@ -99,7 +99,7 @@ const AiAssistantChatbox = ({ mealInfo }) => {
                         <div key={1} className={`message model`}>
                             <p>Hello! How can I help you today? </p>
                         </div>
-                        {messages.map((message, index) => (
+                        {messages.map((message, index) => ( index > 1 &&
                             <div key={index + 1} className={`message ${message.role}`}>
                                 <ReactMarkdown style={{ background: "none" }}>
                                     {message.parts[0].text}
