@@ -5,7 +5,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import config from '../../config/config';
 import './VoiceChat.css'
 
-function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown}) {
+function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown, isloading, setIsLoading}) {
   // State for recording status and audio data
   const [isRecording, setIsRecording] = useState(false);
   const [serverAudioUrl, setServerAudioUrl] = useState(null);
@@ -27,7 +27,7 @@ function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown}) {
   //const [history, setHistory] = useState([mealSummary, mealInstructions])
   // states needed to determine if we are currently recording or playing audio
   const [loadingtext, setLoadingText] = useState('');
-  const [isloading, setIsLoading] = useState(false)
+  //const [isloading, setIsLoading] = useState(false)
   const [buttonText, setButtonText] = useState("Start Recording")
   const [showProgess, setShowProgress] = useState(false)
 
@@ -69,6 +69,9 @@ function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown}) {
 
   // Start recording function
   const startRecording = async () => {
+    const chatField = document.querySelector('.chatbox-input');
+    chatField.classList.add('unavailable');
+    document.activeElement.blur();
     try {
       // Request microphone access
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
