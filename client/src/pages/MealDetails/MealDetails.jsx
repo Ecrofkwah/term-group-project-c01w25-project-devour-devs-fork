@@ -7,6 +7,8 @@ import MealRate from '../../components/MealRate/MealRate';
 import AiAssistantChatbox from '../../components/AiAssistant/AiAssistantChatbox';
 import VoiceChat from '../../components/Voice/VoiceChat';
 
+import Button from 'react-bootstrap/Button';
+
 function MealDetails({loginUser}) {
   const {id} = useParams();
   const [meal, setMeal] = useState(null);
@@ -159,7 +161,7 @@ function MealDetails({loginUser}) {
         </div>
 
         <div className='recipe-options'>
-          <div className='fav-btn-container'>{loginUser 
+          {/* <div className='fav-btn-container'>{loginUser 
             ? (!isFav 
               ? (<div className='add-to-fav-btn' onClick={handleAddToFavourites}>
                   Add to Favourites
@@ -168,7 +170,28 @@ function MealDetails({loginUser}) {
                   Remove from Favourites
                 </div>)) 
             : <></>}
+          </div> */}
+
+          <div className="fav-btn-container">
+              {loginUser ? (
+                !isFav ? (
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={handleAddToFavourites}
+                  >
+                    Add to Favourites
+                  </button>
+                ) : (
+                  <button 
+                    className="btn btn-danger" 
+                    onClick={handleRemoveFromFavourites}
+                  >
+                    Remove from Favourites
+                  </button>
+                )
+              ) : null}
           </div>
+
           <div className='rating-select'>
             {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}    
           </div>
@@ -176,9 +199,11 @@ function MealDetails({loginUser}) {
           <div className='step-by-step-container'>
             {!isStepByStep ? 
             (
-              <div className='step-by-step-btn-off' onClick={() => setIsStepByStep(true)}> Step-by-Step Mode </div>
+              // <div className='step-by-step-btn-off' onClick={() => setIsStepByStep(true)}> Step-by-Step Mode </div>
+              <Button variant="dark" onClick={() => setIsStepByStep(true)}> Step-By-Step Mode</Button>
             ) : (
-              <div className='step-by-step-btn-on' onClick={() => setIsStepByStep(false)}> Step-by-Step Mode </div>
+              // <div className='step-by-step-btn-on' onClick={() => setIsStepByStep(false)}> Step-by-Step Mode </div>
+              <Button variant="outline-dark" onClick={() => setIsStepByStep(false)}> Step-By-Step Mode</Button>
             )}
           </div>
         </div>

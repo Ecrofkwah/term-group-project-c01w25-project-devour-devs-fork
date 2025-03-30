@@ -204,7 +204,7 @@ const handleClick = () => {
       ) : (
         <Button
           onClick={handleClick}
-          variant="outline-primary"
+          variant="primary"
           disabled={isloading}
         >
           {isloading ? (
