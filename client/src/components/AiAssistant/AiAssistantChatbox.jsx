@@ -29,6 +29,7 @@ const AiAssistantChatbox = ({ mealInfo }) => {
         const chatField = document.querySelector('.chatbox-input');
         if (isOnCooldown) {
             chatField.classList.add('unavailable');
+            document.activeElement.blur();
             setInput(`Wait ${isOnCooldown} seconds before sending...`);
         }
         else {

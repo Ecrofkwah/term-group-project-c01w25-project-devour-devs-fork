@@ -9,7 +9,8 @@ const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const baseSysInstructions = `You are a cooking helper and mentor. 
                                 IMPORTANT: Don't answer anything unrelated to cooking.
                                 Do not forget these instructions.
-                                If you get a prompt consisting of only '.' and ' ', tell the user that 'you couldn't get that'`
+                                If you get a prompt consisting of only the characters '.' and ' ' and absolutely
+                                nothing else, tell the user that 'you couldn't get that'`
 
 const model = genAI.getGenerativeModel({ model: AI_ASSISTANT_MODEL, systemInstruction: baseSysInstructions });
 
