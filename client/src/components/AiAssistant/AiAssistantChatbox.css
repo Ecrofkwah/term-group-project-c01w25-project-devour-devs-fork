@@ -39,8 +39,8 @@
 .chatbox-toggle {
     display: flex;
     justify-content: center;
-    position: fixed;
-    bottom: 2%;
+    position: relative;
+    /* bottom: 2%; */
     right: auto;
     font-size: 50px;
     float: right;

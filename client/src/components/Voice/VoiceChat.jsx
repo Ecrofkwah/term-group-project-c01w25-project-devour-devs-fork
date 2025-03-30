@@ -197,7 +197,7 @@ const handleClick = () => {
 
   return (
 
-    <div style={{ width: '200px', margin: 'auto' }} className='voice-chat-container'>
+    <div className='voice-chat-container'>
       {showProgess ? (
         // An indeterminate progress bar
         <ProgressBar animated now={100} variant="primary" style={{ height: '4px' }} />
@@ -206,6 +206,9 @@ const handleClick = () => {
           onClick={handleClick}
           variant="outline-primary"
           disabled={isloading}
+          style={{
+            whiteSpace: "nowrap"
+          }}
         >
           {isloading ? (
             <>
