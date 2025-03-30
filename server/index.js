@@ -40,12 +40,16 @@ app.use((err, req, res, next) => {
 app.use('/api/auth', userRouter)
 app.use('/api/meals', mealRouter)
 app.use('/api/planner', plannerRouter)
-app.use('/api/image', imageRouter)
+if (process.env.NODE_ENV !== 'test') {
+  app.use('/api/image', imageRouter)
+}
 app.use('/api/intake', intakeRouter)
 
 // set up static files path
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+if (process.env.NODE_ENV !== 'test') {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+}
 // app.use('/assets', express.static(path.join(__dirname, 'assets')))
 app.use('/api/ai', aiAssistantRouter)
 
@@ -56,7 +60,7 @@ if (process.env.NODE_ENV === 'test-cy'){
     console.log('connected to memory server')
     console.log(`URI: ${process.env.MONGODB_URI}`)
 }
-else if(process.env.NODE_ENV !== 'test'){
+else if (process.env.NODE_ENV !== 'test'){
     // connect to mongoDB
     console.log(process.env.MONGODB_URI)
     mongoose.connect(process.env.MONGODB_URI)
