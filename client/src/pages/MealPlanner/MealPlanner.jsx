@@ -261,7 +261,7 @@ function MealPlanner() {
 
             <div className="button-container">
                 <button className="fetch-btn" onClick={fetchMealPlan}>Fetch Meal Plan</button>
-                <button className="create-btn" onClick={createMealPlan}>Create Meal Plan</button>
+                {!mealPlan && <button className="create-btn" onClick={createMealPlan}>Create Meal Plan</button>}
                 {!mealPlan && <button className="randomize-btn" onClick={randomizeMealPlan}>Randomize Meals</button>}
                 {mealPlan && <button className="update-btn" onClick={updateMealPlan}>Update Meal Plan</button>}
                 {mealPlan && <button className="delete-btn" onClick={deleteMealPlan}>Delete Meal Plan</button>}
