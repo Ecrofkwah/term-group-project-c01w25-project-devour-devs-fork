@@ -72,6 +72,7 @@
     border: none;
     border-radius: 8px;
     background-color: rgb(69, 157, 234);
+    /* background-color: black; */
     color: white;
     width: fit-content;
     padding: 10px;
@@ -175,14 +176,14 @@
     border-radius: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
-    background-color: #913B58;
+    /* background-color: #913B58; */
     color: white;
     box-shadow: 0 6px #999;
 }
 
-.prev-step-btn-available:hover{
+/* .prev-step-btn-available:hover{
     background-color: #742F46;
-}
+} */
 
 .prev-step-btn-available:active{
     background-color: #742F46;
@@ -196,17 +197,17 @@
     border-radius: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
-    background-color: #006600;
-    color: white;
+    /* background-color: #006600; */
+    /* color: white; */
     box-shadow: 0 6px #999;
 }
 
-.next-step-btn-available:hover{
+/* .next-step-btn-available:hover{
     background-color: #003D00;
-}
+} */
 
 .next-step-btn-available:active{
-    background-color: #003D00;
+    /* background-color: #003D00; */
     transform: translateY(4px);
     box-shadow: 0 2px #999;
 }
@@ -217,7 +218,7 @@
     border-radius: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
-    background-color: rgb(145, 145, 145);
+    /* background-color: rgb(145, 145, 145); */
     opacity: 0.75;
     box-shadow: 0 6px #999;
 }

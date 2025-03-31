@@ -26,7 +26,12 @@ function SearchBar() {
     //   />
     //   <button onClick={handleSearch}>Search</button>
     // </div>
-    <InputGroup className="mb-3" style={{ maxWidth: '500px', margin: '0 auto', position: 'relative' }}>
+    <InputGroup className="mb-3" style={{
+       maxWidth: '500px',
+       margin: '0 auto', 
+       position: 'relative',
+       zIndex: 0 // this line is needed so that "search" button does behind the navbar
+       }}>
       <FormControl
         placeholder="Search For Recipes Here!"
         aria-label="Search"

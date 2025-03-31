@@ -1,4 +1,4 @@
-import { FaStar } from 'react-icons/fa';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../config/config';
@@ -23,7 +23,15 @@ export const SelectRatingStar = ({ setRating, mealId, userId, index, color }) =>
         }
     };
     return (
-        <FaStar onClick={handleClick} style={{ color: `${color}`, stroke: 'black', strokeWidth: 2, fontSize: '50px' }} />
-
+        <FaStar 
+            onClick={handleClick} 
+            className="fs-2 me-1"
+            style={{ 
+                color: `${color}`, 
+                stroke: 'black', 
+                strokeWidth: 3, 
+                fontSize: '60px' 
+            }} 
+        />
     )
 }

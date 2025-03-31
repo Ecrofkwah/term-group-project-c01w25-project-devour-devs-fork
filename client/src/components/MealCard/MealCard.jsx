@@ -5,7 +5,7 @@ import axios from 'axios'
 import config from '../../config/config';
 import { Rating } from '../MealRate/rating.jsx'
 import Card from 'react-bootstrap/Card';
-import { CardBody } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col'
 
 function MealCard({meal}) {
   const navigate = useNavigate()
@@ -45,31 +45,41 @@ function MealCard({meal}) {
     // </div>
 
    
-    <Card
-     border='dark'
-     className='mb-2'
-     text="dark"
-     onClick={handleCardClick}
-     >
-      <Card.Img variant="top" src={meal.image} alt={meal.title} />
-        <Card.Body>
-          <Card.Title style ={{fontFamily: 'Roboto'}}>
-            <b>{meal.title}</b>
+    <Card 
+        className="h-100 shadow-sm meal-card" 
+        style={{ borderRadius: '0.8rem', overflow: 'hidden', cursor: 'pointer' }}
+        onClick={handleCardClick}
+      >
+        <Card.Img 
+          variant="top" 
+          src={meal.image} 
+          alt={meal.title}
+          style={{ objectFit: 'cover', height: '180px' }}
+        />
+        <Card.Body className="d-flex flex-column">
+          <Card.Title className="fs-5 fw-bold text-dark">
+            {meal.title}
           </Card.Title>
-          <Card.Text>
+          <Card.Text className="text-muted mb-1">
             Cooking Time: {meal.readyInMinutes} min
           </Card.Text>
-          <Card.Text>
+          <Card.Text className="text-muted mb-3">
             Servings: {meal.servings}
           </Card.Text>
-          <Card.Footer>
-            {rating ? <div className="ratings"> 
-              <Rating rating={rating.avgRating} /> 
-               <div className="ratingCount"> ({rating.numRatings}) </div> 
-          </div>: <p>Loading...</p>}
-          </Card.Footer>
+
+          {/* Rating at the bottom of the card body */}
+          <div className="mt-auto">
+            {rating ? (
+              <div className="d-flex align-items-center">
+                <Rating rating={rating.avgRating} />
+                <span className="ms-2 text-muted">({rating.numRatings})</span>
+              </div>
+            ) : (
+              <p className="text-muted">Loading...</p>
+            )}
+          </div>
         </Card.Body>
-    </Card>
+      </Card>
   )
 }
 

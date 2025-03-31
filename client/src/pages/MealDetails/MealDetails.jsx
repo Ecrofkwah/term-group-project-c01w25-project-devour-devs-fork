@@ -195,6 +195,7 @@ function MealDetails({loginUser}) {
           <div className='rating-select'>
             {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}    
           </div>
+          
           {/* {favMessage && <div className="fav-message">{favMessage}</div>} */}
           {loginUser && <div className='step-by-step-container'>
             {!isStepByStep ? 
@@ -240,22 +241,22 @@ function MealDetails({loginUser}) {
               <div className='step-by-step-instructions'>
                 <div className='step-nav'>
                   {currentStep < totalSteps - 1 ? (
-                    <button className='next-step-btn-available' onClick={showNextStep}>
+                    <Button variant='success' className='next-step-btn-available' onClick={showNextStep}>
                       Next Step
-                    </button>
+                    </Button>
                   ) : (
-                    <button className='next-step-btn-unavailable' disabled>
+                    <Button className='next-step-btn-unavailable' disabled variant='secondary'>
                       Next Step
-                    </button>
+                    </Button>
                   )}
                   {currentStep > 0 ? (
-                    <button className='prev-step-btn-available' onClick={showPrevStep}>
+                    <Button variant='danger' className='prev-step-btn-available' onClick={showPrevStep}>
                       Prev Step
-                    </button>
+                    </Button>
                   ) : (
-                    <button className='prev-step-btn-unavailable' disabled>
+                    <Button className='prev-step-btn-unavailable' disabled variant='secondary'>
                       Prev Step
-                    </button>
+                    </Button>
                   )}
                 </div>
                 <div dangerouslySetInnerHTML={{__html: aiAssistantInstructions}}></div>
