@@ -29,6 +29,7 @@ describe('MealDetails add to favourite', () => {
   };
 
   beforeEach(() => {
+    localStorage.setItem("userId", "user123");
     // Reset all mocks before each test
     vi.resetAllMocks();
   });

@@ -30,10 +30,23 @@ Our project RecipeConnect is a recipe sharing platform designed specifically for
 - Open MongoDB Compass.
 - To create a new connection, click the + button next to CONNECTIONS.
 - Enter the following URI: mongodb://localhost:27017 and click Save & Connect.
-- Create a new database named `recipeconnect` with a collection called `users`.
+- Create a new database named `recipeconnect`.
 - If you don't see the database, refresh by clicking the three dots next to localhost:27017 and selecting Refresh Databases.
 
-<b>3. Set Up `.env` File:</b>
+<b>3. Sign up for API keys used by the app:</b>
+
+Sign Up for Spoonacular API key:
+- Go to https://spoonacular.com/food-api and sign up for a free api key
+
+Sign Up for Gemini API Key:
+- Go to https://aistudio.google.com/app/apikey and click "Create API key"
+
+Sign Up for Roboflow API Key:
+- Go to https://universe.roboflow.com/ and sign up for an account
+- After logged in, go to your project. Create one if you don't have any project
+- Then, go to Settings > API Keys to access your api key
+  
+<b>4. Set Up `.env` File:</b>
 - Create a `.env` file in the `server` folder.
 - Add the following to the file:
 ```bash
@@ -41,9 +54,12 @@ PORT="3000"
 MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
 JWT_SECRET="ds9u2f383hf839"
 NODE_ENV = "development"
+SPOONACULAR_API_KEY="put your spoonacular api key here"
+GEMINI_API_KEY = "put your gemini api key here"
+ROBOFLOW_API_KEY = "put your roboflow api key here"
 ```
 
-<b>4. Install Packages:</b>
+<b>5. Install Packages:</b>
 
 Frontend: Navigate to the `client` folder and install dependencies:
 ```
@@ -57,7 +73,7 @@ cd server
 npm install
 ```
 
-<b>5. Run the app:</b>
+<b>6. Run the app:</b>
 
 Navigate to `client` folder, start the frontend:
 ```
@@ -73,9 +89,6 @@ npm start
 
 Make sure both client and server are running at the same time for the app to function properly.
 
-### <b>Sample log-in/sign-up:</b>
-
-To test the sign-up and log-in functionality, run both server and client. Then, visit the url on your client terminal (http://localhost:5173/). Sign up with a username, email (no need to be a real email, must contain '@'), password. A new user object will be created in the database. To visualize this, open MongoDB Compass, connect to `localhost:27017`, then check the `recipeconnect > users` collection. You may need to refresh the database if the user is not shown. After sign up, you will be redirected to login page. If login is successful, you will be redirected  to a welcome page. If not, an error message will diplay to indicate the issue (e.g. "incorrect password", "email not found")
 
 ## File setup explanation:
 
@@ -102,7 +115,7 @@ MVC Structure:
 1. Git Flow: We will use git flow for managing branches and releases.
 2. Branches naming: `main`, `develop`, `feature/feature-name`, `bugfix/bug-name`, `release/release-version`, `hotfix/hotfix-name`
 3. We will use Jira for tracking issues.
-4. Pull request: All changes to the `main` and `develop` branches should be via pull requests, which should be reviewed by at least 2 other people before merging, unless specified otherwise.
+4. Pull request: All changes to the `main` branch should be via pull requests, which should be reviewed by at least 2 other people before merging, unless specified otherwise.
 
 
 

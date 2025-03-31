@@ -39,9 +39,10 @@
 .ratings {
     display: flex;
     flex-direction: row;
+    align-items: end;
 }
 
 .ratingCount {
     padding-left: 10px;
-    font-size: 35px;
+    font-size: 16px;
 }

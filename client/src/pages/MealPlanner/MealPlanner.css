@@ -71,6 +71,15 @@ button {
   background-color: #218838;
 }
 
+.randomize-btn {
+  background-color: #9b59b6;
+  color: white;
+}
+
+.randomize-btn:hover {
+  background-color: #633a74;
+}
+
 .update-btn {
   background-color: #ffae00;
   color: white;

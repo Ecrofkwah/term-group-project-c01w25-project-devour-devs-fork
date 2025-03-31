@@ -51,10 +51,6 @@ function RecognitionResult({showModal, closeModal, predictions, image}) {
   return (
     <div className='modal-overlay'>
       <div className='modal'>
-        <div className='close-btn-container'>
-            <div className='close-btn' onClick={closeModal}>Close</div>
-        </div>
-        
         <div className='modal-content'>
           {predictions
             ? (<div className="info">
@@ -80,16 +76,19 @@ function RecognitionResult({showModal, closeModal, predictions, image}) {
                 <div><b>Protein: </b>{scaleNutrients(predictions.protein, portion).toFixed(2)} g</div>
                 <div><b>Carbs: </b>{scaleNutrients(predictions.carbs, portion).toFixed(2)} g</div>
                 <div><b>Fat: </b>{scaleNutrients(predictions.fat, portion).toFixed(2)} g</div>
-                <button onClick={handleAcceptIntake}>Accept Intake</button>
-                {/* {message ? <div style={{color: "blue"}}>{message}</div> : <></>} */}
                 
               </div>)
             : (<li>No predictions available. Please choose another image</li>)
           }  
+
+          {/* display uploaded image */}
+          {image && <img src={URL.createObjectURL(image)} width="224"/>}
         </div>
 
-        {/* display uploaded image */}
-        {image && <img src={URL.createObjectURL(image)} width="224"/>}
+        <div className='modal-menu'>
+          <button onClick={handleAcceptIntake}>Accept Intake</button>
+          <button onClick={closeModal}>Close</button>
+        </div>
       </div>
     </div>
   )

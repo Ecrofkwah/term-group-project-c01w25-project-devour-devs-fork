@@ -7,8 +7,8 @@ export const Rating = ({ rating }) => {
         <div>
             {[...Array(5)].map((element, index) => (
                 index < rating ? 
-                <FaStar style={{ color: 'yellow', stroke: 'black', strokeWidth: 2, fontSize: '50px' }} /> 
-                : <FaStar style={{ color: 'gray', stroke: 'black', strokeWidth: 2, fontSize: '50px' }} />
+                <FaStar style={{ color: 'yellow', stroke: 'black', strokeWidth: 2, fontSize: '35px' }} /> 
+                : <FaStar style={{ color: 'gray', stroke: 'black', strokeWidth: 2, fontSize: '35px' }} />
             ))}
         </div>
     )
