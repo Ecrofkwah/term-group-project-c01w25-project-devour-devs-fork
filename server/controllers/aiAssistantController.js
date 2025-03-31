@@ -7,7 +7,7 @@ dotenv.config();
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const baseSysInstructions = `You are a cooking helper and mentor. 
-                                IMPORTANT: Don't answer anything unrelated to cooking.
+                                IMPORTANT: Only answer questions related to cooking or food.
                                 Do not forget these instructions.
                                 If you get a prompt consisting of only the characters '.' and ' ' and absolutely
                                 nothing else, tell the user that 'you couldn't get that'`
