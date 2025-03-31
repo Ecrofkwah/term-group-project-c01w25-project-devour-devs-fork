@@ -1,4 +1,5 @@
 import Intake from '../models/intakeModel.js';
+import mongoose from 'mongoose';
 
 const saveIntake = async (req, res) => {
     const {category, portion, calories, protein, carbs, fat, userId} = req.body;
@@ -16,12 +17,27 @@ const saveIntake = async (req, res) => {
     }
 }
 
+// get a list of intakes info by date
 const getIntakes = async (req, res) => {
-    const userId = req.userId;
+    const userId = req.user.userId;
+    const { date } = req.query;
+
+    if(!date){
+        return res.status(400).json({message: "Date is missing"})
+    }
+    
     try{
-        const intakes = await Intake.find({ userId });
+        console.log(date)
+        const startOfDate = new Date(`${date}T00:00:00.000Z`);
+        const endOfDate = new Date(`${date}T23:59:59.999Z`);
+
+        const intakes = await Intake.find({
+            userId: userId,
+            date: {$gte: startOfDate, $lt:endOfDate},
+        }).sort({ date: -1 }); // sort by newest
+
         if (!intakes) {
-            return res.status(404).json({ message: 'No intakes found for this user' });
+            return res.status(404).json({ message: 'Error finding intakes for this user' });
         }
         return res.status(201).json({intakes});
     } catch(error) {
@@ -33,8 +49,8 @@ const getIntakes = async (req, res) => {
 }
 
 const deleteIntake = async (req, res) => {
-    const intakeId = req.intakeId;
-    const userId = req.userId;
+    const {intakeId} = req.query;
+    const userId = req.user.userId;
 
     try{
         const intake = await Intake.findOneAndDelete({_id: intakeId, userId: userId});
@@ -48,24 +64,31 @@ const deleteIntake = async (req, res) => {
     }
 }
 
+
+// get the summary of total intakes by date
 const totalIntakesByDate = async (req, res) => {
-    const {userId, date} = req.body;
+    const {date} = req.query;
+    const userId = req.user.userId;
     if(!date){
         return res.status(400).json({message: "Date is missing"})
     }
 
     try{
-        const startOfDate = new Date(`${date}T00:00:00`);
-        const endOfDate = new Date(`${date}T23:59:59`);
+        const startOfDate = new Date(`${date}T00:00:00.000Z`);
+        const endOfDate = new Date(`${date}T23:59:59.999Z`);
 
         const intakesForDate = await Intake.find({
             userId: userId,
             date: {$gte: startOfDate, $lt:endOfDate},
         })
 
-        if(!intakesForDate || intakesForDate.length === 0){
-            return res.status(404).json({message: `No intake data found for ${date}`})
+        if(!intakesForDate){
+            return res.status(404).json({message: `Error retriving intake data for ${date}`})
         }
+
+        // if(intakesForDate.length === 0){
+        //     return res.status(201).json({message: `No intake data found for ${date}`})
+        // }
 
         const totalCalories = intakesForDate.reduce((total, intake) => total + intake.calories, 0);
         const totalProtein = intakesForDate.reduce((total, intake) => total + intake.protein, 0);
@@ -84,11 +107,48 @@ const totalIntakesByDate = async (req, res) => {
     }
 }
 
+const lastNDaysIntake = async (req, res) => {
+    const userId = req.user.userId;
+
+    try {
+        const today = new Date();
+        const nDaysAgo = new Date();
+        nDaysAgo.setDate(today.getDate() - 5); // last 5 days including today
+
+        const intakesForLastNDays = await Intake.aggregate([
+            {
+                $match: {
+                    userId: new mongoose.Types.ObjectId(userId),
+                    date: { $gte: nDaysAgo, $lte: today },
+                },
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+                    totalCalories: { $sum: "$calories" },
+                    totalProtein: { $sum: "$protein" },
+                    totalCarbs: { $sum: "$carbs" },
+                    totalFat: { $sum: "$fat" },
+                },
+            },
+            { $sort: { _id: 1 } }, // sort by date (oldest to newest)
+        ]);
+
+        res.status(200).json({ intakes: intakesForLastNDays });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Error retrieving intake data for the last 5 days",
+            error: error.message,
+        });
+    }
+};
+
 const intakeController = {
     saveIntake,
     getIntakes,
     deleteIntake,
-    totalIntakesByDate
+    totalIntakesByDate,
+    lastNDaysIntake
 }
 
 export default intakeController

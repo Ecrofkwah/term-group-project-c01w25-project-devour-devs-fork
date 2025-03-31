@@ -3,15 +3,16 @@ import Button from 'react-bootstrap/Button';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Spinner from 'react-bootstrap/Spinner';
 import config from '../../config/config';
+import './VoiceChat.css'
+import { FaStopCircle } from "react-icons/fa";
 
-
-function VoiceChat({ mealInfo }) {
+function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown, isloading, setIsLoading }) {
   // State for recording status and audio data
   const [isRecording, setIsRecording] = useState(false);
   const [serverAudioUrl, setServerAudioUrl] = useState(null);
 
-  const mealSummary = { role: 'user', parts: [ {text: mealInfo.summary.replace(/<[^>]*>/g, '')} ] }
-  const mealInstructions = { role: 'user', parts: [ {text: mealInfo.instructions.replace(/<[^>]*>/g, '')} ] }
+  const mealSummary = { role: 'user', parts: [{ text: mealInfo.summary.replace(/<[^>]*>/g, '') }] }
+  const mealInstructions = { role: 'user', parts: [{ text: mealInfo.instructions.replace(/<[^>]*>/g, '') }] }
   // const mealIngredients = { role: 'user', parts: [ {text: mealInfo.extendedIngredients
   //   .map((ingredient) => {
   //     const { original, measures } = ingredient;
@@ -24,10 +25,10 @@ function VoiceChat({ mealInfo }) {
   //   })
   //   .join(", ")} ] }
 
-  const [history, setHistory] = useState([mealSummary, mealInstructions])
+  //const [history, setHistory] = useState([mealSummary, mealInstructions])
   // states needed to determine if we are currently recording or playing audio
   const [loadingtext, setLoadingText] = useState('');
-  const [isloading, setIsLoading] = useState(false)
+  //const [isloading, setIsLoading] = useState(false)
   const [buttonText, setButtonText] = useState("Start Recording")
   const [showProgess, setShowProgress] = useState(false)
 
@@ -55,7 +56,7 @@ function VoiceChat({ mealInfo }) {
       serverAnalyserRef.current = serverAudioContextRef.current.createAnalyser();
       serverAnalyserRef.current.fftSize = 256;
     }
-    
+
     return () => {
       // Clean up resources when component unmounts
       if (streamRef.current) {
@@ -69,34 +70,37 @@ function VoiceChat({ mealInfo }) {
 
   // Start recording function
   const startRecording = async () => {
+    const chatField = document.querySelector('.chatbox-input');
+    chatField.classList.add('unavailable');
+    document.activeElement.blur();
     try {
       // Request microphone access
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      
+
       // Create media recorder
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
-      
+
       // Handle data availability
       mediaRecorder.ondataavailable = (event) => {
         audioChunksRef.current.push(event.data);
       };
-      
+
       // Handle recording stop
       mediaRecorder.onstop = () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' }); // need to support audio format that is supported with chrome
-        
+
         // Automatically send the recording to the backend
         sendAudioToBackend(audioBlob);
       };
-      
+
       // Start recording
       mediaRecorder.start();
       setIsRecording(true);
       setButtonText('Recording');
-      
+
       // Start visualizer animation
       // visualize(clientAnalyserRef);
     } catch (error) {
@@ -121,7 +125,7 @@ function VoiceChat({ mealInfo }) {
       byteNumbers[i] = byteChars.charCodeAt(i);
     }
     const byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], {type: mimeType});
+    return new Blob([byteArray], { type: mimeType });
   }
 
   // Function to send audio to the backend
@@ -131,11 +135,11 @@ function VoiceChat({ mealInfo }) {
     formData.append('audio', audioBlob, "recording.webm")
     formData.append('history', json_string)
     try {
-      const response = await fetch(`${config.BASE_URL}/api/voice/transcribe`, { 
+      const response = await fetch(`${config.BASE_URL}/api/voice/transcribe`, {
         method: 'POST',
         body: formData,
       });
-      
+
       if (!response.ok) {
         throw new Error(`Server responded with status: ${response.status}`);
       }
@@ -146,6 +150,12 @@ function VoiceChat({ mealInfo }) {
       setHistory(data.history)
     } catch (error) {
       console.error('Error sending audio to server:', error);
+      setIsLoading(false);
+      setLoadingText('');
+      setButtonText('Start Recording');
+      setShowProgress(false);
+      setIsRecording(false);
+      console.log(isloading + buttonText);
     }
   };
 
@@ -173,39 +183,70 @@ function VoiceChat({ mealInfo }) {
     }
     // Automatically play the audio
     audioRef.current.play();
-    audioRef.current.addEventListener('playing', ()=>{
+    audioRef.current.addEventListener('playing', () => {
       setIsLoading(true)
       setLoadingText('Speaking')
       setShowProgress(false)
     })
-    audioRef.current.addEventListener('ended', ()=>{
+    audioRef.current.addEventListener('ended', () => {
       setIsLoading(false)
       setLoadingText('')
       setButtonText('Start Recording')
     })
+    setCooldown(5);
+    const interval = setInterval(() => {
+      setCooldown(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
   }, [serverAudioUrl]);
 
 
-const handleClick = () => {
-  if (isRecording) {
-    stopRecording();
-    if (buttonText === 'Recording' && !isloading) {setShowProgress(true)}
-  } else {
-    startRecording();
+  const handleClick = () => {
+    if (isRecording) {
+      stopRecording();
+      if (buttonText === 'Recording' && !isloading) { setShowProgress(true) }
+    } else {
+      startRecording();
+    }
   }
-} 
+
+  const stopAudio = () => {
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    setIsLoading(false)
+    setLoadingText('')
+    setButtonText('Start Recording')
+    // const interval = setInterval(() => {
+    //   setCooldown(prev => {
+    //     if (prev <= 1) {
+    //       clearInterval(interval);
+    //       return 0;
+    //     }
+    //     return prev - 1;
+    //   });
+    // }, 1000);
+  }
 
   return (
 
-    <div style={{ width: '200px', margin: 'auto' }}>
+    <div className='voice-chat-container'>
+      <FaStopCircle onClick={stopAudio} style={{ color: isloading ?  'blue' : 'rgba(0, 0, 255, 0.2)', fontSize: '38px', marginRight: '5px' }} />
       {showProgess ? (
         // An indeterminate progress bar
-        <ProgressBar animated now={100} variant="primary" style={{ height: '4px' }} />
+        <ProgressBar animated now={100} variant="primary" style={{ width: '110px', height: '40px', border: '1px solid red', backgroundColor: 'black' }} />
       ) : (
         <Button
           onClick={handleClick}
-          variant="primary"
-          disabled={isloading}
+          variant="outline-primary"
+          disabled={isloading || cooldown}
+          style={{
+            whiteSpace: "nowrap"
+          }}
         >
           {isloading ? (
             <>

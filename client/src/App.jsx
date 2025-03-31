@@ -16,6 +16,7 @@ import FridgeToPlate from './pages/FridgeToPlate/FridgeToPlate'
 import MealPlanner from './pages/MealPlanner/MealPlanner'
 import SearchResult from './pages/SearchResult/SearchResult'
 import ImageUploader from './components/ImageUploader/ImageUploader'
+import MyIntake from './pages/MyIntake/MyIntake'
 
 function App() {
   const [loginUser, setLoginUser] = useState(null)
@@ -53,8 +54,8 @@ function App() {
           <Route path='/mealplanner' element={<MealPlanner/>}/>
           <Route path='/recommend' element={<FridgeToPlate/>}/>
           <Route path='/search' element={<SearchResult/>}/>
-          
-          {/* <Route path='/imagerecognition' element={<ImageUploader/>}/> */}
+          <Route path='/myintake' element={<MyIntake/>}/>
+          <Route path='/newintake' element={<ImageUploader/>}/>
 
           {/* <Route path='/managerecipe/myrecipe' element={<ManageRecipes loginUser={loginUser} setLoginUser={setLoginUser}/>}/>
           <Route path='/managerecipe/addrecipe' element={<AddRecipe/>}/>

@@ -11,6 +11,11 @@ const ROBOFLOW_API_KEY = process.env.ROBOFLOW_API_KEY;
 let model;
 
 const loadModel = async () => {
+    // Skip loading the model when running tests
+    if (process.env.NODE_ENV === 'test') {
+        console.log("Skipping model load in test mode");
+        return;
+    }
     try {
         model = await tf.loadGraphModel('https://github.com/Cheng-K/FoodNet-Model/releases/latest/download/model.json');
         console.log("Model loaded successfully");
@@ -26,7 +31,10 @@ const loadMappings = () => {
     return {categories, ingredients}
 }
 
-loadModel();
+// Only load the model if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+    loadModel();
+}
 const {categories, ingredients} = loadMappings();
 
 const imageRecognizer = async (req, res) => {

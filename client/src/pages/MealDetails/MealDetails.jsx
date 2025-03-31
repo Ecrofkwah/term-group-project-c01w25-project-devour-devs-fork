@@ -196,7 +196,7 @@ function MealDetails({loginUser}) {
             {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}    
           </div>
           {/* {favMessage && <div className="fav-message">{favMessage}</div>} */}
-          <div className='step-by-step-container'>
+          {loginUser && <div className='step-by-step-container'>
             {!isStepByStep ? 
             (
               // <div className='step-by-step-btn-off' onClick={() => setIsStepByStep(true)}> Step-by-Step Mode </div>
@@ -205,7 +205,7 @@ function MealDetails({loginUser}) {
               // <div className='step-by-step-btn-on' onClick={() => setIsStepByStep(false)}> Step-by-Step Mode </div>
               <Button variant="outline-dark" onClick={() => setIsStepByStep(false)}> Step-By-Step Mode</Button>
             )}
-          </div>
+          </div>}
         </div>
 
         <div className='meal-info'>
@@ -272,7 +272,7 @@ function MealDetails({loginUser}) {
         </div>
       </div>
       {isStepByStep && <AiAssistantChatbox mealInfo = {meal}/>}
-      <VoiceChat mealInfo = {meal}/>
+      {/* <VoiceChat mealInfo = {meal}/> */}
     </div>
   )
 }
