@@ -220,7 +220,7 @@ function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown, isloa
     audioRef.current.currentTime = 0;
     setIsLoading(false)
     setLoadingText('')
-    // setButtonText('Start Recording')
+    setButtonText('Start Recording')
     // const interval = setInterval(() => {
     //   setCooldown(prev => {
     //     if (prev <= 1) {
