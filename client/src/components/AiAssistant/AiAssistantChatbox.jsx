@@ -12,7 +12,18 @@ const AiAssistantChatbox = ({ mealInfo }) => {
     // Prop drilling so AI knows what dish we are refering too
     const mealSummary = { role: 'user', parts: [ {text: mealInfo.summary.replace(/<[^>]*>/g, '')} ] }
     const mealInstructions = { role: 'user', parts: [ {text: mealInfo.instructions.replace(/<[^>]*>/g, '')} ] }
-    const [messages, setMessages] = useState([mealSummary, mealInstructions]);
+    const mealIngredients = { role: 'user', parts: [ {text: mealInfo.extendedIngredients
+    .map((ingredient) => {
+      const { original, measures } = ingredient;
+      const metric = measures.metric;
+      const measurement =
+        metric.amount && metric.unitShort
+          ? `(${metric.amount} ${metric.unitShort})`
+          : "";
+      return `${original} ${measurement}`.trim();
+    })
+    .join(", ")} ] }
+    const [messages, setMessages] = useState([mealSummary, mealInstructions, mealIngredients]);
     //{ role: "model", parts: [{ text: 'Hello! How can I help you today?'}]}
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
