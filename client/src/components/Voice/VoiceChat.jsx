@@ -4,8 +4,9 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import Spinner from 'react-bootstrap/Spinner';
 import config from '../../config/config';
 import './VoiceChat.css'
+import { FaStopCircle } from "react-icons/fa";
 
-function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown, isloading, setIsLoading}) {
+function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown, isloading, setIsLoading }) {
   // State for recording status and audio data
   const [isRecording, setIsRecording] = useState(false);
   const [serverAudioUrl, setServerAudioUrl] = useState(null);
@@ -195,13 +196,13 @@ function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown, isloa
     setCooldown(5);
     const interval = setInterval(() => {
       setCooldown(prev => {
-          if (prev <= 1) {
-              clearInterval(interval);
-              return 0;
-          }
-          return prev - 1;
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
       });
-  }, 1000);
+    }, 1000);
   }, [serverAudioUrl]);
 
 
@@ -214,12 +215,30 @@ function VoiceChat({ mealInfo, history, setHistory, cooldown, setCooldown, isloa
     }
   }
 
+  const stopAudio = () => {
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    setIsLoading(false)
+    setLoadingText('')
+    // setButtonText('Start Recording')
+    // const interval = setInterval(() => {
+    //   setCooldown(prev => {
+    //     if (prev <= 1) {
+    //       clearInterval(interval);
+    //       return 0;
+    //     }
+    //     return prev - 1;
+    //   });
+    // }, 1000);
+  }
+
   return (
 
     <div className='voice-chat-container'>
+      <FaStopCircle onClick={stopAudio} style={{ color: isloading ?  'blue' : 'rgba(0, 0, 255, 0.2)', fontSize: '38px', marginRight: '5px' }} />
       {showProgess ? (
         // An indeterminate progress bar
-        <ProgressBar animated now={100} variant="primary" style={{ height: '4px' }} />
+        <ProgressBar animated now={100} variant="primary" style={{ width: '110px', height: '40px', border: '1px solid red', backgroundColor: 'black' }} />
       ) : (
         <Button
           onClick={handleClick}

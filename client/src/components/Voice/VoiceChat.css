@@ -1,4 +1,6 @@
 .voice-chat-container{
+    display: flex;
+    flex-direction: row;
     /* position: relative;
     margin-right: 200px;
     margin-bottom: 2%; */
