@@ -20,14 +20,12 @@ function MealCard({meal}) {
       try{
         const result = await axios.get(`${config.BASE_URL}/api/meals/rating?mealId=${meal.id}`);
         const ratings = result.data;
-        console.log("Read the rating");
         setRating(ratings);
       }
       catch (error){
         console.log(error);
       }
     }
-    console.log("REACHED HERE");
     fetchRating();
   }, []);
   
@@ -51,6 +49,7 @@ function MealCard({meal}) {
      border='dark'
      className='mb-2'
      text="dark"
+     onClick={handleCardClick}
      >
       <Card.Img variant="top" src={meal.image} alt={meal.title} />
         <Card.Body>

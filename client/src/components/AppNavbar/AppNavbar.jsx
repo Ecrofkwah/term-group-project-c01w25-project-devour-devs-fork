@@ -48,12 +48,6 @@ function AppNavbar({loginUser, setLoginUser}) {
                 <NavLink to='/register' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Register</NavLink>
               </>
               )}
-              
-              {/* <NavDropdown title="More" id="collapsible-nav-dropdown">
-                <NavDropdown.Item as={NavLink} to='/1' className={({isActive}) => isActive ? "active" : ""}>Something 1</NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to='/2' className={({isActive}) => isActive ? "active" : ""}>Something 2</NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to='/3' className={({isActive}) => isActive ? "active" : ""}>Something 3</NavDropdown.Item>
-              </NavDropdown> */}
             </Nav>
           </Navbar.Collapse>
         </Container>

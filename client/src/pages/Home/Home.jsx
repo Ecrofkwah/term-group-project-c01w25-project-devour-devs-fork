@@ -68,9 +68,10 @@ function Home() {
   return (
     <div className='home-page'>
       <h1>Discover New Recipes Here</h1>
-      <div className='search-bar-wrapper'>
+      <SearchBar/>
+      {/* <div className='search-bar-wrapper'>
         <SearchBar/>
-      </div>
+      </div> */}
 
       <Container fluid className="my-2">
         <Stack direction="horizontal" gap={5}>

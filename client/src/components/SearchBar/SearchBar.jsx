@@ -26,7 +26,7 @@ function SearchBar() {
     //   />
     //   <button onClick={handleSearch}>Search</button>
     // </div>
-    <InputGroup className="mb-3" style={{ maxWidth: '500px', margin: '0 auto' }}>
+    <InputGroup className="mb-3" style={{ maxWidth: '500px', margin: '0 auto', position: 'relative' }}>
       <FormControl
         placeholder="Search For Recipes Here!"
         aria-label="Search"
