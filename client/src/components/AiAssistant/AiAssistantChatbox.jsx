@@ -4,10 +4,26 @@ import axios from 'axios';
 import config from '../../config/config';
 import { MdAssistant } from 'react-icons/md';
 import ReactMarkdown from 'react-markdown';
+import VoiceChat from '../../components/Voice/VoiceChat';
 
-const AiAssistantChatbox = () => {
+const AiAssistantChatbox = ({ mealInfo }) => {  
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([]);
+
+    // Prop drilling so AI knows what dish we are refering too
+    const mealSummary = { role: 'user', parts: [ {text: mealInfo.summary.replace(/<[^>]*>/g, '')} ] }
+    const mealInstructions = { role: 'user', parts: [ {text: mealInfo.instructions.replace(/<[^>]*>/g, '')} ] }
+    const mealIngredients = { role: 'user', parts: [ {text: mealInfo.extendedIngredients
+    .map((ingredient) => {
+      const { original, measures } = ingredient;
+      const metric = measures.metric;
+      const measurement =
+        metric.amount && metric.unitShort
+          ? `(${metric.amount} ${metric.unitShort})`
+          : "";
+      return `${original} ${measurement}`.trim();
+    })
+    .join(", ")} ] }
+    const [messages, setMessages] = useState([mealSummary, mealInstructions, mealIngredients]);
     //{ role: "model", parts: [{ text: 'Hello! How can I help you today?'}]}
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +40,7 @@ const AiAssistantChatbox = () => {
         const chatField = document.querySelector('.chatbox-input');
         if (isOnCooldown) {
             chatField.classList.add('unavailable');
+            document.activeElement.blur();
             setInput(`Wait ${isOnCooldown} seconds before sending...`);
         }
         else {
@@ -95,7 +112,7 @@ const AiAssistantChatbox = () => {
                         <div key={1} className={`message model`}>
                             <p>Hello! How can I help you today? </p>
                         </div>
-                        {messages.map((message, index) => (
+                        {messages.map((message, index) => ( index > 2 &&
                             <div key={index + 1} className={`message ${message.role}`}>
                                 <ReactMarkdown style={{ background: "none" }}>
                                     {message.parts[0].text}
@@ -116,13 +133,15 @@ const AiAssistantChatbox = () => {
                 </div>
 
                 <form className='chatbox-input' onSubmit={handleEnter}>
-                    <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading} />
+                    <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading}>
+                    </input>
                     <button className='send-button' type='submit' disabled={isLoading}>
                         Send
                     </button>
                 </form>
             </div>
             <div className='button-section'>
+                <VoiceChat mealInfo = {mealInfo} history = {messages} setHistory = {setMessages} cooldown = {isOnCooldown} setCooldown = {setIsOnCooldown} isloading = {isLoading} setIsLoading = {setIsLoading}/>
                 <button className={`chatbox-toggle ${isOpen ? 'open' : ''}`} onClick={toggleChatbox}>
                     <MdAssistant style={{ background: "transparent" }} />
                 </button>
@@ -132,3 +151,4 @@ const AiAssistantChatbox = () => {
 }
 
 export default AiAssistantChatbox;
+

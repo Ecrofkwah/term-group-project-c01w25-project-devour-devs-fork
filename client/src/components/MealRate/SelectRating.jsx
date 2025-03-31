@@ -1,4 +1,5 @@
 import { SelectRatingStar } from './SelectRatingStar';
+
 export const SelectRating = ({setRating, mealId, userId, rating}) => {
     return (
         <div>
