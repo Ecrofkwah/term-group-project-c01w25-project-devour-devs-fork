@@ -7,6 +7,8 @@ import MealRate from '../../components/MealRate/MealRate';
 import AiAssistantChatbox from '../../components/AiAssistant/AiAssistantChatbox';
 import VoiceChat from '../../components/Voice/VoiceChat';
 
+import Button from 'react-bootstrap/Button';
+
 function MealDetails({loginUser}) {
   const {id} = useParams();
   const [meal, setMeal] = useState(null);
@@ -159,7 +161,7 @@ function MealDetails({loginUser}) {
         </div>
 
         <div className='recipe-options'>
-          <div className='fav-btn-container'>{loginUser 
+          {/* <div className='fav-btn-container'>{loginUser 
             ? (!isFav 
               ? (<div className='add-to-fav-btn' onClick={handleAddToFavourites}>
                   Add to Favourites
@@ -168,17 +170,41 @@ function MealDetails({loginUser}) {
                   Remove from Favourites
                 </div>)) 
             : <></>}
+          </div> */}
+
+          <div className="fav-btn-container">
+              {loginUser ? (
+                !isFav ? (
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={handleAddToFavourites}
+                  >
+                    Add to Favourites
+                  </button>
+                ) : (
+                  <button 
+                    className="btn btn-danger" 
+                    onClick={handleRemoveFromFavourites}
+                  >
+                    Remove from Favourites
+                  </button>
+                )
+              ) : null}
           </div>
+
           <div className='rating-select'>
             {loginUser && <MealRate setRating={setRating} mealId={id} userId={loginUser.userId} rating={rating}/>}    
           </div>
+          
           {/* {favMessage && <div className="fav-message">{favMessage}</div>} */}
           {loginUser && <div className='step-by-step-container'>
             {!isStepByStep ? 
             (
-              <div className='step-by-step-btn-off' onClick={() => setIsStepByStep(true)}> Step-by-Step Mode </div>
+              // <div className='step-by-step-btn-off' onClick={() => setIsStepByStep(true)}> Step-by-Step Mode </div>
+              <Button variant="dark" onClick={() => setIsStepByStep(true)}> Step-By-Step Mode</Button>
             ) : (
-              <div className='step-by-step-btn-on' onClick={() => setIsStepByStep(false)}> Step-by-Step Mode </div>
+              // <div className='step-by-step-btn-on' onClick={() => setIsStepByStep(false)}> Step-by-Step Mode </div>
+              <Button variant="outline-dark" onClick={() => setIsStepByStep(false)}> Step-By-Step Mode</Button>
             )}
           </div>}
         </div>
@@ -215,22 +241,22 @@ function MealDetails({loginUser}) {
               <div className='step-by-step-instructions'>
                 <div className='step-nav'>
                   {currentStep < totalSteps - 1 ? (
-                    <button className='next-step-btn-available' onClick={showNextStep}>
+                    <Button variant='success' className='next-step-btn-available' onClick={showNextStep}>
                       Next Step
-                    </button>
+                    </Button>
                   ) : (
-                    <button className='next-step-btn-unavailable' disabled>
+                    <Button className='next-step-btn-unavailable' disabled variant='secondary'>
                       Next Step
-                    </button>
+                    </Button>
                   )}
                   {currentStep > 0 ? (
-                    <button className='prev-step-btn-available' onClick={showPrevStep}>
+                    <Button variant='danger' className='prev-step-btn-available' onClick={showPrevStep}>
                       Prev Step
-                    </button>
+                    </Button>
                   ) : (
-                    <button className='prev-step-btn-unavailable' disabled>
+                    <Button className='prev-step-btn-unavailable' disabled variant='secondary'>
                       Prev Step
-                    </button>
+                    </Button>
                   )}
                 </div>
                 <div dangerouslySetInnerHTML={{__html: aiAssistantInstructions}}></div>

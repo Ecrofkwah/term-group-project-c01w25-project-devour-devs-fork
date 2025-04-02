@@ -6,6 +6,8 @@ import { MdAssistant } from 'react-icons/md';
 import ReactMarkdown from 'react-markdown';
 import VoiceChat from '../../components/Voice/VoiceChat';
 
+import { Form, FormControl, Button } from 'react-bootstrap';
+
 const AiAssistantChatbox = ({ mealInfo }) => {  
     const [isOpen, setIsOpen] = useState(false);
 
@@ -133,12 +135,11 @@ const AiAssistantChatbox = ({ mealInfo }) => {
                 </div>
 
                 <form className='chatbox-input' onSubmit={handleEnter}>
-                    <input className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Type a message...' disabled={isLoading}>
-                    </input>
-                    <button className='send-button' type='submit' disabled={isLoading}>
+                    <Form.Control className='chat-field' type='text' value={input} onChange={handleInput} placeholder='Message Your Assitant' disabled={isLoading} />
+                    <Button type='submit' disabled={isLoading}>
                         Send
-                    </button>
-                </form>
+                    </Button>
+                </form> 
             </div>
             <div className='button-section'>
                 <VoiceChat mealInfo = {mealInfo} history = {messages} setHistory = {setMessages} cooldown = {isOnCooldown} setCooldown = {setIsOnCooldown} isloading = {isLoading} setIsLoading = {setIsLoading}/>
