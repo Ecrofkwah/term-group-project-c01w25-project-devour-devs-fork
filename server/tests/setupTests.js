@@ -10,9 +10,19 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
+
+    // supress console messages
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'log').mockImplementation(() => {});
 });
 
 afterAll(async() => {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
+
+    // restore console messages
+    console.error.mockRestore();
+    console.warn.mockRestore();
+    console.log.mockRestore();
 });
