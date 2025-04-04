@@ -83,7 +83,7 @@ const totalIntakesByDate = async (req, res) => {
         })
 
         if(!intakesForDate){
-            return res.status(404).json({message: `Error retriving intake data for ${date}`})
+            return res.status(404).json({message: `Error retrieving intake data for ${date}`})
         }
 
         // if(intakesForDate.length === 0){
@@ -103,7 +103,7 @@ const totalIntakesByDate = async (req, res) => {
             totalFat,
           });
     } catch(error){
-        return res.status(500).json({message: "error retriving intake data for given date", error: error.message})
+        return res.status(500).json({message: "error retrieving intake data for given date", error: error.message})
     }
 }
 
