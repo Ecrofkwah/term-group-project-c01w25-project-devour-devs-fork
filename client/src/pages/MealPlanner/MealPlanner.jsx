@@ -250,6 +250,36 @@ function MealPlanner() {
         }
     };
 
+    const generateGroceryList = async () => {
+        if (!mealDetails.breakfast && !mealDetails.lunch && !meals.mealDetails.dinner) {
+            setError("No Meal Details avalible to generate grocery list");
+            return;
+        }
+
+        const sections = [];
+
+        const formatIngredients = (meal, type) => {
+            if (!meal) return "";
+            const title = meal.title || "Untitled";
+            const ingredients = meal.extendedIngredients?.map(ing => `- ${ing.original}`) || [];
+            return `${type.charAt(0).toUpperCase() + type.slice(1)}: ${title}\n${ingredients.join("\n")}\n`;
+        };
+
+        sections.push(formatIngredients(mealDetails.breakfast, "breakfast"));
+        sections.push(formatIngredients(mealDetails.lunch, "lunch"));
+        sections.push(formatIngredients(mealDetails.dinner, "dinner"));
+
+        const groceryText = `🛒 Grocery List for ${date}\n\n${sections.join("\n")}`;
+
+        const blob = new Blob([groceryText], { type: 'text/plain;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `Grocery_List_${date}.txt`;
+        link.click();
+
+    };
+
     return (
         <div className="meal-planner-container">
             <h2>🍽️ Weekly Meal Planner</h2>
@@ -265,6 +295,7 @@ function MealPlanner() {
                 {!mealPlan && <button className="randomize-btn" onClick={randomizeMealPlan}>Randomize Meals</button>}
                 {mealPlan && <button className="update-btn" onClick={updateMealPlan}>Update Meal Plan</button>}
                 {mealPlan && <button className="delete-btn" onClick={deleteMealPlan}>Delete Meal Plan</button>}
+                {mealPlan && <button className="grocery-btn" onClick={generateGroceryList}>Export Grocery List</button>}
             </div>
 
             {loading ? (
@@ -279,8 +310,8 @@ function MealPlanner() {
                             <select
                                 value={
                                     mealType === 'breakfast' ? selectedBreakfast :
-                                    mealType === 'lunch' ? selectedLunch :
-                                    selectedDinner
+                                        mealType === 'lunch' ? selectedLunch :
+                                            selectedDinner
                                 }
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -309,8 +340,8 @@ function MealPlanner() {
                             <select
                                 value={
                                     mealType === 'breakfast' ? selectedBreakfast :
-                                    mealType === 'lunch' ? selectedLunch :
-                                    selectedDinner
+                                        mealType === 'lunch' ? selectedLunch :
+                                            selectedDinner
                                 }
                                 onChange={(e) => {
                                     const value = e.target.value;
