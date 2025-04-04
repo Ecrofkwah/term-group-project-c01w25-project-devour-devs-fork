@@ -98,6 +98,15 @@ button {
   background-color: #ec1c0d;;
 }
 
+.grocery-btn {
+  background-color: #7b68ee; /* medium purple */
+  color: white;
+}
+
+.grocery-btn:hover {
+  background-color: #483c89; /* medium purple */
+}
+
 /* Loading Message */
 .loading-message {
   text-align: center;
