@@ -71,6 +71,57 @@ describe('getMealDetails', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ message: "Internal Server Error" });
     });
+
+    test('should return 201 and meal details if meal is fetched successfully from the Spoonacular API', async () => {
+        const req = mockRequest({
+            query: { id: '12345' },
+        });
+        const res = mockResponse();
+
+        const mockApiResponse = {
+            data: {
+                id: '12345',
+                title: 'test meal',
+                image: 'https://test.com/image.jpg',
+                instructions: 'test instructions',
+            },
+        };
+
+        axios.get = jest.fn().mockResolvedValue(mockApiResponse);
+
+        await mealController.getMealDetails(req, res);
+
+        expect(axios.get).toHaveBeenCalledWith(
+            `https://api.spoonacular.com/recipes/${req.query.id}/information`,
+            { params: { apiKey: process.env.SPOONACULAR_API_KEY } }
+        );
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({ meal: mockApiResponse.data });
+    });
+
+    test('should return 201 and message when no meal details are found', async () => {
+        const req = mockRequest({
+            query: { id: '12345' },
+        });
+        const res = mockResponse();
+
+        const mockApiResponse = { data: null };
+
+        axios.get = jest.fn().mockResolvedValue(mockApiResponse);
+
+        await mealController.getMealDetails(req, res);
+
+        expect(axios.get).toHaveBeenCalledWith(
+            `https://api.spoonacular.com/recipes/${req.query.id}/information`,
+            { params: { apiKey: process.env.SPOONACULAR_API_KEY } }
+        );
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({
+            message: `No meal details available for meal with id ${req.query.id}`,
+        });
+    });
 });
 
 describe('addMealToFavourites', () => {
@@ -499,6 +550,170 @@ describe('searchMeal', () => {
         jest.spyOn(Meal, 'find').mockRejectedValue(new Error('Server Error'));
 
         await mealController.searchMeal(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ message: "Internal Server Error" });
+    });
+});
+
+
+describe('recommendMealsByIngredients', () => {
+    test('should return 400 if no ingredients provided', async () => {
+        const req = mockRequest({ body: {} });
+        const res = mockResponse();
+
+        await mealController.recommendMealsByIngredients(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ message: "Require at least 1 ingredient" });
+    });
+
+    test('should return 400 if ingredients array is empty', async () => {
+        const req = mockRequest({ body: { ingredients: [] } });
+        const res = mockResponse();
+
+        await mealController.recommendMealsByIngredients(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ message: "Require at least 1 ingredient" });
+    });
+
+    test('should return 201 and ranked meals when valid ingredients are provided', async () => {
+        const req = mockRequest({ body: { ingredients: ['tomato', 'cheese'] } });
+        const res = mockResponse();
+
+        const mockMeals = [
+            { data: { extendedIngredients: [{ name: 'tomato' }, { name: 'cheese' }] } },
+            { data: { extendedIngredients: [{ name: 'tomato' }] } },
+            { data: { extendedIngredients: [{ name: 'cheese' }] } }
+        ];
+
+        const findSpy = jest.spyOn(Meal, 'find').mockResolvedValue(mockMeals);
+
+        await mealController.recommendMealsByIngredients(req, res);
+
+        expect(findSpy).toHaveBeenCalledWith({
+            "data.extendedIngredients.name": { $in: expect.arrayContaining([expect.any(RegExp)]) }
+        });
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({
+            topMeals: [
+                { matchCount: 2, matchedIngredients: ['tomato', 'cheese'], missedIngredients: [], data: mockMeals[0].data },
+                { matchCount: 1, matchedIngredients: ['tomato'], missedIngredients: ['cheese'], data: mockMeals[1].data },
+                { matchCount: 1, matchedIngredients: ['cheese'], missedIngredients: ['tomato'], data: mockMeals[2].data }
+            ]
+        });
+    });
+
+    test('should return 500 if an error occurs during the meal search', async () => {
+        const req = mockRequest({ body: { ingredients: ['tomato', 'cheese'] } });
+        const res = mockResponse();
+
+        jest.spyOn(Meal, 'find').mockRejectedValue(new Error('server error'));
+
+        await mealController.recommendMealsByIngredients(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ message: "Internal Server Error" });
+    });
+});
+
+
+describe('getMeals', () => {
+    test('should return 201 with meals from database if there are at least 50 meals', async () => {
+        const req = mockRequest();
+        const res = mockResponse();
+
+        const mockMeals = Array.from({ length: 51 }, (_, i) => ({
+            data: { id: i, title: `Meal ${i}` },
+        }));
+
+        Meal.find.mockResolvedValue(mockMeals);
+
+        await mealController.getMeals(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({ meals: mockMeals.map(meal => meal.data).slice(0, 49) });
+    });
+
+    test('should return 201 and fetch meals from API when fewer than 50 meals exist in the database', async () => {
+        const req = mockRequest();
+        const res = mockResponse();
+
+        const mockExistingMeals = [{ id: 1, data: { title: 'Existing Meal' } }];
+        const mockMealsFromAPI = [
+            { id: 2, title: 'Meal 2' },
+            { id: 3, title: 'Meal 3' },
+        ];
+
+        jest.spyOn(Meal, 'find').mockResolvedValueOnce(mockExistingMeals);
+        jest.spyOn(Meal, 'insertMany').mockResolvedValueOnce(mockMealsFromAPI);
+        jest.spyOn(axios, 'get').mockResolvedValueOnce({ data: { recipes: mockMealsFromAPI } });
+
+        await mealController.getMeals(req, res);
+
+        expect(axios.get).toHaveBeenCalledWith(
+            'https://api.spoonacular.com/recipes/random',
+            expect.objectContaining({
+                params: expect.objectContaining({
+                    number: 50,
+                    apiKey: expect.any(String),
+                    includeNutrition: true,
+                }),
+            })
+        );
+
+        expect(Meal.insertMany).toHaveBeenCalledWith(
+            mockMealsFromAPI.map(recipe => ({
+                id: recipe.id,
+                data: recipe,
+            }))
+        );
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({ meals: mockMealsFromAPI });
+    });
+
+    test('should return 201 if meals exist in the database and no API call is made', async () => {
+        const mockMeals = Array.from({ length: 50 }, (_, i) => ({
+            id: i,
+            data: { title: `Meal ${i}` },
+        }));
+
+        jest.spyOn(Meal, 'find').mockResolvedValueOnce(mockMeals);
+
+        const req = mockRequest();
+        const res = mockResponse();
+
+        await mealController.getMeals(req, res);
+
+        expect(axios.get).not.toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({ meals: mockMeals.map(m => m.data).slice(0, 49) });
+    });
+
+    test('should return 201 if no meals are fetched from the API', async () => {
+        const req = mockRequest();
+        const res = mockResponse();
+
+        jest.spyOn(Meal, 'find').mockResolvedValueOnce([]);
+        jest.spyOn(axios, 'get').mockResolvedValueOnce({ data: {} });
+
+        await mealController.getMeals(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith({ message: "No meals to fetch" });
+    });
+
+    test('should return 500 if there is an error during the API request', async () => {
+        const req = mockRequest();
+        const res = mockResponse();
+
+        jest.spyOn(Meal, 'find').mockResolvedValueOnce([]);
+        jest.spyOn(axios, 'get').mockRejectedValueOnce(new Error('API error'));
+
+        await mealController.getMeals(req, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ message: "Internal Server Error" });

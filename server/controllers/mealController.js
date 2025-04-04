@@ -253,7 +253,7 @@ const recommendMealsByIngredients = async (req, res) =>{
         const topMeals = rankedMeals.slice(0,10);
         return res.status(201).json({topMeals})
     } catch (error) {
-        return res.status(500).json({message: "Server error"})
+        return res.status(500).json({message: "Internal Server Error"})
     }
 }
 
