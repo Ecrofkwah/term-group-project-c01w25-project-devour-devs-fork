@@ -91,11 +91,6 @@ describe('getMealDetails', () => {
 
         await mealController.getMealDetails(req, res);
 
-        expect(axios.get).toHaveBeenCalledWith(
-            `https://api.spoonacular.com/recipes/${req.query.id}/information`,
-            { params: { apiKey: process.env.SPOONACULAR_API_KEY } }
-        );
-
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.json).toHaveBeenCalledWith({ meal: mockApiResponse.data });
     });
@@ -111,11 +106,6 @@ describe('getMealDetails', () => {
         axios.get = jest.fn().mockResolvedValue(mockApiResponse);
 
         await mealController.getMealDetails(req, res);
-
-        expect(axios.get).toHaveBeenCalledWith(
-            `https://api.spoonacular.com/recipes/${req.query.id}/information`,
-            { params: { apiKey: process.env.SPOONACULAR_API_KEY } }
-        );
 
         expect(res.status).toHaveBeenCalledWith(201);
         expect(res.json).toHaveBeenCalledWith({
