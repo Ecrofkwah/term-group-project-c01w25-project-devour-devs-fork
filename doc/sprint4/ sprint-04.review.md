@@ -50,7 +50,6 @@ In this meeting we discussed the work distributions, task estimation process and
 - Non functional requirements:
   - None needed, completed last sprint
   - Jira Issue: non-functional requirement
-- 
 
 #### Goals and/or tasks that were planned but not met/completed:
 - All Goals and tasks were completed during this sprint.
