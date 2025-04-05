@@ -135,14 +135,14 @@ const rateMeal = async (req, res) => {
         return res.status(400).json({message: "Missing user or meal ID or rating point"})
     }
 
-    //Check if rating object with meal Id exists:
-    const updatedRating = await MealRating.findOneAndUpdate(
-        { mealId: `${mealId}`},
-        { $set: { [`userRatings.${userId}`]: point } },
-        { upsert: true }
-    );
-
     try{
+        //Check if rating object with meal Id exists:
+        const updatedRating = await MealRating.findOneAndUpdate(
+            { mealId: `${mealId}`},
+            { $set: { [`userRatings.${userId}`]: point } },
+            { upsert: true }
+        );
+
         res.status(200).json({ message: "Rating updated successfully" });
     }
     catch (error){
@@ -158,21 +158,26 @@ const getMealRate = async (req, res) => {
     }
 
     // TODO: return the rating of 'mealID'
-    const mealRating = await MealRating.findOne({ mealId: mealId});
-    if (!mealRating || !mealRating.userRatings){
+    try{
+      const mealRating = await MealRating.findOne({ mealId: mealId});
+      if (!mealRating || !mealRating.userRatings){
         return res.status(200).json({avgRating: 0, numRatings: 0});
-    }
-    let sumRating = 0;
-    let sumCount = 0;
-    for (let rating of Object.values(mealRating.userRatings)){
+      }
+      let sumRating = 0;
+      let sumCount = 0;
+      for (let rating of Object.values(mealRating.userRatings)){
         sumRating += Number(rating);
         sumCount++;
-    }
-    if (sumCount === 0){
+      }
+      if (sumCount === 0){
         return res.status(200).json({avgRating: 0, numRatings: 0});
+      }
+      const avgRating = Math.round(sumRating/sumCount);
+      return res.status(200).json({avgRating: avgRating, numRatings: sumCount});  
+    } catch(error){
+      console.error("Error getting meal rate", error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
-    const avgRating = Math.round(sumRating/sumCount);
-    return res.status(200).json({avgRating: avgRating, numRatings: sumCount});
 }
 
 const getUserRating = async (req, res) => {
@@ -180,11 +185,18 @@ const getUserRating = async (req, res) => {
     if (!mealId){
         return res.status(400).json({message: "Missing meal ID"})
     }
-    const mealRating = await MealRating.findOne({ mealId: mealId});
-    if (!mealRating || !mealRating.userRatings){
-        return res.status(200).json({rating: 0});
+
+    try{
+        const mealRating = await MealRating.findOne({ mealId: mealId});
+        if (!mealRating || !mealRating.userRatings){
+            return res.status(200).json({rating: 0});
+        }
+        return res.status(200).json({rating: mealRating.userRatings[userId]});  
+    } catch(error){
+        console.error("Error getting meal rate", error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
-    return res.status(200).json({rating: mealRating.userRatings[userId]});
+    
 }
 
 const searchMeal = async (req, res) => {
@@ -204,7 +216,7 @@ const searchMeal = async (req, res) => {
 
         return res.status(201).json({meals: meals.map(meal => meal.data)})
     } catch(error){
-        res.status(500).json({message: "Server error"})
+        res.status(500).json({message: "Internal Server Error"})
     }
 }
 
@@ -241,7 +253,7 @@ const recommendMealsByIngredients = async (req, res) =>{
         const topMeals = rankedMeals.slice(0,10);
         return res.status(201).json({topMeals})
     } catch (error) {
-        return res.status(500).json({message: "Server error"})
+        return res.status(500).json({message: "Internal Server Error"})
     }
 }
 
