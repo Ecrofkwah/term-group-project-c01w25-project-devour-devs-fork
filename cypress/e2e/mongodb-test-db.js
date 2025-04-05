@@ -9,7 +9,7 @@ let mongoServer;
 export const connect = async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
-  process.env.MONGO_URI = 1;
+  process.env.MONGO_URI = uri;
   await mongoose.connect(uri);
   return uri;
 };

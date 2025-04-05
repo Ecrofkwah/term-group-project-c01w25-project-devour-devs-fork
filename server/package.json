@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "jest --detectOpenHandles --forceExit",
     "start": "nodemon index.js",
     "start-cy": "cross-env NODE_ENV=test-cy nodemon index.js",
     "prestart": "node move-tensorflow-dll.js"
