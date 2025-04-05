@@ -97,8 +97,9 @@
 - Comments and voice features are easy to locate and intuitive to use.  
 - Exported grocery list file is simple, readable, and usable.
   
-**Testing**
-- abc
+**Testing (Integration)**
+- Start the app as usual, but using 'npm run start-cy' instead of 'npm start' for server
+- Then, run 'npm run test' on root
 
 ---
 
