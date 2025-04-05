@@ -1,0 +1,12 @@
+.intake-stats{
+    align-items: center;
+    text-align: center;
+    padding: 10px 10px 60px 10px;
+}
+
+.intake-stats h3{
+    font-size: 24px;
+    font-weight: 600;
+    color: rgb(46, 46, 46);
+    text-align: center;
+}

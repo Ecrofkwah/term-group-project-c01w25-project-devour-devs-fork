@@ -185,7 +185,7 @@ function InputIngredients({setRecommended}) {
               </li>
           ))}
         </ul>
-        <button className='rec-btn' onClick={handleRecommend}>Get Recipe Reccommendations</button>
+        <button className='rec-btn' onClick={handleRecommend}>Get Recipe Recommendations</button>
     </div>
   )
 }

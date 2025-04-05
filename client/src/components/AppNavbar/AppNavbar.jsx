@@ -41,18 +41,13 @@ function AppNavbar({loginUser, setLoginUser}) {
                 </NavDropdown>
                 <NavLink to='/mealplanner' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Meal Planner</NavLink>
                 <NavLink to='/recommend' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Fridge to Plate</NavLink>
-    
+                <NavLink to='/myintake' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>My Intake</NavLink>
+                <NavLink to='/newintake' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>New Intake</NavLink>
               </>) : (<>
                 <NavLink to='/login' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Login</NavLink>
                 <NavLink to='/register' className={ ({isActive}) => isActive ? 'nav-link active' : 'nav-link'} onClick={handleNavSelect}>Register</NavLink>
               </>
               )}
-              
-              {/* <NavDropdown title="More" id="collapsible-nav-dropdown">
-                <NavDropdown.Item as={NavLink} to='/1' className={({isActive}) => isActive ? "active" : ""}>Something 1</NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to='/2' className={({isActive}) => isActive ? "active" : ""}>Something 2</NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to='/3' className={({isActive}) => isActive ? "active" : ""}>Something 3</NavDropdown.Item>
-              </NavDropdown> */}
             </Nav>
           </Navbar.Collapse>
         </Container>

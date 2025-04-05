@@ -40,6 +40,8 @@
     display: flex;
     justify-content: center;
     position: relative;
+    /* bottom: 2%; */
+    right: auto;
     font-size: 50px;
     float: right;
     border-radius: 50%;
@@ -60,6 +62,9 @@
     text-align: center;
     align-items: center;
     background: transparent;
+    position: fixed;
+    right: 3%;
+    bottom: 3.9%;
 }
 
 .chatbox-input {
