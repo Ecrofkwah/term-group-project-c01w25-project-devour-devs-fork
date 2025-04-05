@@ -95,13 +95,10 @@
 **Usability:**  
 - Clean and modern UI elements tested across devices.  
 - Comments and voice features are easy to locate and intuitive to use.  
-- Exported grocery list file is simple, readable, and usable.  
-
----
-
-## Testing
-
-_Unit and integration testing planned for Sprint 4’s backend features (to be detailed in separate test documentation)._
+- Exported grocery list file is simple, readable, and usable.
+  
+**Testing**
+- abc
 
 ---
 
