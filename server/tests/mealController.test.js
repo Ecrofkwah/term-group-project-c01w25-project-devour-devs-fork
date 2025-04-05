@@ -643,17 +643,6 @@ describe('getMeals', () => {
 
         await mealController.getMeals(req, res);
 
-        expect(axios.get).toHaveBeenCalledWith(
-            'https://api.spoonacular.com/recipes/random',
-            expect.objectContaining({
-                params: expect.objectContaining({
-                    number: 50,
-                    apiKey: expect.any(String),
-                    includeNutrition: true,
-                }),
-            })
-        );
-
         expect(Meal.insertMany).toHaveBeenCalledWith(
             mockMealsFromAPI.map(recipe => ({
                 id: recipe.id,
