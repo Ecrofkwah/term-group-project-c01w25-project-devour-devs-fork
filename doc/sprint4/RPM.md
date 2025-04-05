@@ -108,5 +108,17 @@ _Unit and integration testing planned for Sprint 4’s backend features (to be d
 ## Dependencies and Limitations
 
 **The AI Step-by-Step Cooking Assistant Chat:**  
-- The chat with the AI assistant requires a **5 second cooldown** before another query can be inputted again.  
+- The chat with the AI assistant requires a **5 second cooldown** before another query can be inputted again.
+
+**Voice Assistant Chat History Feature:**
+  - To enable the chat transcription service, will need to update .env file under server to:
+    - PORT="3000"
+    - MONGODB_URI="mongodb://127.0.0.1:27017/recipeconnect"
+    - JWT_SECRET="ds9u2f383hf839"
+    - NODE_ENV = "development"
+    - SPOONACULAR_API_KEY= “{put your Spoonacular api key here}”
+    - GEMINI_API_KEY = “{Your API key}”
+    - ROBOFLOW_API_KEY = "{put your roboflow api key here}"
+    - TRANSCRIPTION_PORT="8000"
+    - TRANSCRIPTION_URI="http://127.0.0.1"
 
